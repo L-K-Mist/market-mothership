@@ -1,15 +1,15 @@
 <template>
-  <HelloWorld />
+  <MarketsMap />
 </template>
 
 <script>
-  import HelloWorld from '../components/HelloWorld'
+import MarketsMap from "../components/MarketsMap";
 
-  export default {
-    components: {
-      HelloWorld
-    }
+export default {
+  components: {
+    MarketsMap
   }
+};
 </script>
 ias to /src
 import HelloWorld from '@/components/HelloWorld.vue'
@@ -17,7 +17,7 @@ import HelloWorld from '@/components/HelloWorld.vue'
 export default {
   name: 'home',
   components: {
-    HelloWorld
+    MarketsMap
   }
 }
 </script>
