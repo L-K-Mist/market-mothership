@@ -15,7 +15,7 @@
                         ></v-text-field>
                     </v-flex>
                     <v-card-text>
-                        <l-map style="height: 70vh; max-width: 80vw" :zoom="map.zoom" :options="map.options"
+                        <l-map ref="MarketsMap" style="height: 70vh; max-width: 80vw" :zoom="map.zoom" :options="map.options"
                         :center="map.center" :min-zoom="map.minZoom" :max-zoom="map.maxZoom" >
                         <l-control-layers :position="map.layersPosition"/>
                         <l-tile-layer v-for="(tileProvider, index) in tileProviders" :key="index"
@@ -26,9 +26,16 @@
                         <l-control-scale :imperial="map.imperial" />
                         <l-layer-group v-for="item in stuff" :key="item.id" :visible="item.visible" >
                             <l-layer-group :visible="item.markersVisible" >
-                            <l-marker v-for="(row, index) in visitData" :key="index"
+                            <MarketsMapMarker
+                                v-for="(row, index) in mapData" :key="index"
+                                :position="row.gps"
+                                :text="row"
+                                :title="row.market"
+                                >
+                            </MarketsMapMarker>
+                            <!-- <l-marker v-for="(row, index) in visitData" :key="index"
                                 :visible="true" :draggable="false"
-                                :lat-lng="row.gps"  @click="alert(row)" />
+                                :lat-lng="row.gps"  @click="alert(row)" /> -->
                             </l-layer-group>
                         </l-layer-group>
                         </l-map>  
@@ -44,15 +51,14 @@
 import {
   LMap,
   LTileLayer,
-  LMarker,
   LLayerGroup,
   LTooltip,
-  LPopup,
   LControlZoom,
   LControlAttribution,
   LControlScale,
   LControlLayers
 } from "vue2-leaflet";
+import MarketsMapMarker from "@/components/MarketsMap/MarketsMapMarker";
 import Glyph from "leaflet.icon.glyph";
 import "leaflet/dist/leaflet.css";
 import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.webpack.css";
@@ -70,17 +76,25 @@ export default {
   components: {
     LMap,
     LTileLayer,
-    LMarker,
     LLayerGroup,
     LTooltip,
-    LPopup,
     LControlZoom,
     LControlAttribution,
     LControlScale,
-    LControlLayers
+    LControlLayers,
+    MarketsMapMarker
+  },
+  mounted() {
+    this.$nextTick(() => {
+      this.mapObject = this.$refs.MarketsMap.mapObject; // work as expected
+      console.log("TCL: mounted -> mapObject", this.mapObject);
+      var mapData = this.mapData;
+      console.log("TCL: mounted -> mapData", mapData);
+    });
   },
   data() {
     return {
+      mapObject: null,
       gmapLink: null,
       map: {
         center: { lng: 30.8021097164601, lat: -29.9852711241692 },
@@ -108,7 +122,7 @@ export default {
     };
   },
   computed: {
-    visitData() {
+    mapData() {
       return this.$store.getters.mapData;
     }
     // showMap() {
@@ -123,6 +137,11 @@ export default {
       console.log("dispatched scrapeLink");
       this.$store.dispatch("scrapeLink", this.gmapLink);
       this.gmapLink = null;
+    }
+  },
+  watch: {
+    mapData(newVal) {
+      console.log("TCL: mapData -> newVal", newVal);
     }
   }
 };

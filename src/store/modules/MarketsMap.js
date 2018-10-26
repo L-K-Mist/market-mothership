@@ -9,6 +9,16 @@ var gmapLinks = [
 
 import scrapeGmapLink from '@/helpers/scrapeGmapLink.js'
 import includes from 'lodash/includes';
+import W3W from 'w3w-javascript-wrapper/dist/W3W.Geocoder'
+
+var w3w;
+var options = {
+    key: 'HUKLH4DA'
+};
+
+w3w = new W3W.Geocoder(options);
+
+
 
 const state = {
     mapData: [],
@@ -49,6 +59,22 @@ const actions = {
         commit
     }, payload) {
         var newFleaMarket = scrapeGmapLink(payload)
+        var callback = {
+            onSuccess: function (data) {
+                // console.log(JSON.stringify(data));
+                console.log('TCL: data', data);
+            },
+            onFailure: function (data) {
+                // console.log(JSON.stringify(data));
+                console.log('TCL: data', data);
+            }
+        };
+
+        var params = {
+            coords: [newFleaMarket.gps.lat, newFleaMarket.gps.lng]
+        };
+
+        w3w.reverse(params, callback);
         commit('mapData', newFleaMarket)
 
     },
