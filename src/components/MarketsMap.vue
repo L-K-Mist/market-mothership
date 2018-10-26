@@ -24,13 +24,13 @@
                         <l-control-zoom :position="map.zoomPosition" />
                         <l-control-attribution :position="map.attributionPosition" :prefix="map.attributionPrefix" />
                         <l-control-scale :imperial="map.imperial" />
-                        <!-- <l-layer-group v-for="item in stuff" :key="item.id" :visible="item.visible" >
+                        <l-layer-group v-for="item in stuff" :key="item.id" :visible="item.visible" >
                             <l-layer-group :visible="item.markersVisible" >
                             <l-marker v-for="(row, index) in visitData" :key="index"
                                 :visible="true" :draggable="false"
-                                :lat-lng="row.gps" @click="alert(row)" />
+                                :lat-lng="row.gps"  @click="alert(row)" />
                             </l-layer-group>
-                        </l-layer-group> -->
+                        </l-layer-group>
                         </l-map>  
                     </v-card-text>
                 </v-card>

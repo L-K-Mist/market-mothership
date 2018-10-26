@@ -10,8 +10,8 @@ function scrapeGmapLink(string) {
     var closer = ballPark.split('!3d')
     var stillCloser = closer[closer.length - 1]
     var closerStill = stillCloser.split('!4d')
-    var lat = closerStill[0]
-    var lng = closerStill[1]
+    var lat = parseFloat(closerStill[0])
+    var lng = parseFloat(closerStill[1])
     return {
         market: place,
         gps: {
