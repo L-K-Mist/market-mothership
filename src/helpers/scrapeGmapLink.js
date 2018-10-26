@@ -14,8 +14,10 @@ function scrapeGmapLink(string) {
     var lng = closerStill[1]
     return {
         market: place,
-        lat,
-        lng
+        gps: {
+            lat,
+            lng
+        }
     }
 }
 

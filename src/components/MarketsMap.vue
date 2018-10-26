@@ -132,8 +132,10 @@ export default {
     alert(item) {
       alert("this is " + JSON.stringify(item));
     },
-    scrapeLink() {
+    scrapeLink(e) {
+      console.log("dispatched scrapeLink");
       this.$store.dispatch("scrapeLink", this.gmapLink);
+      this.gmapLink = null;
     }
   }
 };
