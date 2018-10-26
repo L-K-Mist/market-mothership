@@ -7,6 +7,7 @@ var gmapLinks = [
 ]
 
 import scrapeGmapLink from '@/helpers/scrapeGmapLink.js'
+import includes from 'lodash/includes';
 // import {
 //     store
 // } from '../index.js'
@@ -41,7 +42,20 @@ const getters = {
 
 const mutations = {
     mapData(state, payload) {
-        state.mapData.push(payload)
+        var hasDuplicate = false
+        state.mapData.forEach(element => {
+            var duplicate = includes(element.market, payload.market)
+            if (duplicate) {
+                hasDuplicate = true
+            }
+        });
+        if (hasDuplicate) {
+            console.log('TCL: mapData -> hasDuplicate', hasDuplicate);
+
+        } else {
+            state.mapData.push(payload)
+
+        }
         console.log('TCL: state.mapData', state.mapData);
     }
 }
