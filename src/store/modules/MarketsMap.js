@@ -38,18 +38,21 @@ const getters = {
         return state.showMap
     },
 };
+
+const mutations = {
+    mapData(state, payload) {
+        state.mapData.push(payload)
+        console.log('TCL: state.mapData', state.mapData);
+    }
+}
+
 const actions = {
-    initMapData({
-        state
-    }, payload) {
-        state.mapData = payload
-    },
+
     scrapeLink({
-        state
+        commit
     }, payload) {
         var newFleaMarket = scrapeGmapLink(payload)
-        state.mapData.push(newFleaMarket)
-        console.log('TCL: state.mapData', state.mapData);
+        commit('mapData', newFleaMarket)
 
     },
     mapReportData({
@@ -63,5 +66,6 @@ const actions = {
 export default {
     state,
     getters,
+    mutations,
     actions
 }
