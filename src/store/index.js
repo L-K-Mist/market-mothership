@@ -1,8 +1,9 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import VuexPersistence from 'vuex-persist'
 import AppState from './AppState'
 import MarketsMap from './modules/MarketsMap'
-import VuexPersistence from 'vuex-persist'
+import RegisterStall from './modules/RegisterStall'
 
 const vuexLocal = new VuexPersistence({
   storage: window.localStorage,
@@ -14,7 +15,8 @@ Vue.use(Vuex)
 const store = new Vuex.Store({
   modules: {
     AppState,
-    MarketsMap
+    MarketsMap,
+    RegisterStall
   },
   plugins: [vuexLocal.plugin]
 })
