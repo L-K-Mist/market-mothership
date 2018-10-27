@@ -12,7 +12,7 @@
           ></v-text-field>
       </v-flex>
       <v-card-text>
-          <l-map ref="MarketsMap" style="height: 70vh; max-width: 80vw" :zoom="map.zoom" :options="map.options"
+          <l-map id="map" ref="MarketsMap" style="height: 70vh; max-width: 80vw" :zoom="map.zoom" :options="map.options"
           :center="map.center" :min-zoom="map.minZoom" :max-zoom="map.maxZoom" >
           <l-control-layers :position="map.layersPosition"/>
           <l-tile-layer v-for="(tileProvider, index) in tileProviders" :key="index"
@@ -139,3 +139,13 @@ export default {
   }
 };
 </script>
+
+<style>
+#map {
+    z-index: 1;
+}
+
+/* .ui-dialog {
+    z-index: 2;
+} */
+</style>

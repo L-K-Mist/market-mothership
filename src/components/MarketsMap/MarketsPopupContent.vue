@@ -8,8 +8,8 @@
       Location Address (by <a :href="data.w3wMapLink" target="blank">what3words</a> ): {{ data.locWords }}
     </h6>
     <br>
-    <p>Are you a stall-holder with {{ data.market }}?</p>
-    <v-btn @click="showDialog" block color="accent">Click here to register your stall and get your what3words address.</v-btn>
+    <p>Are you a stall-holder with {{ data.market }}? Go on, put yourself on the MAP! </p>
+    <v-btn @click="showDialog" block color="accent">Register Your Stall</v-btn>
     <v-img
       :src="`https://res.cloudinary.com/dylan-van-den-bosch/image/upload/w_auto,h_400/FoodStall_msltmd.jpg`"
 
