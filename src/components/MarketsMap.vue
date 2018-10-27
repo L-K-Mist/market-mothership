@@ -30,7 +30,7 @@
                                 v-for="(row, index) in mapData" :key="index"
                                 :position="row.gps"
                                 :text="row"
-                                :title="row.market"
+                                
                                 >
                             </MarketsMapMarker>
                             <!-- <l-marker v-for="(row, index) in visitData" :key="index"

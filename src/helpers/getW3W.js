@@ -28,7 +28,6 @@ function getW3W(gps) {
                 reject(Error('Yip, something went wrong.'))
             }
         };
-
         w3w.reverse(params, callback);
     })
 }

@@ -1,26 +1,30 @@
 <template>
   <div>
-    <h4 class="headline">
-        {{ data.market }}
-
-    </h4>
+    <h5 class="headline">
+        {{ data.market }} 
+    </h5>
     <br>
-                  <v-img
-                  :src="`https://res.cloudinary.com/dylan-van-den-bosch/image/upload/w_auto,h_400/FoodStall_msltmd.jpg`"
+    <h6 class="title">
+      Location Address (by <a :href="data.w3wMapLink" target="blank">what3words</a> ): {{ data.locWords }}
+    </h6>
+    <br>
+    <p>Are you a stall-holder at with {{ data.market }}?</p>
+    <v-btn block color="accent">Click here to register your stall and get your what3words address.</v-btn>
+    <v-img
+      :src="`https://res.cloudinary.com/dylan-van-den-bosch/image/upload/w_auto,h_400/FoodStall_msltmd.jpg`"
 
-
-                  class="grey lighten-2"
-                >
-                  <v-layout
-                    slot="placeholder"
-                    fill-height
-                    align-center
-                    justify-center
-                    ma-0
-                  >
-                    <v-progress-circular indeterminate color="grey lighten-5"></v-progress-circular>
-                  </v-layout>
-                </v-img>
+    class="grey lighten-2"
+  >
+    <v-layout
+      slot="placeholder"
+      fill-height
+      align-center
+      justify-center
+      ma-0
+    >
+      <v-progress-circular indeterminate color="grey lighten-5"></v-progress-circular>
+    </v-layout>
+  </v-img>
   </div>
 </template>
 
