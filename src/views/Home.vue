@@ -1,13 +1,22 @@
 <template>
-  <MarketsMap />
+    <v-container fluid fill-height>
+        <v-layout justify-center>
+            <v-flex xs12>
+              <MarketsMap />
+              <RegisterStall/>
+            </v-flex>
+        </v-layout>  
+    </v-container>
 </template>
 
 <script>
 import MarketsMap from "../components/MarketsMap";
+import RegisterStall from '@/components/RegisterStall';
 
 export default {
   components: {
-    MarketsMap
+    MarketsMap,
+    RegisterStall
   }
 };
 </script>

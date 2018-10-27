@@ -1,7 +1,6 @@
 <template>
     <v-layout row justify-center>
         <v-dialog v-model="dialog" persistent fullscreen>
-
             <v-card>
                 <v-card-title>
                     <span class="headline">User Profile</span>
@@ -46,5 +45,16 @@
 
 
 <script>
-export default {};
+export default {
+    computed: {
+        dialog: {
+            get(){
+                return this.$store.getters.showRegisterStall
+            },
+            set(bool){
+                this.$store.dispatch('showRegisterStall', bool)
+            }
+        }
+    }
+};
 </script>

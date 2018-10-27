@@ -9,7 +9,7 @@
     </h6>
     <br>
     <p>Are you a stall-holder with {{ data.market }}?</p>
-    <v-btn block color="accent">Click here to register your stall and get your what3words address.</v-btn>
+    <v-btn @click="showDialog" block color="accent">Click here to register your stall and get your what3words address.</v-btn>
     <v-img
       :src="`https://res.cloudinary.com/dylan-van-den-bosch/image/upload/w_auto,h_400/FoodStall_msltmd.jpg`"
 
@@ -35,6 +35,16 @@ export default {
     data: {
       type: Object,
       default: () => ({ type: "", color: "#ffffff" })
+    }
+  },
+  data() {
+    return {
+
+    }
+  },
+  methods: {
+    showDialog() {
+      this.$store.dispatch('showRegisterStall', true)
     }
   }
 };
