@@ -26,7 +26,7 @@
     </v-navigation-drawer>
     <v-toolbar color="indigo" dark fixed app>
       <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
-      <v-toolbar-title>Application</v-toolbar-title>
+      <v-toolbar-title>The Market-Mother-Ship</v-toolbar-title>
     </v-toolbar>
     <v-content>
             <v-slide-y-transition mode="out-in">
