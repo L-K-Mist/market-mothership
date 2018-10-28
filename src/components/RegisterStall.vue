@@ -15,20 +15,28 @@
           </v-toolbar>
           
             <v-stepper v-model="stepState" vertical>
-                <v-stepper-step :complete="stepState > 1" step="1">
+                <v-stepper-step :complete="$auth.isAuthenticated()" step="1">
                 Signup
                 <small>Signup with Google or Manually</small>
                 </v-stepper-step>
+                    <v-stepper-content step="1">
 
-                <v-stepper-content step="1">
-                <v-card class="mb-5"></v-card>
-                <v-btn @click="signup()"  color="primary">Sign Up</v-btn>
-                <v-btn color="primary" @click="stepState = 2">Continue</v-btn>
-                <v-btn flat>Cancel</v-btn>
-                </v-stepper-content>
+                        <v-card class="mb-5"></v-card>
+                        <template v-if="signedIn">
+                            <v-avatar
+                            size="38px"
+                            color="grey lighten-4">
+                                <img :src="$auth.user.picture">
+                            </v-avatar>
+                            <span class="text-muted font-weight-light px-2">{{$auth.user.name}}</span>
+                        </template>
+                        <v-btn v-if="!signedIn" @click="signup()"  color="secondary">Sign Up</v-btn>
+                        <v-btn color="secondary" @click="stepState = 2">Continue</v-btn>
+                        <v-btn flat>Cancel</v-btn>
+
+                    </v-stepper-content>
 
                 <v-stepper-step :complete="stepState > 2" step="2">Configure analytics for this app</v-stepper-step>
-
                 <v-stepper-content step="2">
                 <v-card color="grey lighten-1" class="mb-5" height="200px"></v-card>
                 <v-btn color="primary" @click="stepState = 3">Continue</v-btn>
@@ -46,7 +54,7 @@
                 <v-stepper-step step="4">View setup instructions</v-stepper-step>
                 <v-stepper-content step="4">
                 <v-card color="grey lighten-1" class="mb-5" height="200px"></v-card>
-                <v-btn color="primary" @click="stepState = 1">Continue</v-btn>
+                <v-btn color="primary">Continue</v-btn>
                 <v-btn flat>Cancel</v-btn>
                 </v-stepper-content>
             </v-stepper>            
@@ -59,11 +67,29 @@
 
 <script>
 export default {
-    data() {
-        return {
-            stepState: 1
-        }
+    mounted(){
+        this.$nextTick(() => {
+        
+            if(this.$auth.isAuthenticated()){ 
+            console.log('TCL: --------------------------------------------------------------------------');
+            console.log('TCL: mounted -> this.$auth.isAuthenticated()', this.$auth.isAuthenticated());
+            console.log('TCL: --------------------------------------------------------------------------');
+                  
+                this.stepState = 2
+            }else{
+            console.log('TCL: --------------------------------------------------------------------------');
+            console.log('TCL: mounted -> this.$auth.isAuthenticated()', this.$auth.isAuthenticated());
+            console.log('TCL: --------------------------------------------------------------------------');
+                this.stepState = 1
+            }
+
+        })
     },
+    // data() {
+    //     return {
+    //         // stepState: 1
+    //     }
+    // },
     computed: {
         dialog: {
             get(){
@@ -72,6 +98,17 @@ export default {
             set(bool){
                 this.$store.dispatch('showRegisterStall', bool)
             }
+        },
+        signedIn(){
+            return this.$auth.isAuthenticated()
+        },
+        stepState:{
+           get(){
+               return this.$store.getters.stepState
+           },
+           set(val){
+               this.$store.dispatch('stepState', val)
+           }
         }
     },
     methods: {
