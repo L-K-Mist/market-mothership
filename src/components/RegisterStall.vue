@@ -1,51 +1,68 @@
 <template>
     <v-layout row justify-center>
-        <v-dialog v-model="dialog" persistent fullscreen>
-            <v-card>
-                <v-card-title>
-                    <span class="headline">User Profile</span>
-                </v-card-title>
-                <v-card-text>
-                    <v-container grid-list-md>
-                        <v-layout wrap>
-                            <v-flex xs12 sm6 md4>
-                                <v-text-field label="Legal first name" required></v-text-field>
-                            </v-flex>
-                            <v-flex xs12 sm6 md4>
-                                <v-text-field label="Legal middle name" hint="example of helper text only on focus"></v-text-field>
-                            </v-flex>
-                            <v-flex xs12 sm6 md4>
-                                <v-text-field label="Legal last name" hint="example of persistent helper text" persistent-hint required></v-text-field>
-                            </v-flex>
-                            <v-flex xs12>
-                                <v-text-field label="Email" required></v-text-field>
-                            </v-flex>
-                            <v-flex xs12>
-                                <v-text-field label="Password" type="password" required></v-text-field>
-                            </v-flex>
-                            <v-flex xs12 sm6>
-                                <v-select label="Age" required :items="['0-17', '18-29', '30-54', '54+']"></v-select>
-                            </v-flex>
-                            <v-flex xs12 sm6>
-                                <v-select label="Interests" multiple autocomplete chips :items="['Skiing', 'Ice hockey', 'Soccer', 'Basketball', 'Hockey', 'Reading', 'Writing', 'Coding', 'Basejump']"></v-select>
-                            </v-flex>
-                        </v-layout>
-                    </v-container>
-                    <small>*indicates required field</small>
-                </v-card-text>
-                <v-card-actions>
-                    <v-spacer></v-spacer>
-                    <v-btn color="blue darken-1" flat @click.native="dialog = false">Close</v-btn>
-                    <v-btn color="blue darken-1" flat @click.native="dialog = false">Save</v-btn>
-                </v-card-actions>
-            </v-card>
-        </v-dialog>
+      <v-dialog v-model="dialog" fullscreen hide-overlay transition="dialog-bottom-transition">
+        <v-card>
+          <v-toolbar dark color="primary">
+            <v-btn icon dark @click.native="dialog = false">
+              <v-icon>fa-close</v-icon>
+            </v-btn>
+
+            <v-toolbar-title>Register Yourself and Your Shop</v-toolbar-title>
+            <v-spacer></v-spacer>
+            <v-toolbar-items>
+              <v-btn dark flat @click.native="dialog = false">Save</v-btn>
+            </v-toolbar-items>
+          </v-toolbar>
+          
+            <v-stepper v-model="stepState" vertical>
+                <v-stepper-step :complete="stepState > 1" step="1">
+                Select an app
+                <small>Summarize if needed</small>
+                </v-stepper-step>
+
+                <v-stepper-content step="1">
+                <v-card color="grey lighten-1" class="mb-5" height="200px"></v-card>
+                <v-btn color="primary" @click="stepState = 2">Continue</v-btn>
+                <v-btn flat>Cancel</v-btn>
+                </v-stepper-content>
+
+                <v-stepper-step :complete="stepState > 2" step="2">Configure analytics for this app</v-stepper-step>
+
+                <v-stepper-content step="2">
+                <v-card color="grey lighten-1" class="mb-5" height="200px"></v-card>
+                <v-btn color="primary" @click="stepState = 3">Continue</v-btn>
+                <v-btn flat>Cancel</v-btn>
+                </v-stepper-content>
+
+                <v-stepper-step :complete="stepState > 3" step="3">Select an ad format and name ad unit</v-stepper-step>
+
+                <v-stepper-content step="3">
+                <v-card color="grey lighten-1" class="mb-5" height="200px"></v-card>
+                <v-btn color="primary" @click="stepState = 4">Continue</v-btn>
+                <v-btn flat>Cancel</v-btn>
+                </v-stepper-content>
+
+                <v-stepper-step step="4">View setup instructions</v-stepper-step>
+                <v-stepper-content step="4">
+                <v-card color="grey lighten-1" class="mb-5" height="200px"></v-card>
+                <v-btn color="primary" @click="stepState = 1">Continue</v-btn>
+                <v-btn flat>Cancel</v-btn>
+                </v-stepper-content>
+            </v-stepper>            
+
+        </v-card>
+      </v-dialog>
     </v-layout>
 </template>
 
 
 <script>
 export default {
+    data() {
+        return {
+            stepState: 1
+        }
+    },
     computed: {
         dialog: {
             get(){

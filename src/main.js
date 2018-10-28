@@ -7,6 +7,9 @@ import store from './store'
 import router from './router'
 import 'roboto-fontface/css/roboto/roboto-fontface.css'
 import 'font-awesome/css/font-awesome.css'
+import auth from "@/auth"
+
+Vue.use(auth)
 
 Vue.config.productionTip = false
 

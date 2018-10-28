@@ -24,14 +24,14 @@
         </v-list-tile>
       </v-list>
     </v-navigation-drawer>
-    <v-toolbar color="indigo" dark fixed app>
+    <v-toolbar scroll-off-screen :scroll-threshold="50" color="indigo" dark fixed app>
       <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
       <v-toolbar-title>The Market-Mother-Ship</v-toolbar-title>
     </v-toolbar>
     <v-content>
-            <v-slide-y-transition mode="out-in">
-              <router-view/>
-            </v-slide-y-transition>
+      <v-slide-y-transition mode="out-in">
+        <router-view/>
+      </v-slide-y-transition>
     </v-content>
     <v-footer color="indigo" app>
       <span class="white--text">&copy; 2017</span>
