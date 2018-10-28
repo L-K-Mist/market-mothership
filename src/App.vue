@@ -6,7 +6,7 @@
       app
     >
       <v-list dense>
-        <v-list-tile @click="">
+        <v-list-tile>
           <v-list-tile-action>
             <v-icon>fa-home</v-icon>
           </v-list-tile-action>
@@ -27,7 +27,7 @@
     <v-toolbar scroll-off-screen :scroll-threshold="50" color="indigo" dark fixed app>
       <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
       <v-toolbar-title>The Market-Mother-Ship</v-toolbar-title>
-      <v-icon @click="logoff">fa-sign-out</v-icon>
+      <v-spacer></v-spacer><v-icon  hint="logout" @click="logoff">fa-sign-out</v-icon>
     </v-toolbar>
     <v-content>
       <v-slide-y-transition mode="out-in">

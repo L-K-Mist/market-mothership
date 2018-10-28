@@ -6,7 +6,7 @@ let webAuth = new auth0.WebAuth({
   domain: "welink.au.auth0.com",
     clientID: "0SIaIds4btTC6nLkYiOFkj5nJUg4GhJx",
   // make sure this line contains the port: 8080
-  redirectUri: "http://localhost:8080/home",
+  redirectUri: "http://localhost:8080/callback",
   // we will use the api/v2/ to access the user information as payload
     audience: "https://" + "welink.au.auth0.com" + "/api/v2/",
   responseType: "token id_token",
@@ -59,7 +59,7 @@ let auth = new Vue({
                 localStorage.removeItem('id_token')
                 localStorage.removeItem('expires_at')
                 localStorage.removeItem('user')
-                webAuth.authorize()
+                // webAuth.authorize()
             })
         },
         isAuthenticated() {

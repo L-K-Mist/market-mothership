@@ -1,12 +1,16 @@
 <template>
-    <v-container fluid fill-height>
+<div>
+
+    <!-- <v-container fluid fill-height> -->
         <v-layout justify-center>
             <v-flex xs12>
               <MarketsMap />
               <RegisterStall/>
             </v-flex>
         </v-layout>  
-    </v-container>
+    <!-- </v-container> -->
+
+</div>
 </template>
 
 <script>
