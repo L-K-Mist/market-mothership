@@ -16,12 +16,13 @@
           
             <v-stepper v-model="stepState" vertical>
                 <v-stepper-step :complete="stepState > 1" step="1">
-                Select an app
-                <small>Summarize if needed</small>
+                Signup
+                <small>Signup with Google or Manually</small>
                 </v-stepper-step>
 
                 <v-stepper-content step="1">
-                <v-card color="grey lighten-1" class="mb-5" height="200px"></v-card>
+                <v-card class="mb-5"></v-card>
+                <v-btn @click="signup()"  color="primary">Sign Up</v-btn>
                 <v-btn color="primary" @click="stepState = 2">Continue</v-btn>
                 <v-btn flat>Cancel</v-btn>
                 </v-stepper-content>
@@ -72,6 +73,23 @@ export default {
                 this.$store.dispatch('showRegisterStall', bool)
             }
         }
+    },
+    methods: {
+        signup() {
+            this.$auth.login()
+            // this.$auth.handleAuthentication().then((data) => {
+            // console.log('TCL: -------------------------');
+            // console.log('TCL: signup -> data', data);
+            // console.log('TCL: -------------------------');
+                
+            // this.$router.push({ name: 'home' })
+            // })
+        }
     }
 };
 </script>
+  mounted() {
+    this.$auth.handleAuthentication().then((data) => {
+      this.$router.push({ name: 'home' })
+    })
+  }

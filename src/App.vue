@@ -14,12 +14,12 @@
             <v-list-tile-title>Home</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
-        <v-list-tile @click="">
+        <v-list-tile @click="logoff">
           <v-list-tile-action>
-            <v-icon>fa-contact_mail</v-icon>
+            <v-icon>fa-sign-out</v-icon>
           </v-list-tile-action>
           <v-list-tile-content>
-            <v-list-tile-title>Contact</v-list-tile-title>
+            <v-list-tile-title>Log Off</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
       </v-list>
@@ -27,6 +27,7 @@
     <v-toolbar scroll-off-screen :scroll-threshold="50" color="indigo" dark fixed app>
       <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
       <v-toolbar-title>The Market-Mother-Ship</v-toolbar-title>
+      <v-icon @click="logoff">fa-sign-out</v-icon>
     </v-toolbar>
     <v-content>
       <v-slide-y-transition mode="out-in">
@@ -46,6 +47,11 @@ export default {
   }),
   props: {
     source: String
+  },
+  methods: {
+    logoff() {
+      this.$auth.logout()
+    }
   }
 };
 </script>
