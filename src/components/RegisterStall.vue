@@ -31,7 +31,7 @@
                             <span class="text-muted font-weight-light px-2">{{$auth.user.name}}</span>
                         </template>
                         <v-btn v-if="!signedIn" @click="signup()"  color="secondary">Sign Up</v-btn>
-                        <v-btn color="secondary" @click="stepState = 2">Continue</v-btn>
+                        <v-btn color="accent" @click="stepState = 2">Continue</v-btn>
                         <v-btn flat>Cancel</v-btn>
 
                     </v-stepper-content>
@@ -68,21 +68,19 @@
 <script>
 export default {
     mounted(){
-        this.$nextTick(() => {
-        
-            if(this.$auth.isAuthenticated()){ 
-            console.log('TCL: --------------------------------------------------------------------------');
-            console.log('TCL: mounted -> this.$auth.isAuthenticated()', this.$auth.isAuthenticated());
-            console.log('TCL: --------------------------------------------------------------------------');
-                  
-                this.stepState = 2
-            }else{
-            console.log('TCL: --------------------------------------------------------------------------');
-            console.log('TCL: mounted -> this.$auth.isAuthenticated()', this.$auth.isAuthenticated());
-            console.log('TCL: --------------------------------------------------------------------------');
-                this.stepState = 1
-            }
+        this.$nextTick(() => {   
 
+            if(!this.$auth.isAuthenticated()){    
+
+                 
+                this.stepState = 1
+            } else { 
+                var user = JSON.stringify(this.$auth.user)
+                console.log('TCL: --------------------------');
+                console.log('TCL: mounted -> user', user);
+                console.log('TCL: --------------------------');
+                this.stepState = 2
+            }
         })
     },
     // data() {
