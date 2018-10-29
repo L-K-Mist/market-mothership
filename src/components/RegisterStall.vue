@@ -22,23 +22,31 @@
                     <v-stepper-content step="1">
 
                         <v-card class="mb-5"></v-card>
-                        <template v-if="signedIn">
-                            <v-avatar
-                            size="38px"
-                            color="grey lighten-4">
-                                <img :src="$auth.user.picture">
-                            </v-avatar>
-                            <span class="text-muted font-weight-light px-2">{{$auth.user.name}}</span>
-                        </template>
                         <v-btn v-if="!signedIn" @click="signup()"  color="secondary">Sign Up</v-btn>
                         <v-btn color="accent" @click="stepState = 2">Continue</v-btn>
                         <v-btn flat>Cancel</v-btn>
 
                     </v-stepper-content>
 
-                <v-stepper-step :complete="stepState > 2" step="2">Configure analytics for this app</v-stepper-step>
+                <v-stepper-step :complete="stepState > 2" step="2">
+                    Your Personal Profile
+                    <small>Let your potential customers get to know you better</small>
+                </v-stepper-step>
                 <v-stepper-content step="2">
-                <v-card color="grey lighten-1" class="mb-5" height="200px"></v-card>
+                <v-card color="grey lighten-5" class="mb-5" height="200px">
+                    <v-card-text>
+                        <v-flex xs12 v-if="signedIn">
+                            <v-avatar
+                            size="38px"
+                            color="grey lighten-4">
+                                <img :src="$auth.user.picture">
+                            </v-avatar>
+                            <span class="text-muted font-weight-light px-2">{{$auth.user.name}}</span>                            
+                        </v-flex>
+                        
+                    </v-card-text>
+
+                </v-card>
                 <v-btn color="primary" @click="stepState = 3">Continue</v-btn>
                 <v-btn flat>Cancel</v-btn>
                 </v-stepper-content>
