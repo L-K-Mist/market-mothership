@@ -35,16 +35,18 @@ export default {
     data: {
       type: Object,
       default: () => ({ type: "", color: "#ffffff" })
+    },
+    market: {
+      type: String
     }
   },
   data() {
-    return {
-
-    }
+    return {};
   },
   methods: {
     showDialog() {
-      this.$store.dispatch('showRegisterStall', true)
+      this.$store.dispatch("personMarket", this.data.market);
+      this.$store.dispatch("showRegisterStall", true);
     }
   }
 };

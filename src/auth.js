@@ -3,14 +3,14 @@ import Vue from 'vue'
 
 // exchange the object with your own from the setup step above.
 let webAuth = new auth0.WebAuth({
-  domain: "welink.au.auth0.com",
+    domain: "welink.au.auth0.com",
     clientID: "0SIaIds4btTC6nLkYiOFkj5nJUg4GhJx",
-  // make sure this line contains the port: 8080
-  redirectUri: "http://localhost:8080/callback",
-  // we will use the api/v2/ to access the user information as payload
+    // make sure this line contains the port: 8080
+    redirectUri: "http://localhost:8080/callback",
+    // we will use the api/v2/ to access the user information as payload
     audience: "https://" + "welink.au.auth0.com" + "/api/v2/",
-  responseType: "token id_token",
-  scope: "openid profile" // define the scopes you want to use
+    responseType: "token id_token",
+    scope: "openid email profile" // define the scopes you want to use
 });
 
 let auth = new Vue({
@@ -74,7 +74,11 @@ let auth = new Vue({
                         this.accessToken = authResult.accessToken
                         this.token = authResult.idToken
                         this.user = authResult.idTokenPayload
-                        resolve()
+                        resolve({
+                            accessToken: this.accessToken,
+                            token: this.accessToken,
+                            user: this.user
+                        })
 
                     } else if (err) {
                         this.logout()

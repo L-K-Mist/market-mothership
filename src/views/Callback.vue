@@ -8,11 +8,12 @@
 
 <script>
 export default {
-  name: 'callback',
+  name: "callback",
   mounted() {
-    this.$auth.handleAuthentication().then((data) => {
-      this.$router.push({ name: 'home' })
-    })
+    this.$auth.handleAuthentication().then(data => {
+      this.$store.dispatch("personLoginData", data);
+      this.$router.push({ name: "home" });
+    });
   }
-}
+};
 </script>

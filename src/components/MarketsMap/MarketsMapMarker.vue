@@ -17,25 +17,29 @@ export default {
     LPopup,
     MarketsPopupContent
   },
-  props: ["text", "position", "title"],
+  props: ["text", "position", "title", "market"],
   computed: {
-    popupWidth () {
+    popupWidth() {
       switch (this.$vuetify.breakpoint.name) {
-        case 'xs': return 220
-        case 'sm': return 300
-        case 'md': return 400
-        case 'lg': return 600
-        case 'xl': return 800
+        case "xs":
+          return 220;
+        case "sm":
+          return 300;
+        case "md":
+          return 400;
+        case "lg":
+          return 600;
+        case "xl":
+          return 800;
       }
     }
   },
   watch: {
     popupWidth(newVal) {
-    console.log('TCL: ---------------------------------');
-    console.log('TCL: popupWidth -> newVal', newVal);
-    console.log('TCL: ---------------------------------');
+      console.log("TCL: ---------------------------------");
+      console.log("TCL: popupWidth -> newVal", newVal);
+      console.log("TCL: ---------------------------------");
     }
   }
-
 };
 </script>

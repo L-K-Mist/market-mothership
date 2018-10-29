@@ -30,25 +30,44 @@
 
                 <v-stepper-step :complete="stepState > 2" step="2">
                     Your Personal Profile
-                    <small>Let your potential customers get to know you better</small>
+                    <small v-if="person.firstName">Thanks {{ person.firstName }}, let's help your potential customers get to know you better</small>
+                    <small v-else>Let your potential customers get to know you better</small>
                 </v-stepper-step>
                 <v-stepper-content step="2">
-                <v-card color="grey lighten-5" class="mb-5" height="200px">
+                <v-card color="grey lighten-5" class="mb-5">
                     <v-card-text>
-                        <v-flex xs12 v-if="signedIn">
+                        <v-flex v-if="person.loginDataReceived" xs12>
                             <v-avatar
                             size="38px"
                             color="grey lighten-4">
-                                <img :src="$auth.user.picture">
+                                <img :src="person.picture">
                             </v-avatar>
-                            <span class="text-muted font-weight-light px-2">{{$auth.user.name}}</span>                            
+                            <v-text-field
+                                label="First Name"
+                                hint="The name you're best known by."
+                                v-model="person.firstName"
+                            ></v-text-field>     
+                            <v-text-field
+                                label="Last Name"
+                                hint="Yip, AKA Surname."
+                                v-model="person.lastName"
+                            ></v-text-field>   
+                            <v-text-field
+                                label="Email"
+                                hint="Choose the email address you want use for customer interaction"
+                                v-model="person.email"
+                            ></v-text-field>
+                            <v-text-field multi-line
+                                label="Bio"
+                                hint="If you knew me well, you'd know..."
+                                v-model="person.bio"
+                            ></v-text-field>                       
                         </v-flex>
                         
                     </v-card-text>
 
                 </v-card>
                 <v-btn color="primary" @click="stepState = 3">Continue</v-btn>
-                <v-btn flat>Cancel</v-btn>
                 </v-stepper-content>
 
                 <v-stepper-step :complete="stepState > 3" step="3">Select an ad format and name ad unit</v-stepper-step>
@@ -56,13 +75,11 @@
                 <v-stepper-content step="3">
                 <v-card color="grey lighten-1" class="mb-5" height="200px"></v-card>
                 <v-btn color="primary" @click="stepState = 4">Continue</v-btn>
-                <v-btn flat>Cancel</v-btn>
                 </v-stepper-content>
 
                 <v-stepper-step step="4">View setup instructions</v-stepper-step>
                 <v-stepper-content step="4">
                 <v-card color="grey lighten-1" class="mb-5" height="200px"></v-card>
-                <v-btn color="primary">Continue</v-btn>
                 <v-btn flat>Cancel</v-btn>
                 </v-stepper-content>
             </v-stepper>            
@@ -75,60 +92,53 @@
 
 <script>
 export default {
-    mounted(){
-        this.$nextTick(() => {   
-
-            if(!this.$auth.isAuthenticated()){    
-
-                 
-                this.stepState = 1
-            } else { 
-                var user = JSON.stringify(this.$auth.user)
-                console.log('TCL: --------------------------');
-                console.log('TCL: mounted -> user', user);
-                console.log('TCL: --------------------------');
-                this.stepState = 2
-            }
-        })
+  mounted() {
+    this.$nextTick(() => {
+      if (!this.$auth.isAuthenticated()) {
+        this.stepState = 1;
+      } else {
+        var user = JSON.stringify(this.$auth.user);
+        console.log("TCL: --------------------------");
+        console.log("TCL: mounted -> user", user);
+        console.log("TCL: --------------------------");
+        this.stepState = 2;
+      }
+    });
+  },
+  // data() {
+  //     return {
+  //         // stepState: 1
+  //     }
+  // },
+  computed: {
+    dialog: {
+      get() {
+        return this.$store.getters.showRegisterStall;
+      },
+      set(bool) {
+        this.$store.dispatch("showRegisterStall", bool);
+      }
     },
-    // data() {
-    //     return {
-    //         // stepState: 1
-    //     }
-    // },
-    computed: {
-        dialog: {
-            get(){
-                return this.$store.getters.showRegisterStall
-            },
-            set(bool){
-                this.$store.dispatch('showRegisterStall', bool)
-            }
-        },
-        signedIn(){
-            return this.$auth.isAuthenticated()
-        },
-        stepState:{
-           get(){
-               return this.$store.getters.stepState
-           },
-           set(val){
-               this.$store.dispatch('stepState', val)
-           }
-        }
+    signedIn() {
+      return this.$auth.isAuthenticated();
     },
-    methods: {
-        signup() {
-            this.$auth.login()
-            // this.$auth.handleAuthentication().then((data) => {
-            // console.log('TCL: -------------------------');
-            // console.log('TCL: signup -> data', data);
-            // console.log('TCL: -------------------------');
-                
-            // this.$router.push({ name: 'home' })
-            // })
-        }
+    stepState: {
+      get() {
+        return this.$store.getters.stepState;
+      },
+      set(val) {
+        this.$store.dispatch("stepState", val);
+      }
+    },
+    person() {
+      return this.$store.getters.person;
     }
+  },
+  methods: {
+    signup() {
+      this.$auth.login();
+    }
+  }
 };
 </script>
   mounted() {
