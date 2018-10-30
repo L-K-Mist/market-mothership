@@ -9,7 +9,10 @@ import 'roboto-fontface/css/roboto/roboto-fontface.css'
 import 'font-awesome/css/font-awesome.css'
 import auth from "@/auth"
 
+
 Vue.use(auth)
+var processEnv = process.env.VUE_APP_ENV_CALLBACK
+console.log('TCL: processEnv', processEnv);
 
 Vue.config.productionTip = false
 
