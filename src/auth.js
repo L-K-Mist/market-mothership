@@ -53,6 +53,7 @@ let auth = new Vue({
         login() {
             webAuth.authorize()
         },
+
         logout() {
             return new Promise((resolve, reject) => {
                 localStorage.removeItem('access_token')
@@ -62,9 +63,11 @@ let auth = new Vue({
                 // webAuth.authorize()
             })
         },
+
         isAuthenticated() {
             return new Date().getTime() < this.expiresAt
         },
+
         handleAuthentication() {
             return new Promise((resolve, reject) => {
                 webAuth.parseHash((err, authResult) => {
@@ -84,7 +87,6 @@ let auth = new Vue({
                         this.logout()
                         reject(err)
                     }
-
                 })
             })
         }

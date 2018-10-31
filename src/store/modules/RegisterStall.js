@@ -52,7 +52,6 @@ const mutations = {
     person(state, payload) {
         state.person = Object.assign(state.person, payload)
         console.log('TCL: person -> state.person', state.person);
-
     }
 }
 
