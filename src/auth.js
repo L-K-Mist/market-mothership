@@ -1,5 +1,20 @@
 import auth0 from 'auth0-js'
 import Vue from 'vue'
+import gql from 'graphql-tag'
+import apollo from '@/apollo'
+
+const AUTHORIZE = gql `
+    mutation authorize($email: String!, $authId: String!, $name: String!) {
+        authorize(email: $email, authId: $authId, name: $name) {
+            token
+            user {
+                id
+                name
+                email
+            }
+        }
+    }
+`
 
 // exchange the object with your own from the setup step above.
 let webAuth = new auth0.WebAuth({
@@ -21,6 +36,14 @@ let auth = new Vue({
             },
             set: function (id_token) {
                 localStorage.setItem('id_token', id_token)
+            }
+        },
+        prismaToken: {
+            get: function () {
+                return localStorage.getItem('prisma_token')
+            },
+            set: function (prismaToken) {
+                localStorage.setItem('prisma_token', prismaToken)
             }
         },
         accessToken: {
@@ -60,8 +83,22 @@ let auth = new Vue({
                 localStorage.removeItem('id_token')
                 localStorage.removeItem('expires_at')
                 localStorage.removeItem('user')
+                localStorage.removeItem('prisma_token')
                 // webAuth.authorize()
             })
+        },
+
+        async authorizeUser() {
+            const response = await apollo.mutate({
+                mutation: AUTHORIZE,
+                variables: {
+                    email: this.user.email,
+                    name: this.user.name,
+                    authId: this.token
+                }
+            })
+            console.log('TCL: asyncauthorizeUser -> response', response);
+            this.prismaToken = response.token
         },
 
         isAuthenticated() {
