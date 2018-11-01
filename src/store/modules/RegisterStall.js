@@ -15,6 +15,8 @@
  * }
  */
 
+import apolloClient from '@/apollo'
+
 const state = {
     showRegisterStall: false,
     stepState: null,
