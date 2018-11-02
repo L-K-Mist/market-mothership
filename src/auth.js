@@ -15,6 +15,7 @@ const AUTHORIZE = gql `
         }
     }
 `
+//dunno how to get around the history mode pwa issues
 
 function parseToken(token) {
     const array = token.split('.')
