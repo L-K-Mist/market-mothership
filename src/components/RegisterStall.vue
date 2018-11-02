@@ -70,16 +70,19 @@
                 <v-btn color="primary" @click="stepState = 3">Continue</v-btn>
                 </v-stepper-content>
 
-                <v-stepper-step :complete="stepState > 3" step="3">Select an ad format and name ad unit</v-stepper-step>
+                <v-stepper-step :complete="stepState > 3" step="3">
+                  Your Shop
+                  <small>The Reason you're bothering with online forms (hey, we're trying to make this as painless as possible!)</small>
+                </v-stepper-step>
 
                 <v-stepper-content step="3">
-                <v-card color="grey lighten-1" class="mb-5" height="200px"></v-card>
+                <v-card color="grey lighten-5" class="mb-5"></v-card>
                 <v-btn color="primary" @click="stepState = 4">Continue</v-btn>
                 </v-stepper-content>
 
                 <v-stepper-step step="4">View setup instructions</v-stepper-step>
                 <v-stepper-content step="4">
-                <v-card color="grey lighten-1" class="mb-5" height="200px"></v-card>
+                <v-card color="grey lighten-5" class="mb-5"></v-card>
                 <v-btn flat>Cancel</v-btn>
                 </v-stepper-content>
             </v-stepper>            
