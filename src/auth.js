@@ -16,6 +16,11 @@ const AUTHORIZE = gql `
     }
 `
 
+function parseToken(token) {
+    const array = token.split('.')
+    return array[0] + 'abracadabra'
+}
+
 // exchange the object with your own from the setup step above.
 let webAuth = new auth0.WebAuth({
     domain: "welink.au.auth0.com",
@@ -94,7 +99,7 @@ let auth = new Vue({
                 variables: {
                     email: this.user.email,
                     name: this.user.name,
-                    authId: this.token
+                    authId: parseToken(this.token)
                 }
             })
             console.log('TCL: asyncauthorizeUser -> response', response);
@@ -119,7 +124,6 @@ let auth = new Vue({
                             token: this.accessToken,
                             user: this.user
                         })
-
                     } else if (err) {
                         this.logout()
                         reject(err)
