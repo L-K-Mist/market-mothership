@@ -47,8 +47,8 @@ let auth = new Vue({
             get: function () {
                 return localStorage.getItem('prisma_token')
             },
-            set: function (prismaToken) {
-                localStorage.setItem('prisma_token', prismaToken)
+            set: function (token) {
+                localStorage.setItem('prisma_token', token)
             }
         },
         accessToken: {
@@ -102,8 +102,9 @@ let auth = new Vue({
                     authId: parseToken(this.token)
                 }
             })
-            console.log('TCL: asyncauthorizeUser -> response', response);
-            this.prismaToken = response.token
+            console.log('TCL: asyncauthorizeUser -> response', response.data.authorize.token);
+            localStorage.setItem('prisma_token', response.data.authorize.token)
+
         },
 
         isAuthenticated() {

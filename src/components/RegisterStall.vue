@@ -33,7 +33,7 @@
                     <small v-if="person.firstName">Thanks {{ person.firstName }}, let's help your potential customers get to know you better</small>
                     <small v-else>Let your potential customers get to know you better</small>
                 </v-stepper-step>
-                <v-stepper-content step="2">
+                <v-stepper-content class="pl-0" step="2">
                 <v-card color="grey lighten-5" class="mb-5">
                     <v-card-text>
                         <v-flex v-if="person.loginDataReceived" xs12>

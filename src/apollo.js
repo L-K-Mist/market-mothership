@@ -1,17 +1,33 @@
-import { ApolloClient } from "apollo-client";
-import { HttpLink } from "apollo-link-http";
-import { setContext } from "apollo-link-context";
-import { onError } from "apollo-link-error";
-import { InMemoryCache } from "apollo-cache-inmemory";
+import {
+  ApolloClient
+} from "apollo-client";
+import {
+  HttpLink
+} from "apollo-link-http";
+import {
+  setContext
+} from "apollo-link-context";
+import {
+  onError
+} from "apollo-link-error";
+import {
+  InMemoryCache
+} from "apollo-cache-inmemory";
 
 const httpLink = new HttpLink({
   // Here, we create a new instance of httpLink with the URL ( http://localhost:4000/) of our GraphQL server.
   // uri: 'https://mirage-advanced-frdudlwdkj.now.sh/'
-  uri: "http://localhost:4000/"
+  uri: process.env.VUE_APP_SERVERLINK
+  // uri: "http://localhost:4000/"
 });
 
 const errorLink = onError(
-  ({ operation, response, graphQLErrors, networkError }) => {
+  ({
+    operation,
+    response,
+    graphQLErrors,
+    networkError
+  }) => {
     // temp to see what's wrong with signup
     if (graphQLErrors) {
       console.log("gqlError", {
@@ -27,8 +43,7 @@ const errorLink = onError(
 
 const httpLinkAuth = setContext(
   (
-    _,
-    {
+    _, {
       // Then we make use of the setContext object to create an httpLinkAuth that gets the user token from local storage and return the headers, which contain the Authorization header.
       headers
     }
