@@ -6,6 +6,14 @@
       app
     >
       <v-list dense>
+                <v-list-tile @click="rearrangeMapDataForPrisma()">
+          <v-list-tile-action>
+            <v-icon>fa-home</v-icon>
+          </v-list-tile-action>
+          <v-list-tile-content>
+            <v-list-tile-title>Sort Maps</v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
         <v-list-tile>
           <v-list-tile-action>
             <v-icon>fa-home</v-icon>
@@ -50,7 +58,10 @@ export default {
   },
   methods: {
     logoff() {
-      this.$auth.logout()
+      this.$auth.logout();
+    },
+    rearrangeMapDataForPrisma() {
+      this.$store.dispatch("rearrangeMapDataForPrisma");
     }
   }
 };

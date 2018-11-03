@@ -63,6 +63,20 @@ const actions = {
         console.log('TCL: newFleaMarket', newFleaMarket);
         commit('mapData', newFleaMarket)
     },
+
+    rearrangeMapDataForPrisma({
+        state
+    }) {
+        var markets = state.mapData.map(function (el) {
+            return {
+                name: el.market,
+                lat: el.gps.lat,
+                lng: el.gps.lng,
+                w3w: el.locWords,
+            }
+        })
+        console.log('TCL: markets', JSON.stringify(markets));
+    }
     // mapReportData({
     //     state,
     // }, payload) {
