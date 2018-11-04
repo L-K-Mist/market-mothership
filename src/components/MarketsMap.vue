@@ -12,9 +12,11 @@
               v-model="gmapLink"
           ></v-text-field>
       </v-flex> -->
+      <v-btn @click="findMe()" color="success">Find Me</v-btn>
       <v-card-text>
           <l-map id="map" ref="MarketsMap" style="height: 70vh; max-width: 98vw" :zoom="map.zoom" :options="map.options"
-          :center="map.center" :min-zoom="map.minZoom" :max-zoom="map.maxZoom" >
+          :center="map.center" :min-zoom="map.minZoom" :max-zoom="map.maxZoom" 
+          @locationfound="onLocataionFound($event)">
           <l-control-scale position="bottomleft" :imperial="false" />
           <l-control-layers :options="{position: map.layersPosition}" />
           <l-tile-layer v-for="(tileProvider, index) in tileProviders" :key="index"
@@ -30,6 +32,15 @@
                   :text="row"
                   >
               </MarketsMapMarker>
+              <template v-if="meMarker.length > 0">
+
+              </template>
+                <l-marker v-for="marker in meMarker" :key="marker.name"
+                  :ref="'meMarker'" :lat-lng="marker.position" title="title" :draggable="true">
+                  <!-- <l-popup  :ref="'popup' + text.name" :options="{maxWidth: popupWidth, closeButton: true}">
+                    <markets-popup-content :data="text"/>
+                  </l-popup> -->
+                </l-marker>
               <!-- <l-marker v-for="(row, index) in visitData" :key="index"
                   :visible="true" :draggable="false"
                   :lat-lng="row.gps"  @click="alert(row)" /> -->
@@ -46,6 +57,7 @@ import {
   LTileLayer,
   LLayerGroup,
   LTooltip,
+  LMarker,
   LControlZoom,
   LControlAttribution,
   LControlScale,
@@ -71,6 +83,7 @@ export default {
     LTileLayer,
     LLayerGroup,
     LTooltip,
+    LMarker,
     LControlZoom,
     LControlAttribution,
     LControlScale,
@@ -99,6 +112,7 @@ export default {
   },
   data() {
     return {
+      meMarker: [],
       value: true,
       markets: [],
       mapObject: null,
@@ -144,6 +158,23 @@ export default {
       this.$store.dispatch("scrapeLink", this.gmapLink);
       this.gmapLink = null;
     },
+    findMe() {
+      this.mapObject.locate({setView: true, maxZoom: 16});
+
+    },
+    onLocataionFound(e){
+    console.log('TCL: -----------------------------------------------------------');
+    console.log('TCL: onLocataionFound -> onLocataionFound', e.accuracy);
+    console.log('TCL: -----------------------------------------------------------');
+        var radius = e.accuracy / 2;
+            const newMarker = { position: e.latlng, draggable: true, visible: true };
+      this.meMarker.push(newMarker);
+    // L.marker(e.latlng).addTo(map)
+    //     .bindPopup("You are within " + radius + " meters from this point").openPopup();
+
+    // L.circle(e.latlng, radius).addTo(map);
+      
+    }
   },
   watch: {
     mapData(newVal) {
