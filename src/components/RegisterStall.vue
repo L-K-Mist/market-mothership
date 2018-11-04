@@ -33,14 +33,12 @@
                     <small v-if="person.firstName">Thanks {{ person.firstName }}, let's help your potential customers get to know you better</small>
                     <small v-else>Let your potential customers get to know you better</small>
                 </v-stepper-step>
-                <v-stepper-content class="pl-0" step="2">
-                <v-card color="grey lighten-5" class="mb-5">
-                    <v-card-text>
+                <v-stepper-content step="2">
                         <v-flex v-if="person.loginDataReceived" xs12>
                             <v-avatar
                             size="38px"
                             color="grey lighten-4">
-                                <img :src="person.picture">
+                                <img :src="person.image">
                             </v-avatar>
                             <v-text-field
                                 label="First Name"
@@ -63,11 +61,7 @@
                                 v-model="person.bio"
                             ></v-text-field>                       
                         </v-flex>
-                        
-                    </v-card-text>
-
-                </v-card>
-                <v-btn color="primary" @click="stepState = 3">Continue</v-btn>
+                <v-btn color="primary" @click="gotBio()">Continue</v-btn>
                 </v-stepper-content>
 
                 <v-stepper-step :complete="stepState > 3" step="3">
@@ -76,8 +70,14 @@
                 </v-stepper-step>
 
                 <v-stepper-content step="3">
-                <v-card color="grey lighten-5" class="mb-5"></v-card>
-                <v-btn color="primary" @click="stepState = 4">Continue</v-btn>
+                  <v-text-field
+                      label="Shop Name"
+                      hint="The name your shop is known as"
+                      v-model="stall.name"
+                  ></v-text-field>
+                  <p class="lighten-1">Let your customers know exactly where to find you within {{person.market}}.</p>
+                  <p class="lighten-1">If you allow geolocation, the marker appear at your current location, feel free to drag it to the right spot.</p>
+                  <v-btn color="primary" @click="$store.dispatch('showSingleStallMap', true)">Find Me</v-btn>   
                 </v-stepper-content>
 
                 <v-stepper-step step="4">View setup instructions</v-stepper-step>
@@ -86,7 +86,7 @@
                 <v-btn flat>Cancel</v-btn>
                 </v-stepper-content>
             </v-stepper>            
-
+            <stall-location/>
         </v-card>
       </v-dialog>
     </v-layout>
@@ -94,8 +94,10 @@
 
 
 <script>
+import StallLocation from '@/components/RegisterStall/StallLocation'
 export default {
   mounted() {
+    // this.stepState =
     this.$nextTick(() => {
       if (!this.$auth.isAuthenticated()) {
         this.stepState = 1;
@@ -133,14 +135,34 @@ export default {
         this.$store.dispatch("stepState", val);
       }
     },
-    person() {
-      return this.$store.getters.person;
+    person: {
+      get() {
+        return this.$store.getters.person;
+      },
+      set(val) {
+        // this.$store.dispatch("personFormData", val)
+      }
+    },
+    stall: {
+      get() {
+        return this.$store.getters.stall
+      },
+      set(val) {
+        this.$store.dispatch('stall', val)
+      }
     }
   },
   methods: {
     signup() {
       this.$auth.login();
+    },
+    gotBio(){
+      this.$store.dispatch("personFormData", this.person)
+      this.stepState = 3
     }
+  },
+  components: {
+    StallLocation
   }
 };
 </script>

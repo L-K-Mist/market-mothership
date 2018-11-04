@@ -18,18 +18,26 @@
 import apolloClient from '@/apollo'
 
 const state = {
-    showRegisterStall: false,
-    stepState: null,
-    person: {
-        loginDataReceived: false,
-        category: "stallHolder",
-        firstName: null,
-        lastName: null,
-        bio: null
-    }
-}
+  showRegisterStall: false,
+  stepState: null,
+  person: {
+    loginDataReceived: false,
+    category: "stallHolder",
+    firstName: null,
+    lastName: null,
+    bio: null
+  },
+  stall: {},
+  showSingleStallMap: false
+};
 
-const getters = {
+const getters = {    
+    showSingleStallMap(state) {
+        return state.showSingleStallMap
+    },
+    stall(state) {
+        return state.stall
+    },
     showRegisterStall(state) {
         return state.showRegisterStall
     },
@@ -41,7 +49,13 @@ const getters = {
     }
 }
 
-const mutations = {
+const mutations = {    
+    showSingleStallMap(state, payload) {
+        state.showSingleStallMap = payload
+    },
+    stall(state, payload) {
+        state.stall = payload
+    },
     showRegisterStall(state, payload) {
         state.showRegisterStall = payload
     },
@@ -52,13 +66,28 @@ const mutations = {
         console.log('TCL: ----------------------------------------------------');
     },
     person(state, payload) {
+        if(payload.email !== 'undefined' && payload.email !== state.person.email){
+            state.person.publicEmail = payload.email
+            delete payload.email
+        }
         state.person = Object.assign(state.person, payload)
         console.log('TCL: person -> state.person', state.person);
     }
 }
 
 const actions = {
-
+    showSingleStallMap({
+        state,
+        commit
+    }, payload) {
+        commit('showSingleStallMap', payload)
+    },
+    stall({
+        state,
+        commit
+    }, payload) {
+        commit('stall', payload)
+    },
     showRegisterStall({
         state,
         commit
@@ -75,15 +104,16 @@ const actions = {
 
     personFormData({
         commit
-    }, payload) {
+    }, payloadObj) {
 
+        commit('person', payloadObj)
     },
 
     personMarket({
         commit
-    }, payload) {
+    }, payloadVar) {
         var tempPerson = {
-            market: payload
+            market: payloadVar
         }
         commit('person', tempPerson)
     },
@@ -96,7 +126,7 @@ const actions = {
         var person = {}
         person.accessToken = payload.accessToken
         person.token = payload.token
-        person.picture = payload.user.picture
+        person.image = payload.user.picture
         person.email = payload.user.email
         if (payload.user.family_name !== 'undefined') {
             person.firstName = payload.user.given_name
@@ -106,7 +136,7 @@ const actions = {
         }
         person.loginDataReceived = true
         commit('person', person)
-    }
+    },
 };
 
 export default {
