@@ -3,31 +3,31 @@
       <v-card-title class="headline font-weight-light" primary-title>
           Flea Markets
       </v-card-title>
-      <v-flex xs10>
+
+      <!-- <v-flex xs10>
           <v-text-field
               label="Paste a Google Maps Link here"
               @change="scrapeLink"
               name="name"
               v-model="gmapLink"
           ></v-text-field>
-      </v-flex>
+      </v-flex> -->
       <v-card-text>
-          <l-map id="map" ref="MarketsMap" style="height: 70vh; max-width: 80vw" :zoom="map.zoom" :options="map.options"
+          <l-map id="map" ref="MarketsMap" style="height: 70vh; max-width: 98vw" :zoom="map.zoom" :options="map.options"
           :center="map.center" :min-zoom="map.minZoom" :max-zoom="map.maxZoom" >
-          <l-control-layers :position="map.layersPosition"/>
+          <l-control-scale position="bottomleft" :imperial="false" />
+          <l-control-layers :options="{position: map.layersPosition}" />
           <l-tile-layer v-for="(tileProvider, index) in tileProviders" :key="index"
               layerType="base" :name="tileProvider.name" :visible="tileProvider.visible"
-              :url="tileProvider.url" :attribution="tileProvider.attribution" :token="token"/>
-          <l-control-zoom :position="map.zoomPosition" />
-          <l-control-attribution :position="map.attributionPosition" :prefix="map.attributionPrefix" />
-          <l-control-scale :imperial="map.imperial" />
+              :url="tileProvider.url" :attribution="tileProvider.attribution"/>
+          <l-control-zoom position="bottomleft" />
+          <l-control-attribution position="bottomright" :prefix="map.attributionPrefix" />
           <l-layer-group v-for="item in stuff" :key="item.id" :visible="item.visible" >
               <l-layer-group :visible="item.markersVisible" >
-              <MarketsMapMarker
-                  v-for="(row, index) in mapData" :key="index"
-                  :position="row.gps"
+              <MarketsMapMarker 
+                  v-for="row in markets" :key="row.name"
+                  :position="{lat: row.lat, lng: row.lng}"
                   :text="row"
-                  
                   >
               </MarketsMapMarker>
               <!-- <l-marker v-for="(row, index) in visitData" :key="index"
@@ -78,17 +78,32 @@ export default {
     MarketsMapMarker
   },
   mounted() {
+    var markets = this.$store.getters.markets.map(function(market){
+      return {
+      ...market,
+        show : true
+      }
+    })
+    this.markets = markets
+      console.log('TCL: ------------------------------------------');
+      console.log('TCL: mounted -> markets', markets);
+      console.log('TCL: ------------------------------------------');
+
+
+    
+
     this.$nextTick(() => {
       this.mapObject = this.$refs.MarketsMap.mapObject; // work as expected
       console.log("TCL: mounted -> mapObject", this.mapObject);
-      var mapData = this.mapData;
-      console.log("TCL: mounted -> mapData", mapData);
     });
   },
   data() {
     return {
+      value: true,
+      markets: [],
       mapObject: null,
       gmapLink: null,
+      startCenter: { lng: 30.8021097164601, lat: -29.9852711241692 },
       map: {
         center: { lng: 30.8021097164601, lat: -29.9852711241692 },
         bounds: L.latLngBounds(
@@ -98,18 +113,11 @@ export default {
         options: { zoomControl: false, attributionControl: false },
         zoom: 10,
         minZoom: 1,
-        maxZoom: 20,
-        zoomPosition: "topleft",
-        attributionPosition: "bottomright",
-        layersPosition: "topright",
-        attributionPrefix: "Vue2Leaflet",
-        imperial: false
+        maxZoom: 19,
+        layersPosition: "bottomleft",
+        attributionPrefix: "Vue2Leaflet and What3Words... you ROCK!!!",
       },
-
       opacity: 0.6,
-      token: "your token if using mapbox",
-
-      Positions: ["topleft", "topright", "bottomleft", "bottomright"],
       tileProviders: tileProviders,
       stuff: [{ id: "s1", visible: true, markersVisible: true }]
     };
@@ -117,7 +125,12 @@ export default {
   computed: {
     mapData() {
       return this.$store.getters.mapData;
-    }
+    },
+    // markets() {
+      
+    //   return this.$store.getters.markets
+    // }
+
     // showMap() {
     //   return this.$store.getters.showMap;
     // }
@@ -130,7 +143,7 @@ export default {
       console.log("dispatched scrapeLink");
       this.$store.dispatch("scrapeLink", this.gmapLink);
       this.gmapLink = null;
-    }
+    },
   },
   watch: {
     mapData(newVal) {

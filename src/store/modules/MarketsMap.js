@@ -6,20 +6,20 @@ var gmapLinks = [
     "https: //www.google.co.za/maps/place/Victoria+Street+Market/@-29.8534589,30.8311078,11.25z/data=!4m8!1m2!2m1!1sflea+markets+south+africa!3m4!1s0x0:0x1358b517adb8f9f4!8m2!3d-29.8566867!4d31.0154772"
 ]
 
-
 import scrapeGmapLink from '@/helpers/scrapeGmapLink.js'
 import includes from 'lodash/includes';
 import getW3W from '@/helpers/getW3W.js'
 
-
-
-
-
 const state = {
     mapData: [],
+    markets: []
     // showMap: false
 }
+
 const getters = {
+    markets(state) {
+        return state.markets
+    },
     mapData(state) {
         return state.mapData
     },
@@ -29,7 +29,19 @@ const getters = {
 };
 
 const mutations = {
-
+    markets(state, payload) {
+        state.markets = payload
+        console.log('TCL: --------------------------------------------');
+        console.log('TCL: markets -> state.markets', state.markets);
+        console.log('TCL: --------------------------------------------');
+    },
+    newMarket(state, payload) {
+        state.markets.push(payload)
+        console.log('TCL: --------------------------------------------');
+        console.log('TCL: markets -> state.markets', state.markets);
+        console.log('TCL: --------------------------------------------');
+    },
+    
     mapData(state, payload) {
         var hasDuplicate = false
         state.mapData.forEach(element => {
@@ -49,7 +61,11 @@ const mutations = {
 }
 
 const actions = {
-
+    markets({
+        commit
+    }, payload) {
+        
+    },
     async scrapeLink({
         commit
     }, payload) {
@@ -65,7 +81,8 @@ const actions = {
     },
 
     rearrangeMapDataForPrisma({
-        state
+        state,
+        commit
     }) {
         var markets = state.mapData.map(function (el) {
             return {
@@ -76,6 +93,8 @@ const actions = {
             }
         })
         console.log('TCL: markets', JSON.stringify(markets));
+        commit('markets', markets)
+
     }
     // mapReportData({
     //     state,

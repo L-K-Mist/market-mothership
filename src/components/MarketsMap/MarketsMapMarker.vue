@@ -1,6 +1,6 @@
 <template>
-  <l-marker :lat-lng="position" :title="title" :draggable="false">
-    <l-popup :options="{minWidth: popupWidth}">
+  <l-marker :ref="'marker' + text.name" :lat-lng="position" :title="title" :draggable="false">
+    <l-popup  :ref="'popup' + text.name" :options="{maxWidth: popupWidth, closeButton: true}">
       <markets-popup-content :data="text"/>
     </l-popup>
   </l-marker>
@@ -12,6 +12,12 @@ import MarketsPopupContent from "@/components/MarketsMap/MarketsPopupContent";
 
 export default {
   name: "MarkerPopup",
+  mounted(){
+    var markerRefs = this.$refs
+    console.log('TCL: --------------------------------------');
+    console.log('TCL: mounted -> markerRefs', markerRefs);
+    console.log('TCL: --------------------------------------');
+  },
   components: {
     LMarker,
     LPopup,
@@ -22,9 +28,12 @@ export default {
     popupWidth() {
       switch (this.$vuetify.breakpoint.name) {
         case "xs":
-          return 220;
+          console.log('TCL: -------------------------');
+          console.log('TCL: popupWidth -> xs');
+          console.log('TCL: -------------------------');
+          return 250;
         case "sm":
-          return 300;
+          return 400;
         case "md":
           return 400;
         case "lg":

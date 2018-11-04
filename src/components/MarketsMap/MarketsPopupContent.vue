@@ -1,14 +1,14 @@
 <template>
   <div>
-    <h5 class="headline">
-        {{ data.market }} 
-    </h5>
-    <br>
-    <h6 class="title my-input">
-      Location Address (by <a :href="data.w3wMapLink" target="blank">what3words</a> ): {{ data.locWords }}
+    <h6 class="subheading">
+        {{ data.name }} 
     </h6>
-    <br>
-    <p>Are you a stall-holder with {{ data.market }}? Go on, put yourself on the MAP! </p>
+  
+    <p class="body-2 my-input">
+      Location Address (by <a :href="data.w3wMapLink" target="blank">what3words</a> ): <span style="color: blue">{{ data.w3w }}</span>
+    </p>
+  
+    <p>Are you a stall-holder with {{ data.name }}? Go on, put yourself on the MAP! </p>
     <v-btn @click="showDialog" block color="accent">Register Your Stall</v-btn>
     <v-img
       :src="`https://res.cloudinary.com/dylan-van-den-bosch/image/upload/w_auto,h_400/FoodStall_msltmd.jpg`"
@@ -31,6 +31,13 @@
 <script>
 export default {
   name: "PopupContent",
+  mounted(){
+    // Didn't work gonna have to get into leaflet refs
+    // var openPopup = this.data.name
+    // console.log('TCL: ------------------------------------');
+    // console.log('TCL: mounted -> openPopup', openPopup);
+    // console.log('TCL: ------------------------------------');
+  },
   props: {
     data: {
       type: Object,
@@ -45,7 +52,7 @@ export default {
   },
   methods: {
     showDialog() {
-      this.$store.dispatch("personMarket", this.data.market);
+      this.$store.dispatch("personMarket", this.data.name);
       this.$store.dispatch("showRegisterStall", true);
     }
   }

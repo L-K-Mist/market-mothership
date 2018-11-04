@@ -86,7 +86,7 @@
                 <v-btn flat>Cancel</v-btn>
                 </v-stepper-content>
             </v-stepper>            
-            <stall-location/>
+            <!-- <stall-location/> -->
         </v-card>
       </v-dialog>
     </v-layout>
