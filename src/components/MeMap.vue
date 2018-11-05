@@ -1,11 +1,12 @@
 <template>
   <v-card>
       <v-card-title class="headline font-weight-light" primary-title>
-          Flea Markets
+          Mark My Stall
       </v-card-title>
       <v-card-text>
-          <l-map id="map" ref="MarketsMap" style="height: 70vh; max-width: 98vw" :zoom="map.zoom" :options="map.options"
-          :center="map.center" :min-zoom="map.minZoom" :max-zoom="map.maxZoom" >
+          <l-map id="map" ref="MeMap" style="height: 70vh; max-width: 98vw" :zoom="map.zoom" :options="map.options"
+          :center="map.center" :min-zoom="map.minZoom" :max-zoom="map.maxZoom" 
+          @locationfound="onLocataionFound($event)">
           <l-control-scale position="bottomleft" :imperial="false" />
           <l-control-layers :options="{position: map.layersPosition}" />
           <l-tile-layer v-for="(tileProvider, index) in tileProviders" :key="index"
@@ -13,14 +14,13 @@
               :url="tileProvider.url" :attribution="tileProvider.attribution"/>
           <l-control-zoom position="bottomleft" />
           <l-control-attribution position="bottomright" :prefix="map.attributionPrefix" />
-          <l-layer-group v-for="item in stuff" :key="item.id" :visible="item.visible" >
-              <l-layer-group :visible="item.markersVisible" >
-              <MarketsMapMarker 
-                  v-for="row in markets" :key="row.name"
-                  :position="{lat: row.lat, lng: row.lng}"
-                  :text="row"/>
-              </l-layer-group>
-          </l-layer-group>
+                <l-marker v-if="me.marker"
+                  :ref="'MeMarker'" :lat-lng="me.marker.position" title="My Position" :draggable="true">
+                </l-marker>
+                <l-circle v-if="meCircle" :lat-lng="meCircle.coords"
+                    :radius="meCircle.radius"
+                    :opacity=".2"
+                />
           </l-map>  
       </v-card-text>
   </v-card>
@@ -30,14 +30,14 @@
 import {
   LMap,
   LTileLayer,
-  LLayerGroup,
   LTooltip,
+  LMarker,
+  LCircle,
   LControlZoom,
   LControlAttribution,
   LControlScale,
   LControlLayers
 } from "vue2-leaflet";
-import MarketsMapMarker from "@/components/MarketsMap/MarketsMapMarker";
 import Glyph from "leaflet.icon.glyph";
 import "leaflet/dist/leaflet.css";
 import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.webpack.css";
@@ -55,44 +55,28 @@ export default {
   components: {
     LMap,
     LTileLayer,
-    LLayerGroup,
     LTooltip,
+    LMarker,
+    LCircle,
     LControlZoom,
     LControlAttribution,
     LControlScale,
     LControlLayers,
-    MarketsMapMarker
   },
   mounted() {
-    var markets = this.$store.getters.markets.map(function(market){
-      return {
-      ...market,
-        show : true
-      }
-    })
-    this.markets = markets
-      console.log('TCL: ------------------------------------------');
-      console.log('TCL: mounted -> markets', markets);
-      console.log('TCL: ------------------------------------------');
 
     this.$nextTick(() => {
-      this.mapObject = this.$refs.MarketsMap.mapObject; // work as expected
-      console.log("TCL: mounted -> mapObject", this.mapObject);
+      this.map = this.$refs.MeMap.map;
     });
   },
   data() {
     return {
-      value: true,
-      markets: [],
-      mapObject: null,
-      gmapLink: null,
+      meMarker: [],
+      meCircle: null,
+      map: null,
       startCenter: { lng: 30.8021097164601, lat: -29.9852711241692 },
       map: {
         center: { lng: 30.8021097164601, lat: -29.9852711241692 },
-        bounds: L.latLngBounds(
-          { lat: 46.573931908971865, lng: -4.757080078125001 },
-          { lat: 48.850224803672056, lng: 4.603271484375001 }
-        ),
         options: { zoomControl: false, attributionControl: false },
         zoom: 10,
         minZoom: 1,
@@ -106,28 +90,29 @@ export default {
     };
   },
   computed: {
-    mapData() {
-      return this.$store.getters.mapData;
-    },
+
   },
   methods: {
-    alert(item) {
-      alert("this is " + JSON.stringify(item));
-    },
-    scrapeLink(e) {
-      console.log("dispatched scrapeLink");
-      this.$store.dispatch("scrapeLink", this.gmapLink);
-      this.gmapLink = null;
-    },
     findMe() {
-      this.mapObject.locate({setView: true, maxZoom: 16});
-
+      this.map.locate({setView: true, maxZoom: 16});
     },
+    onLocataionFound(e){
+    console.log('TCL: -----------------------------------------------------------');
+    console.log('TCL: onLocataionFound -> onLocataionFound', e.accuracy);
+    console.log('TCL: -----------------------------------------------------------');
+        var radius = e.accuracy / 2;
+            const newMarker = { position: e.latlng, draggable: true, visible: true };
+      this.meMarker.push(newMarker);
+    // L.marker(e.latlng).addTo(map)
+    //     .bindPopup("You are within " + radius + " meters from this point").openPopup();
+      this.meCircle = {
+        coords: e.latlng,
+        radius
+      }    
+    }
   },
   watch: {
-    mapData(newVal) {
-      console.log("TCL: mapData -> newVal", newVal);
-    }
+
   }
 };
 </script>
