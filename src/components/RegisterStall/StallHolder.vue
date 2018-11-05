@@ -19,7 +19,7 @@
             <v-text-field
                 label="Email"
                 hint="Choose the email address you want use for customer interaction"
-                v-model="person.email"
+                v-model="publicEmail"
             ></v-text-field>
             <v-text-field multi-line
                 label="Bio"
@@ -27,21 +27,39 @@
                 v-model="person.bio"
             ></v-text-field>                       
         </v-flex>
-        <v-btn color="primary" @click="$emit('gotBio', person)">Continue</v-btn>
+        <v-btn color="primary" @click="setPublicEmail()">Continue</v-btn>
     </div>
 </template>
 <script>
 export default {
+  mounted() {
+    this.publicEmail = this.$store.getters.person.email;
+  },
+  data() {
+    return {
+      publicEmail: ""
+    };
+  },
   computed: {
     person: {
       get() {
         return this.$store.getters.person;
-      },
-      set(val) {
-        // this.$store.dispatch("personFormData", val)
       }
+      //   publicEmail() {
+      //     return this.person.email;
+      //   }
+      //   set(val) {
+      //     // this.$store.dispatch("personFormData", val)
+      //   }
     }
   },
-  methods: {}
+  methods: {
+    setPublicEmail() {
+      // Want email to stay Auth0 email even though user might choose a different one here in the bio for actual contact
+      var person = this.person;
+      person.publicEmail = this.publicEmail;
+      this.$emit("gotBio", person);
+    }
+  }
 };
 </script>

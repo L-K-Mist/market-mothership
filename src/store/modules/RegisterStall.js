@@ -18,20 +18,20 @@
 import apolloClient from '@/apollo'
 
 const state = {
-  showRegisterStall: false,
-  stepState: null,
-  person: {
-    loginDataReceived: false,
-    category: "stallHolder",
-    firstName: null,
-    lastName: null,
-    bio: null
-  },
-  stall: {},
-  showSingleStallMap: false
+    showRegisterStall: false,
+    stepState: null,
+    person: {
+        loginDataReceived: false,
+        category: "stallHolder",
+        firstName: null,
+        lastName: null,
+        bio: null
+    },
+    stall: {},
+    showSingleStallMap: false
 };
 
-const getters = {    
+const getters = {
     showSingleStallMap(state) {
         return state.showSingleStallMap
     },
@@ -49,7 +49,7 @@ const getters = {
     }
 }
 
-const mutations = {    
+const mutations = {
     showSingleStallMap(state, payload) {
         state.showSingleStallMap = payload
     },
@@ -66,13 +66,19 @@ const mutations = {
         console.log('TCL: ----------------------------------------------------');
     },
     person(state, payload) {
-        if(payload.email !== 'undefined' && payload.email !== state.person.email){
-            state.person.publicEmail = payload.email
-            delete payload.email
-        }
+        // if (payload.email !== state.person.email) {
+        //     state.person.publicEmail = payload.email
+        //     delete payload.email
+        //     console.log('TCL: person -> payload', payload);
+
+        //     state.person = Object.assign(state.person, payload)
+        // } else {
+        //     state.person = Object.assign(state.person, payload)
+        // }
         state.person = Object.assign(state.person, payload)
         console.log('TCL: person -> state.person', state.person);
     }
+
 }
 
 const actions = {
