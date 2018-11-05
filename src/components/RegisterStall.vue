@@ -34,34 +34,7 @@
                     <small v-else>Let your potential customers get to know you better</small>
                 </v-stepper-step>
                 <v-stepper-content step="2">
-                        <v-flex v-if="person.loginDataReceived" xs12>
-                            <v-avatar
-                            size="38px"
-                            color="grey lighten-4">
-                                <img :src="person.image">
-                            </v-avatar>
-                            <v-text-field
-                                label="First Name"
-                                hint="The name you're best known by."
-                                v-model="person.firstName"
-                            ></v-text-field>     
-                            <v-text-field
-                                label="Last Name"
-                                hint="Yip, AKA Surname."
-                                v-model="person.lastName"
-                            ></v-text-field>   
-                            <v-text-field
-                                label="Email"
-                                hint="Choose the email address you want use for customer interaction"
-                                v-model="person.email"
-                            ></v-text-field>
-                            <v-text-field multi-line
-                                label="Bio"
-                                hint="If you knew me well, you'd know..."
-                                v-model="person.bio"
-                            ></v-text-field>                       
-                        </v-flex>
-                <v-btn color="primary" @click="gotBio()">Continue</v-btn>
+                  <stall-holder @gotBio="gotBio(person)"></stall-holder>
                 </v-stepper-content>
 
                 <v-stepper-step :complete="stepState > 3" step="3">
@@ -77,7 +50,45 @@
                   ></v-text-field>
                   <p class="lighten-1">Let your customers know exactly where to find you within {{person.market}}.</p>
                   <p class="lighten-1">If you allow geolocation, the marker appear at your current location, feel free to drag it to the right spot.</p>
-                  <v-btn color="primary" @click="$store.dispatch('showSingleStallMap', true)">Find Me</v-btn>   
+                  <v-dialog v-if="stepState === 3"
+                    v-model="locDialog"
+                    width="500"
+                  >
+                    <v-btn
+                      slot="activator"
+                      color="primary"
+                      dark
+                    >
+                      Click Me
+                    </v-btn>
+              
+                    <v-card>
+                      <v-card-title
+                        class="headline grey lighten-2"
+                        primary-title
+                      >
+                        Privacy Policy
+                      </v-card-title>
+              
+                      <v-card-text>
+                        <me-map v-if="locDialog"></me-map>
+                      </v-card-text>
+              
+                      <v-divider></v-divider>
+              
+                      <v-card-actions>
+                        <v-spacer></v-spacer>
+                        <v-btn
+                          color="primary"
+                          flat
+                          @click="dialog = false"
+                        >
+                          I accept
+                        </v-btn>
+                      </v-card-actions>
+                    </v-card>
+                  </v-dialog>                  
+
                 </v-stepper-content>
 
                 <v-stepper-step step="4">View setup instructions</v-stepper-step>
@@ -94,7 +105,9 @@
 
 
 <script>
-import StallLocation from '@/components/RegisterStall/StallLocation'
+import StallHolder from "@/components/RegisterStall/StallHolder";
+import StallLocation from "@/components/RegisterStall/StallLocation";
+import MeMap from "@/components/MeMap";
 export default {
   mounted() {
     // this.stepState =
@@ -110,11 +123,11 @@ export default {
       }
     });
   },
-  // data() {
-  //     return {
-  //         // stepState: 1
-  //     }
-  // },
+  data() {
+    return {
+      locDialog: false
+    };
+  },
   computed: {
     dialog: {
       get() {
@@ -135,37 +148,35 @@ export default {
         this.$store.dispatch("stepState", val);
       }
     },
-    person: {
-      get() {
-        return this.$store.getters.person;
-      },
-      set(val) {
-        // this.$store.dispatch("personFormData", val)
-      }
-    },
     stall: {
       get() {
-        return this.$store.getters.stall
+        return this.$store.getters.stall;
       },
       set(val) {
-        this.$store.dispatch('stall', val)
+        this.$store.dispatch("stall", val);
       }
+    },
+    person() {
+      return this.$store.getters.person;
     }
   },
   methods: {
     signup() {
       this.$auth.login();
     },
-    gotBio(){
-      this.$store.dispatch("personFormData", this.person)
-      this.stepState = 3
+    gotBio(person) {
+      this.stepState = 3;
+      this.$store.dispatch("personFormData", person);
     }
   },
   components: {
-    StallLocation
+    StallLocation,
+    StallHolder,
+    MeMap
   }
 };
 </script>
+
   mounted() {
     this.$auth.handleAuthentication().then((data) => {
       this.$router.push({ name: 'home' })
