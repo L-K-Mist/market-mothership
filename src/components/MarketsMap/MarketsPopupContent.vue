@@ -31,7 +31,7 @@
 <script>
 export default {
   name: "PopupContent",
-  mounted(){
+  mounted() {
     // Didn't work gonna have to get into leaflet refs
     // var openPopup = this.data.name
     // console.log('TCL: ------------------------------------');
@@ -53,7 +53,10 @@ export default {
   methods: {
     showDialog() {
       this.$store.dispatch("personMarket", this.data.name);
-      this.$store.dispatch("showRegisterStall", true);
+      this.$store.dispatch("showRegisterStall", {
+        show: true,
+        forMarket: this.data.name
+      });
     }
   }
 };

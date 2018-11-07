@@ -10,21 +10,21 @@
             <v-toolbar-title>Register Yourself and Your Shop</v-toolbar-title>
             <v-spacer></v-spacer>
             <v-toolbar-items>
-              <v-btn dark flat @click.native="dialog = false">Save</v-btn>
+              <!-- <v-btn dark flat >Save</v-btn> -->
             </v-toolbar-items>
           </v-toolbar>
           
             <v-stepper v-model="stepState" vertical>
                 <v-stepper-step :complete="$auth.isAuthenticated()" step="1">
-                Signup
-                <small>Signup with Google or Manually</small>
+                Login
+                <small>Login with Google or Manually (Google method means less typing for you.)</small>
                 </v-stepper-step>
                     <v-stepper-content step="1">
 
                         <v-card class="mb-5"></v-card>
-                        <v-btn v-if="!signedIn" @click="signup()"  color="secondary">Sign Up</v-btn>
-                        <v-btn color="accent" @click="stepState = 2">Continue</v-btn>
-                        <v-btn flat>Cancel</v-btn>
+                        <v-btn v-if="!signedIn" @click="signup()"  color="primary">Log In</v-btn>
+                        <!-- <v-btn color="accent" @click="stepState = 2">Continue</v-btn>
+                        <v-btn flat>Cancel</v-btn> -->
 
                     </v-stepper-content>
 
@@ -47,9 +47,22 @@
                       label="Shop Name"
                       hint="The name your shop is known as"
                       v-model="stall.name"
+                      @input="person.market = stall.name"
                   ></v-text-field>
-                  <p class="lighten-1">Let your customers know exactly where to find you within {{person.market}}.</p>
-                  <p class="lighten-1">If you allow geolocation, the marker appear at your current location, feel free to drag it to the right spot.</p>
+                  <p>
+                    We know you might be active at more than one flea market, but for now, we are only allowing one shop per person.
+                  </p>
+                  <p>
+                    Therefore, if {{$store.getters.currentMarket}} is not your "home base" flea market, please choose from below.
+                    If none of your markets are represented, please contact us!
+                  </p> 
+                  <v-select
+                    :items="markets"
+                    label="Current Participating Markets"
+                    v-model="mainMarket"
+                  ></v-select>
+                  <p class="lighten-1">Let your customers know exactly where to find you within the market.</p>
+                  <p class="lighten-1">If you allow geolocation, the marker will appear at your current location, feel free to drag it to the right spot.</p>
                   <v-dialog v-if="stepState === 3"
                     v-model="locDialog"
                     width="500"
@@ -59,42 +72,38 @@
                       color="primary"
                       dark
                     >
-                      Click Me
+                      Find Me
                     </v-btn>
-              
-                    <v-card>
-                      <v-card-title
-                        class="headline grey lighten-2"
-                        primary-title
-                      >
-                        Privacy Policy
-                      </v-card-title>
-              
-                      <v-card-text>
-                        <me-map v-if="locDialog"></me-map>
-                      </v-card-text>
-              
-                      <v-divider></v-divider>
-              
-                      <v-card-actions>
-                        <v-spacer></v-spacer>
-                        <v-btn
-                          color="primary"
-                          flat
-                          @click="dialog = false"
-                        >
-                          I accept
-                        </v-btn>
-                      </v-card-actions>
-                    </v-card>
-                  </v-dialog>                  
-
+                    <me-map v-if="locDialog" @done="gotLoc"></me-map>
+                  </v-dialog>
+                  <p>Your shop's world-wide  <a :href="stall.w3w.w3wMapLink">What3Words</a> address is: <strong>{{stall.w3w.words}}</strong></p>   
+                  <p>How about a picture of you doing your thing! (You can also add this later if you want)</p>
+                  <v-layout row>
+                    <v-cloudinary-upload 
+                      buttonColor="primary"
+                      button-icon="fa-camera"
+                      v-model="stallImageId"
+                      :upload-preset="cloudinary.preset"
+                      :cloud-name="cloudinary.name"
+                      @input="gotImageSource"
+                    />
+                    <v-icon v-if="stallImageId" @click="deleteImage">fa-times-circle</v-icon>
+                  </v-layout>
+                  <!-- <img
+                    v-if="stall.image"
+                    :src="stall.image" />   -->
+                  <v-text-field
+                      multi-line
+                      label="Description"
+                      hint="Your shop in general terms (indivdual product descriptions come later)"
+                      v-model="stall.description"
+                  ></v-text-field>               
+                  <v-btn color="accent" @click="gotStall">Continue</v-btn>
                 </v-stepper-content>
-
                 <v-stepper-step step="4">View setup instructions</v-stepper-step>
                 <v-stepper-content step="4">
                 <v-card color="grey lighten-5" class="mb-5"></v-card>
-                <v-btn flat>Cancel</v-btn>
+                <v-btn flat @click.native="dialog = false">Cancel</v-btn>
                 </v-stepper-content>
             </v-stepper>            
             <!-- <stall-location/> -->
@@ -103,11 +112,13 @@
     </v-layout>
 </template>
 
-
 <script>
 import StallHolder from "@/components/RegisterStall/StallHolder";
 import StallLocation from "@/components/RegisterStall/StallLocation";
 import MeMap from "@/components/MeMap";
+import vuetifyCloudinaryUpload from "vuetify-cloudinary-upload";
+import srcForCloudinary from "@/helpers/srcForCloudinary.js";
+
 export default {
   mounted() {
     // this.stepState =
@@ -125,7 +136,13 @@ export default {
   },
   data() {
     return {
-      locDialog: false
+      stallImageId: null,
+      locDialog: false,
+      cloudinary: {
+        name: "dylan-van-den-bosch",
+        preset: "gi9lyrb6"
+      },
+      mainMarket: null
     };
   },
   computed: {
@@ -158,6 +175,12 @@ export default {
     },
     person() {
       return this.$store.getters.person;
+    },
+    markets() {
+      var marketArray = this.$store.getters.markets.map(function(market) {
+        return market.name;
+      });
+      return marketArray;
     }
   },
   methods: {
@@ -167,15 +190,45 @@ export default {
     gotBio(person) {
       this.stepState = 3;
       this.$store.dispatch("personFormData", person);
+    },
+    gotImageSource(e) {
+      console.log("TCL: gotImageSource -> e", e);
+      const src = srcForCloudinary(this.cloudinary.name, e);
+      console.log("TCL: gotImageSource -> src", src);
+      this.stall.image = src;
+    },
+    gotLoc(locData) {
+      this.stall.lat = locData.lat;
+      this.stall.lng = locData.lng;
+      this.stall.w3w = locData.w3w;
+      this.locDialog = false;
+      this.$store.dispatch("stall", this.stall);
+    },
+    gotStall() {
+      this.stall.markets = [];
+      this.stall.markets[0] = mainMarket;
+      this.$store.dispatch("stall", this.stall);
+      this.stepState = 4;
+    },
+    deleteImage() {
+      this.stallImageId = null;
     }
   },
   components: {
     StallLocation,
     StallHolder,
-    MeMap
+    MeMap,
+    "v-cloudinary-upload": vuetifyCloudinaryUpload
   }
 };
 </script>
+
+<style>
+img {
+  max-width: 80vw;
+}
+</style>
+
 
   mounted() {
     this.$auth.handleAuthentication().then((data) => {

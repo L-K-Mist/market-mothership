@@ -15,7 +15,12 @@
                 label="Last Name"
                 hint="Yip, AKA Surname."
                 v-model="person.lastName"
-            ></v-text-field>   
+            ></v-text-field>
+            <v-text-field
+                label="Cell"
+                hint="Optional, but nice for business"
+                v-model="person.cell"
+            ></v-text-field>               
             <v-text-field
                 label="Email"
                 hint="Choose the email address you want use for customer interaction"
@@ -25,7 +30,8 @@
                 label="Bio"
                 hint="If you knew me well, you'd know..."
                 v-model="person.bio"
-            ></v-text-field>                       
+            ></v-text-field>
+                                
         </v-flex>
         <v-btn color="primary" @click="setPublicEmail()">Continue</v-btn>
     </div>

@@ -28,10 +28,14 @@ const state = {
         bio: null
     },
     stall: {},
-    showSingleStallMap: false
+    showSingleStallMap: false,
+    currentMarket: null
 };
 
 const getters = {
+    currentMarket(state) {
+        return state.currentMarket
+    },
     showSingleStallMap(state) {
         return state.showSingleStallMap
     },
@@ -54,6 +58,7 @@ const mutations = {
         state.showSingleStallMap = payload
     },
     stall(state, payload) {
+        console.log('TCL: stall -> state.stall', state.stall);
         state.stall = payload
     },
     showRegisterStall(state, payload) {
@@ -98,7 +103,8 @@ const actions = {
         state,
         commit
     }, payload) {
-        commit('showRegisterStall', payload)
+        state.currentMarket = payload.forMarket
+        commit('showRegisterStall', payload.show)
     },
 
     stepState({
