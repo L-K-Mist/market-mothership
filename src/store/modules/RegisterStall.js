@@ -15,7 +15,9 @@
  * }
  */
 
-import apolloClient from '@/apollo'
+import apollo from '@/apollo'
+import gql from 'graphql-tag'
+
 
 const state = {
     showRegisterStall: false,
@@ -149,6 +151,42 @@ const actions = {
         person.loginDataReceived = true
         commit('person', person)
     },
+
+    async saveStallHolder({
+        state
+    }) {
+        const person = state.person
+        const stall = state.stall
+        console.log('TCL: stall', stall);
+        const response = await apollo.mutate({
+            mutation: gql `
+                mutation addStallHolder($newStallHolder: NewStallHolderInput!){
+                    addStallHolder(newStallHolder: $newStallHolder) {
+                        id
+                        stall {
+                            id
+                        }
+                    }
+                }
+            `,
+            variables: {
+                newStallHolder: {
+                    image: person.image,
+                    publicEmail: person.publicEmail,
+                    bio: person.bio,
+                    stall_name: stall.name,
+                    stall_image: stall.image,
+                    stall_lat: stall.lat,
+                    stall_lng: stall.lng,
+                    stall_w3w: stall.w3w.words,
+                    stall_description: stall.description,
+                    market_name: "The Dutch Club Fleamarket",
+                }
+            }
+
+        })
+        console.log('TCL: response', response);
+    }
 };
 
 export default {

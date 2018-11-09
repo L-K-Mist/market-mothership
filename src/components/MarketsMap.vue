@@ -64,16 +64,16 @@ export default {
     MarketsMapMarker
   },
   mounted() {
-    var markets = this.$store.getters.markets.map(function(market){
+    var markets = this.$store.getters.markets.map(function(market) {
       return {
-      ...market,
-        show : true
-      }
-    })
-    this.markets = markets
-      console.log('TCL: ------------------------------------------');
-      console.log('TCL: mounted -> markets', markets);
-      console.log('TCL: ------------------------------------------');
+        ...market,
+        show: true
+      };
+    });
+    this.markets = markets;
+    console.log("TCL: ------------------------------------------");
+    console.log("TCL: mounted -> markets", JSON.stringify(markets));
+    console.log("TCL: ------------------------------------------");
 
     this.$nextTick(() => {
       this.mapObject = this.$refs.MarketsMap.mapObject; // work as expected
@@ -98,7 +98,7 @@ export default {
         minZoom: 1,
         maxZoom: 19,
         layersPosition: "bottomleft",
-        attributionPrefix: "Vue2Leaflet and What3Words... you ROCK!!!",
+        attributionPrefix: "Vue2Leaflet and What3Words... you ROCK!!!"
       },
       opacity: 0.6,
       tileProviders: tileProviders,
@@ -108,7 +108,7 @@ export default {
   computed: {
     mapData() {
       return this.$store.getters.mapData;
-    },
+    }
   },
   methods: {
     alert(item) {
@@ -120,9 +120,8 @@ export default {
       this.gmapLink = null;
     },
     findMe() {
-      this.mapObject.locate({setView: true, maxZoom: 16});
-
-    },
+      this.mapObject.locate({ setView: true, maxZoom: 16 });
+    }
   },
   watch: {
     mapData(newVal) {
@@ -134,7 +133,7 @@ export default {
 
 <style>
 #map {
-    z-index: 1;
+  z-index: 1;
 }
 
 /* .ui-dialog {

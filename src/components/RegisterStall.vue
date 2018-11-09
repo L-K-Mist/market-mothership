@@ -183,6 +183,9 @@ export default {
       return marketArray;
     }
   },
+
+  //Note the w3w link struct: http://w3w.co/various.deform.restriction
+
   methods: {
     signup() {
       this.$auth.login();
@@ -206,10 +209,12 @@ export default {
     },
     gotStall() {
       this.stall.markets = [];
-      this.stall.markets[0] = mainMarket;
+      this.stall.markets[0] = this.mainMarket;
       this.$store.dispatch("stall", this.stall);
+      this.$store.dispatch("saveStallHolder");
       this.stepState = 4;
     },
+
     deleteImage() {
       this.stallImageId = null;
     }

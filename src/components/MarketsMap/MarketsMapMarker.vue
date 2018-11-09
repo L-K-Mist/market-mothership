@@ -12,11 +12,11 @@ import MarketsPopupContent from "@/components/MarketsMap/MarketsPopupContent";
 
 export default {
   name: "MarkerPopup",
-  mounted(){
-    var markerRefs = this.$refs
-    console.log('TCL: --------------------------------------');
-    console.log('TCL: mounted -> markerRefs', markerRefs);
-    console.log('TCL: --------------------------------------');
+  mounted() {
+    var markerRefs = this.$refs;
+    console.log("TCL: --------------------------------------");
+    console.log("TCL: mounted -> markerRefs", markerRefs);
+    console.log("TCL: --------------------------------------");
   },
   components: {
     LMarker,
@@ -28,9 +28,9 @@ export default {
     popupWidth() {
       switch (this.$vuetify.breakpoint.name) {
         case "xs":
-          console.log('TCL: -------------------------');
-          console.log('TCL: popupWidth -> xs');
-          console.log('TCL: -------------------------');
+          // console.log('TCL: -------------------------');
+          // console.log('TCL: popupWidth -> xs');
+          // console.log('TCL: -------------------------');
           return 250;
         case "sm":
           return 400;
@@ -45,9 +45,9 @@ export default {
   },
   watch: {
     popupWidth(newVal) {
-      console.log("TCL: ---------------------------------");
-      console.log("TCL: popupWidth -> newVal", newVal);
-      console.log("TCL: ---------------------------------");
+      // console.log("TCL: ---------------------------------");
+      // console.log("TCL: popupWidth -> newVal", newVal);
+      // console.log("TCL: ---------------------------------");
     }
   }
 };
