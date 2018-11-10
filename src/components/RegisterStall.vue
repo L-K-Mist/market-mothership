@@ -76,7 +76,7 @@
                     </v-btn>
                     <me-map v-if="locDialog" @done="gotLoc"></me-map>
                   </v-dialog>
-                  <p>Your shop's world-wide  <a :href="stall.w3w.w3wMapLink">What3Words</a> address is: <strong>{{stall.w3w.words}}</strong></p>   
+                  <!-- <p v-if="stall.w3w !== 'undefined'">Your shop's world-wide  <a :href="`http://w3w.co/${stall.w3w.words}`">What3Words</a> address is: <strong>{{stall.w3w.words}}</strong></p>    -->
                   <p>How about a picture of you doing your thing! (You can also add this later if you want)</p>
                   <v-layout row>
                     <v-cloudinary-upload 

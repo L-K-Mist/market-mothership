@@ -24,7 +24,7 @@ const state = {
     stepState: null,
     person: {
         loginDataReceived: false,
-        category: "stallHolder",
+        role: "StallHolder",
         firstName: null,
         lastName: null,
         bio: null
