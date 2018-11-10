@@ -160,8 +160,30 @@ const actions = {
         console.log('TCL: stall', stall);
         const response = await apollo.mutate({
             mutation: gql `
-                mutation addStallHolder($newStallHolder: NewStallHolderInput!){
-                    addStallHolder(newStallHolder: $newStallHolder) {
+                mutation addStallHolder(
+                        $image: String
+                        $publicEmail: String
+                        $bio: String
+                        $stall_name: String!
+                        $stall_image: String
+                        $stall_lat: Float
+                        $stall_lng: Float
+                        $stall_w3w: String
+                        $stall_description: String
+                        $market_name: String
+                ){
+                    addStallHolder(
+                        image:$image, 
+                        publicEmail:$publicEmail, 
+                        bio:$bio, 
+                        stall_name:$stall_name, 
+                        stall_image:$stall_image, 
+                        stall_lat:$stall_lat, 
+                        stall_lng:$stall_lng, 
+                        stall_w3w:$stall_w3w, 
+                        stall_description:$stall_description, 
+                        market_name:$market_name 
+                    ) {
                         id
                         stall {
                             id
@@ -174,7 +196,7 @@ const actions = {
                     image: person.image,
                     publicEmail: person.publicEmail,
                     bio: person.bio,
-                    stall_name: stall.name,
+                    stall_name: "Troublesome Name",
                     stall_image: stall.image,
                     stall_lat: stall.lat,
                     stall_lng: stall.lng,
