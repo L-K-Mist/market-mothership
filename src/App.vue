@@ -50,6 +50,11 @@
 
 <script>
 export default {
+  mounted(){
+    if(this.$auth.isAuthenticated) {
+      this.$auth.authorizeUser
+    }
+  },
   data: () => ({
     drawer: null
   }),
@@ -61,7 +66,7 @@ export default {
       this.$auth.logout();
     },
     rearrangeMapDataForPrisma() {
-      this.$store.dispatch("rearrangeMapDataForPrisma");
+      this.$store.dispatch("fetchMarkets");
     }
   }
 };

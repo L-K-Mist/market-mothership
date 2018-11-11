@@ -109,8 +109,9 @@
       </v-dialog>
     </v-layout>
 </template>
-
 <script>
+// TODO: Think about incorporating whatsapp for Business https://www.whatsapp.com/business/
+// click to chat https://wa.me/<number>
 import StallHolder from "@/components/RegisterStall/StallHolder";
 import StallLocation from "@/components/RegisterStall/StallLocation";
 import MeMap from "@/components/MeMap";

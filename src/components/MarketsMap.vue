@@ -64,16 +64,7 @@ export default {
     MarketsMapMarker
   },
   mounted() {
-    var markets = this.$store.getters.markets.map(function(market) {
-      return {
-        ...market,
-        show: true
-      };
-    });
-    this.markets = markets;
-    console.log("TCL: ------------------------------------------");
-    console.log("TCL: mounted -> markets", JSON.stringify(markets));
-    console.log("TCL: ------------------------------------------");
+    this.$store.dispatch('fetchMarkets')
 
     this.$nextTick(() => {
       this.mapObject = this.$refs.MarketsMap.mapObject; // work as expected
@@ -83,7 +74,7 @@ export default {
   data() {
     return {
       value: true,
-      markets: [],
+      // markets: [],
       mapObject: null,
       gmapLink: null,
       startCenter: { lng: 30.8021097164601, lat: -29.9852711241692 },
@@ -106,8 +97,15 @@ export default {
     };
   },
   computed: {
-    mapData() {
-      return this.$store.getters.mapData;
+    markets() {
+    var markets = this.$store.getters.markets.map(function(market) {
+      return {
+        ...market,
+        show: true
+      };
+    });
+
+      return markets
     }
   },
   methods: {

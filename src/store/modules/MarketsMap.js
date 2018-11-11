@@ -9,6 +9,8 @@ var gmapLinks = [
 import scrapeGmapLink from '@/helpers/scrapeGmapLink.js'
 import includes from 'lodash/includes';
 import getW3W from '@/helpers/getW3W.js'
+import apollo from "@/apollo";
+import gql from "graphql-tag";
 
 const state = {
     mapData: [],
@@ -61,9 +63,23 @@ const mutations = {
 }
 
 const actions = {
-    markets({
+    async fetchMarkets({
         commit
     }, payload) {
+        const result = await apollo.query({
+            query: gql`
+            {
+                markets{
+                    name
+                    lat
+                    lng
+                    w3w
+                    image
+                }
+            }
+            `
+        })
+        commit('markets', result.data.markets)
         
     },
     async scrapeLink({
