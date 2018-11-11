@@ -7,10 +7,14 @@ const AUTHORIZE = gql `
     mutation authorize($email: String!, $authId: String!, $name: String!) {
         authorize(email: $email, authId: $authId, name: $name) {
             token
-            user {
-                id
-                name
-                email
+            user{
+            id
+            name
+            publicEmail
+            publicName
+            bio
+            image
+            role
             }
         }
     }
@@ -35,6 +39,11 @@ let webAuth = new auth0.WebAuth({
 });
 
 let auth = new Vue({
+    data() {
+        return {
+            isPrismaConnected: false
+        }
+    },
     computed: {
         token: {
             get: function () {
@@ -105,7 +114,11 @@ let auth = new Vue({
             })
             console.log('TCL: asyncauthorizeUser -> response', response.data.authorize.token);
             localStorage.setItem('prisma_token', response.data.authorize.token)
-
+            this.isPrismaConnected = true
+			console.log("​-----------------------------------------------------")
+			console.log("​authorizeUser -> isPrismaConnected", this.isPrismaConnected)
+			console.log("​-----------------------------------------------------")
+            return response
         },
 
         isAuthenticated() {

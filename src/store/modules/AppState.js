@@ -1,10 +1,14 @@
 const state = {
-    hasStall: false
+    hasStall: false,
+    activeUser: null
 }
 
 const getters = {
     hasStall(state) {
         return state.hasStall
+    },
+        activeUser(state) {
+        return state.activeUser
     }
 }
 
@@ -15,9 +19,23 @@ const mutations = {
 }
 
 const actions = {
+    activeUser({
+        state
+    }, payload){
+        state.activeUser = {
+            ...payload.user,
+            token: payload.token
+            
+        }
+        console.log("​state.activeUser", state.activeUser)
 
+        console.log("​----------------------------------")
+
+        console.log("​----------------------------------")
+
+    }
 }
 
 export default {
-    state, getters, actions
+    state, getters, mutations, actions
 }

@@ -50,10 +50,9 @@
 
 <script>
 export default {
-  mounted(){
-    if(this.$auth.isAuthenticated) {
-      this.$auth.authorizeUser
-    }
+  created(){
+    this.authorize()
+
   },
   data: () => ({
     drawer: null
@@ -67,6 +66,13 @@ export default {
     },
     rearrangeMapDataForPrisma() {
       this.$store.dispatch("fetchMarkets");
+    },
+    async authorize(){
+      if(this.$auth.isAuthenticated) {
+      const status = await this.$auth.authorizeUser()
+      this.$store.dispatch('activeUser', status.data.authorize)
+      
+    }
     }
   }
 };

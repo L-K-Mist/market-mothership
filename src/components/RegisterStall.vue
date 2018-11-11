@@ -121,7 +121,7 @@ import srcForCloudinary from "@/helpers/srcForCloudinary.js";
 export default {
   mounted() {
     this.mainMarket = this.person.market
-    // this.stepState =
+
     this.$nextTick(() => {
       if (!this.$auth.isAuthenticated()) {
         this.stepState = 1;

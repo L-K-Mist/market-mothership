@@ -133,7 +133,8 @@ const actions = {
     },
 
     async saveStallHolder({
-        state
+        state,
+        commit
     }) {
         const person = state.person
         console.log('TCL: -------------------');
