@@ -29,7 +29,9 @@ const state = {
         lastName: null,
         bio: null
     },
-    stall: {},
+    stall: {
+        image: null
+    },
     showSingleStallMap: false,
     currentMarket: null
 };
@@ -162,26 +164,41 @@ const actions = {
         const stall = state.stall
         console.log('TCL: stall', JSON.stringify(stall));
         
-        // const response = await apollo.mutate({ mutation: gql`
-        //         mutation createStallHolder(
-        //             $stall: StallofUserInput!
-        //             $profile: UserProfileInput!
-        //         ){
-        //             createStallHolder(
-        //                 stall: $stall
-        //                 profile: $profile
-        //             ) {
-        //                 id
-        //                 stall {
-        //                     id
-        //                 }
-        //             }
-        //         }
-        //     `, variables: {
-        //         stall
-        //     }
-        //         });
-        // console.log('TCL: response', response);
+// TODO: Celebrate successfull form completion with an animation
+
+        const response = await apollo.mutate({ mutation: gql`
+                mutation createStallHolder(
+                    $stall: StallofUserInput!
+                    $profile: UserProfileInput!
+                ){
+                    createStallHolder(
+                        stall: $stall
+                        profile: $profile
+                    ) {
+                        id
+                    }
+                }
+            `, 
+            variables: {
+                stall: {
+                    lng: stall.lng,
+                    lat: stall.lat,
+                    w3w: stall.w3w.words,
+                    image: stall.image,
+                    name: stall.name,
+                    description: stall.description,
+                    market: stall.markets[0]
+                },
+                profile: {
+                    cell: person.cell,
+                    image: person.image,
+                    publicEmail: person.publicEmail,
+                    publicName: person.publicName,
+                    bio: person.bio
+                }
+            }
+                });
+        console.log('TCL: response', response);
     }
 };
 
