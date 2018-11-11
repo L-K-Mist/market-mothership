@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import VuexPersistence from 'vuex-persist'
-import AppState from './AppState'
+import AppState from './modules/AppState'
 import MarketsMap from './modules/MarketsMap'
 import RegisterStall from './modules/RegisterStall'
 

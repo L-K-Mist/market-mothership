@@ -197,8 +197,9 @@ const actions = {
                     bio: person.bio
                 }
             }
-                });
+        });
         console.log('TCL: response', response);
+        commit('hasStall', true)
     }
 };
 

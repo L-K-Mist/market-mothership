@@ -103,11 +103,6 @@
                   ></v-text-field>               
                   <v-btn color="accent" @click="gotStall">Continue</v-btn>
                 </v-stepper-content>
-                <v-stepper-step step="4">View setup instructions</v-stepper-step>
-                <v-stepper-content step="4">
-                <v-card color="grey lighten-5" class="mb-5"></v-card>
-                <v-btn flat @click.native="dialog = false">Cancel</v-btn>
-                </v-stepper-content>
             </v-stepper>            
             <!-- <stall-location/> -->
         </v-card>
