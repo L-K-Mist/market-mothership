@@ -34,7 +34,7 @@
                     <small v-else>Let your potential customers get to know you better</small>
                 </v-stepper-step>
                 <v-stepper-content step="2">
-                  <stall-holder @gotBio="gotBio(person)"></stall-holder>
+                  <stall-holder @done="gotBio"></stall-holder>
                 </v-stepper-content>
 
                 <v-stepper-step :complete="stepState > 3" step="3">
@@ -58,10 +58,12 @@
                   <v-select
                     :items="markets"
                     label="Select your main market"
+                    persistent-hint
                     hint="You'll be able to add more markets later."
                     v-model="mainMarket"
                     @input="person.market = mainMarket"
                   ></v-select>
+                  <br>
                   <p class="lighten-1">Let your customers know exactly where to find you within the market.</p>
                   <p class="lighten-1">If you allow geolocation, the marker will appear at your current location, feel free to drag it to the right spot.</p>
                   <v-dialog v-if="stepState === 3"
@@ -194,7 +196,7 @@ export default {
     },
     gotBio(person) {
       this.stepState = 3;
-      this.$store.dispatch("personFormData", person);
+      // this.$store.dispatch("personFormData", person);
     },
     gotImageSource(e) {
       console.log("TCL: gotImageSource -> e", e);

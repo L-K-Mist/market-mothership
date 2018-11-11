@@ -157,10 +157,10 @@ const actions = {
     }) {
         const person = state.person
         console.log('TCL: -------------------');
-        console.log('TCL: person', person);
+        console.log("TCL: person", JSON.stringify(person));
         console.log('TCL: -------------------');
         const stall = state.stall
-        console.log('TCL: stall', stall);
+        console.log('TCL: stall', JSON.stringify(stall));
         
         // const response = await apollo.mutate({ mutation: gql`
         //         mutation createStallHolder(
@@ -178,7 +178,7 @@ const actions = {
         //             }
         //         }
         //     `, variables: {
-
+        //         stall
         //     }
         //         });
         // console.log('TCL: response', response);

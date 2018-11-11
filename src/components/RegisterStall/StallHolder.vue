@@ -9,7 +9,7 @@
             <v-text-field
                 label="First Name"
                 hint="The name you're best known by."
-                v-model="person.firstName"
+                v-model="person.publicName"
             ></v-text-field>     
             <v-text-field
                 label="Last Name"
@@ -24,7 +24,7 @@
             <v-text-field
                 label="Email"
                 hint="Choose the email address you want use for customer interaction"
-                v-model="publicEmail"
+                v-model="person.publicEmail"
             ></v-text-field>
             <v-text-field multi-line
                 label="Bio"
@@ -33,23 +33,34 @@
             ></v-text-field>
                                 
         </v-flex>
-        <v-btn color="primary" @click="setPublicEmail()">Continue</v-btn>
+        <v-btn color="primary" @click="bioDone()">Continue</v-btn>
     </div>
 </template>
 <script>
 export default {
   mounted() {
-    this.publicEmail = this.$store.getters.person.email;
+    // this.$nextTick(() => {
+      
+    //   })
+      this.person.publicEmail = this.person.email;
+      this.person.publicName = this.person.firstName
+			console.log("​-------------------------------------------------------")
+			console.log(" Stallholder form ​mounted -> this.person.firstName", this.person.firstName)
+			console.log("​-------------------------------------------------------")
   },
   data() {
     return {
-      publicEmail: ""
+      publicEmail: "",
+      publicName: ""
     };
   },
   computed: {
     person: {
       get() {
         return this.$store.getters.person;
+      },
+      set(val) {
+        this.$store.dispatch('personFormData', val)
       }
       //   publicEmail() {
       //     return this.person.email;
@@ -60,12 +71,14 @@ export default {
     }
   },
   methods: {
-    setPublicEmail() {
-      // Want email to stay Auth0 email even though user might choose a different one here in the bio for actual contact
-      var person = this.person;
-      person.publicEmail = this.publicEmail;
-      this.$emit("gotBio", person);
+    bioDone(){
+      this.$emit('done')
+
     }
+    // updatePerson() {
+    //   // Want email to stay Auth0 email even though user might choose a different one here in the bio for actual contact
+    //   this.$store.dispatch
+    // }
   }
 };
 </script>
