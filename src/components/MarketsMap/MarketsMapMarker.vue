@@ -14,9 +14,6 @@ export default {
   name: "MarkerPopup",
   mounted() {
     var markerRefs = this.$refs;
-    console.log("TCL: --------------------------------------");
-    console.log("TCL: mounted -> markerRefs", markerRefs);
-    console.log("TCL: --------------------------------------");
   },
   components: {
     LMarker,

@@ -39,7 +39,7 @@
 
                 <v-stepper-step :complete="stepState > 3" step="3">
                   Your Shop
-                  <small>The Reason you're bothering with online forms (hey, we're trying to make this as painless as possible!)</small>
+                  <small>The Reason you're bothering with online forms (C'mon, we're trying to make this as painless as possible!)</small>
                 </v-stepper-step>
 
                 <v-stepper-content step="3">
@@ -47,7 +47,6 @@
                       label="Shop Name"
                       hint="The name your shop is known as"
                       v-model="stall.name"
-                      @input="person.market = stall.name"
                   ></v-text-field>
                   <p>
                     We know you might be active at more than one flea market, but for now, we are only allowing one shop per person.
@@ -58,8 +57,10 @@
                   </p> 
                   <v-select
                     :items="markets"
-                    label="Current Participating Markets"
+                    label="Select your main market"
+                    hint="You'll be able to add more markets later."
                     v-model="mainMarket"
+                    @input="person.market = mainMarket"
                   ></v-select>
                   <p class="lighten-1">Let your customers know exactly where to find you within the market.</p>
                   <p class="lighten-1">If you allow geolocation, the marker will appear at your current location, feel free to drag it to the right spot.</p>
@@ -121,6 +122,7 @@ import srcForCloudinary from "@/helpers/srcForCloudinary.js";
 
 export default {
   mounted() {
+    this.mainMarket = this.person.market
     // this.stepState =
     this.$nextTick(() => {
       if (!this.$auth.isAuthenticated()) {
