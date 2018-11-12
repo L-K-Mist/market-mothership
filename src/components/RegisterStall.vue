@@ -15,7 +15,7 @@
           </v-toolbar>
           
             <v-stepper v-model="stepState" vertical>
-                <v-stepper-step :complete="$auth.isAuthenticated()" step="1">
+                <v-stepper-step :complete="signedIn" step="1">
                 Login
                 <small>Login with Google or Manually (Google method means less typing for you.)</small>
                 </v-stepper-step>
@@ -123,9 +123,14 @@ export default {
     this.mainMarket = this.person.market
 
     this.$nextTick(() => {
-      if (!this.$auth.isAuthenticated()) {
+      if (!this.signedIn) {
         this.stepState = 1;
       } else {
+        var prismaRegistered = this.$auth.isPrismaConnected
+				console.log("​---------------------------------------------")
+				console.log("​mounted -> prismaRegistered", prismaRegistered)
+				console.log("​---------------------------------------------")
+        
         var user = JSON.stringify(this.$auth.user);
         console.log("TCL: --------------------------");
         console.log("TCL: mounted -> user", user);

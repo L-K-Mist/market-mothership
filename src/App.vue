@@ -68,11 +68,12 @@ export default {
       this.$store.dispatch("fetchMarkets");
     },
     async authorize(){
-      if(this.$auth.isAuthenticated) {
-      const status = await this.$auth.authorizeUser()
-      this.$store.dispatch('activeUser', status.data.authorize)
-      
-    }
+      if(this.$auth.isAuthenticated()) {
+        const status = await this.$auth.authorizeUser()
+        this.$store.dispatch('activeUser', status.data.authorize)
+      } else {
+        console.log('user not logged in')
+      }
     }
   }
 };
