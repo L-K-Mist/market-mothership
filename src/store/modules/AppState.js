@@ -3,32 +3,39 @@ import gql from "graphql-tag";
 
 const state = {
     hasStall: false,
-    activeUser: null
+    activeUser: null,
+    error: null
 }
 
 const getters = {
     hasStall(state) {
         return state.hasStall
     },
-        activeUser(state) {
+    activeUser(state) {
         return state.activeUser
+    },
+    error(state) {
+        return state.error
     }
 }
 
 const mutations = {
     hasStall(state, payload) {
         state.hasStall = payload
+    },
+    error(state, payload) {
+        state.error = payload
     }
 }
 
 const actions = {
     activeUser({
         state
-    }, payload){
+    }, payload) {
         state.activeUser = {
             ...payload.user,
             token: payload.token
-            
+
         }
         console.log("​state.activeUser", state.activeUser)
 
@@ -40,7 +47,8 @@ const actions = {
     async fetchMyStall({
         state
     }) {
-        const response = await apollo.query({ query: gql`
+        const response = await apollo.query({
+            query: gql `
             query myStall {
               myStall {
                 id
@@ -55,10 +63,13 @@ const actions = {
         console.log("​------------------")
         console.log("​response", response)
         console.log("​------------------")
-        
+
     }
 }
 
 export default {
-    state, getters, mutations, actions
+    state,
+    getters,
+    mutations,
+    actions
 }

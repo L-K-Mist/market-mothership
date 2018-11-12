@@ -93,7 +93,8 @@ const actions = {
         state,
         commit
     }, payload) {
-        commit('stepState', payload)
+        state.stepState = payload
+        // commit('stepState', payload)
     },
 
     personFormData({
@@ -111,20 +112,21 @@ const actions = {
         }
         commit('person', tempPerson)
     },
-
+    // TODO: see what happens when user doesn't choose google login
     personLoginData({
         state,
         commit
     }, payload) {
         console.log('TCL: payload', payload);
         var person = {}
-        person.accessToken = payload.accessToken
-        person.token = payload.token
+        // person.accessToken = payload.accessToken
+        // person.token = payload.token
         person.image = payload.user.picture
         person.email = payload.user.email
         if (payload.user.family_name !== 'undefined') {
             person.firstName = payload.user.given_name
             person.lastName = payload.user.family_name
+            person.name = payload.user.name
         } else {
             person.name = null
         }
@@ -138,47 +140,66 @@ const actions = {
     }) {
         const person = state.person
         console.log('TCL: -------------------');
-        console.log("TCL: person", JSON.stringify(person));
+        console.log("TCL: person", person);
         console.log('TCL: -------------------');
         const stall = state.stall
         console.log('TCL: stall', JSON.stringify(stall));
-        
-// TODO: Celebrate successfull form completion with an animation
 
-        const response = await apollo.mutate({ mutation: gql`
-                mutation createStallHolder(
-                    $stall: StallofUserInput!
-                    $profile: UserProfileInput!
-                ){
-                    createStallHolder(
-                        stall: $stall
-                        profile: $profile
-                    ) {
-                        id
-                    }
-                }
-            `, 
-            variables: {
-                stall: {
-                    lng: stall.lng,
-                    lat: stall.lat,
-                    w3w: stall.w3w.words,
-                    image: stall.image,
-                    name: stall.name,
-                    description: stall.description,
-                    market: stall.markets[0]
-                },
-                profile: {
-                    cell: person.cell,
-                    image: person.image,
-                    publicEmail: person.publicEmail,
-                    publicName: person.publicName,
-                    bio: person.bio
+        // TODO: Celebrate successfull form completion with an animation
+        /**
+         * async function f() {
+
+             try {
+                 let response = await fetch('/no-user-here');
+                 let user = await response.json();
+             } catch (err) {
+                 // catches errors both in fetch and response.json
+                 alert(err);
+             }
+         }
+         */
+        try {
+            const response = await apollo.mutate({
+                mutation: gql `
+            mutation createStallHolder(
+                $stall: StallofUserInput!
+                $profile: UserProfileInput!
+            ){
+                createStallHolder(
+                    stall: $stall
+                    profile: $profile
+                ) {
+                    id
                 }
             }
-        });
-        console.log('TCL: response', response);
-        commit('hasStall', true)
+        `,
+                variables: {
+                    stall: {
+                        lng: stall.lng,
+                        lat: stall.lat,
+                        w3w: stall.w3w.words,
+                        image: stall.image,
+                        name: stall.name,
+                        description: stall.description,
+                        market: stall.markets[0]
+                    },
+                    profile: {
+                        cell: person.cell,
+                        image: person.image,
+                        publicEmail: person.publicEmail,
+                        publicName: person.publicName,
+                        bio: person.bio
+                    }
+                }
+            });
+            console.log('TCL: response', response);
+            commit('hasStall', true)
+            commit('stall', response.data.createStallHolder)
+        } catch (err) {
+            commit('error', err)
+            alert(err)
+        }
+
     }
 };
 

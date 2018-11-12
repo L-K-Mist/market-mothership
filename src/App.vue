@@ -6,7 +6,7 @@
       app
     >
       <v-list dense>
-                <v-list-tile @click="rearrangeMapDataForPrisma()">
+                <v-list-tile to="my-stall">
           <v-list-tile-action>
             <v-icon>fa-home</v-icon>
           </v-list-tile-action>
@@ -50,9 +50,8 @@
 
 <script>
 export default {
-  created(){
-    this.authorize()
-
+  created() {
+    this.authorize();
   },
   data: () => ({
     drawer: null
@@ -67,12 +66,12 @@ export default {
     rearrangeMapDataForPrisma() {
       this.$store.dispatch("fetchMyStall");
     },
-    async authorize(){
-      if(this.$auth.isAuthenticated()) {
-        const status = await this.$auth.authorizeUser()
-        this.$store.dispatch('activeUser', status.data.authorize)
+    async authorize() {
+      if (this.$auth.isAuthenticated()) {
+        const status = await this.$auth.authorizeUser();
+        this.$store.dispatch("activeUser", status.data.authorize);
       } else {
-        console.log('user not logged in')
+        console.log("user not logged in");
       }
     }
   }

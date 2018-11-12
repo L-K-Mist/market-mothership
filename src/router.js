@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Home from './views/Home.vue'
 import Callback from "@/views/Callback.vue"
+import MyStall from "@/views/MyStall.vue"
 
 
 
@@ -20,14 +21,14 @@ const router = new Router({
       name: "callback",
       component: Callback
     },
-    // {
-    //   path: '/stall-profile',
-    //   name: 'StallProfile',
-    //   component: FarmProfile,
-    //   meta: {
-    //     requiresAuth: true
-    //   }
-    // }
+    {
+      path: '/my-stall',
+      name: 'my-stall',
+      component: MyStall,
+      meta: {
+        requiresAuth: true
+      }
+    }
   ]
 });
 

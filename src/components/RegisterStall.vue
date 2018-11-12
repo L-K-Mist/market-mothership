@@ -110,6 +110,7 @@
     </v-layout>
 </template>
 <script>
+// TODO SOON: Show the user his location and w3w address
 // TODO: Think about incorporating whatsapp for Business https://www.whatsapp.com/business/
 // click to chat https://wa.me/<number>
 import StallHolder from "@/components/RegisterStall/StallHolder";
@@ -119,25 +120,30 @@ import vuetifyCloudinaryUpload from "vuetify-cloudinary-upload";
 import srcForCloudinary from "@/helpers/srcForCloudinary.js";
 
 export default {
-  mounted() {
-    this.mainMarket = this.person.market
+  created() {
+    this.mainMarket = this.person.market;
+    if (!this.signedIn) {
+      this.stepState = 1;
+    } else {
+      this.stepState = 2;
+    }
+    // if (this.signedIn && this.stepState === 1) {
+    //   this.stepState = 2;
+    // }
+    // else {
+    //   var prismaRegistered = this.$auth.isPrismaConnected;
+    //   console.log("​---------------------------------------------");
+    //   console.log("​mounted -> prismaRegistered", prismaRegistered);
+    //   console.log("​---------------------------------------------");
 
-    this.$nextTick(() => {
-      if (!this.signedIn) {
-        this.stepState = 1;
-      } else {
-        var prismaRegistered = this.$auth.isPrismaConnected
-				console.log("​---------------------------------------------")
-				console.log("​mounted -> prismaRegistered", prismaRegistered)
-				console.log("​---------------------------------------------")
-        
-        var user = JSON.stringify(this.$auth.user);
-        console.log("TCL: --------------------------");
-        console.log("TCL: mounted -> user", user);
-        console.log("TCL: --------------------------");
-        this.stepState = 2;
-      }
-    });
+    //   var user = JSON.stringify(this.$auth.user);
+    //   console.log("TCL: --------------------------");
+    //   console.log("TCL: mounted -> user", user);
+    //   console.log("TCL: --------------------------");
+    //   this.stepState = 2;
+    // }
+
+    // this.$nextTick(() => {});
   },
   data() {
     return {
@@ -216,8 +222,12 @@ export default {
       this.stall.markets = [];
       this.stall.markets[0] = this.mainMarket;
       this.$store.dispatch("stall", this.stall);
-      this.$store.dispatch("saveStallHolder");
-      this.stepState = 4;
+      this.$store.dispatch("saveStallHolder").then(() => {
+        // if there is no error go to home page
+        if (!this.$store.getters.error) {
+          this.$router.push("/my-stall");
+        }
+      });
     },
 
     deleteImage() {
@@ -233,7 +243,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 img {
   max-width: 80vw;
 }
