@@ -7,7 +7,7 @@ import RegisterStall from './modules/RegisterStall'
 
 const vuexLocal = new VuexPersistence({
   storage: window.localStorage,
-  modules: ["MarketsMap", 'RegisterStall']
+  modules: ["MarketsMap", 'RegisterStall', 'AppState']
 });
 
 Vue.use(Vuex)

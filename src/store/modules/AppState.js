@@ -1,10 +1,13 @@
 import apollo from "@/apollo";
 import gql from "graphql-tag";
 
+
+// TODO: Gotta still improve general log-in functionality.
 const state = {
     hasStall: false,
     activeUser: null,
-    error: null
+    error: null,
+    stallHolder: null
 }
 
 const getters = {
@@ -16,6 +19,9 @@ const getters = {
     },
     error(state) {
         return state.error
+    },
+    stallHolder(state) {
+        return state.stallHolder
     }
 }
 
@@ -25,6 +31,10 @@ const mutations = {
     },
     error(state, payload) {
         state.error = payload
+    },
+    stallHolder(state, payload) {
+        state.stallHolder = payload
+        console.log('TCL: commit -> state.stallHolder', state.stallHolder);
     }
 }
 
@@ -45,24 +55,34 @@ const actions = {
 
     },
     async fetchMyStall({
-        state
+        state,
+        commit
     }) {
-        const response = await apollo.query({
-            query: gql `
-            query myStall {
-              myStall {
-                id
-                name
-                description
-                image
-                w3w
-              }
-            }
-          `
-        });
-        console.log("​------------------")
-        console.log("​response", response)
-        console.log("​------------------")
+        try {
+            const response = await apollo.query({
+                query: gql `
+                query myStall {
+                  myStall {
+                    id
+                    name
+                    description
+                    image
+                    w3w
+                    lat
+                    lng
+                  }
+                }
+              `
+            });
+            console.log("​------------------")
+            console.log("​response", response.data.myStall)
+            console.log("​------------------")
+            commit('stall', response.data.myStall)
+
+        } catch (err) {
+            commit('error', err)
+            alert(err)
+        }
 
     }
 }

@@ -64,7 +64,7 @@
                     @input="person.market = mainMarket"
                   ></v-select>
                   <br>
-                  <p class="lighten-1">Let your customers know exactly where to find you within the market.</p>
+                  <p class="lighten-1">Let your customers know exactly where to find you within the market. <i>Your stall will only be visible to the public once this location is in place, but you can do it later if you want.</i></p>
                   <p class="lighten-1">If you allow geolocation, the marker will appear at your current location, feel free to drag it to the right spot.</p>
                   <v-dialog v-if="stepState === 3"
                     v-model="locDialog"
@@ -79,7 +79,7 @@
                     </v-btn>
                     <me-map v-if="locDialog" @done="gotLoc"></me-map>
                   </v-dialog>
-                  <!-- <p v-if="stall.w3w !== 'undefined'">Your shop's world-wide  <a :href="`http://w3w.co/${stall.w3w.words}`">What3Words</a> address is: <strong>{{stall.w3w.words}}</strong></p>    -->
+                  <p v-if="stall.w3w">Your shop's world-wide  <a :href="`http://w3w.co/${stall.w3w}`">What3Words</a> address is: <strong>{{stall.w3w}}</strong></p>   
                   <p>How about a picture of you doing your thing! (You can also add this later if you want)</p>
                   <v-layout row>
                     <v-cloudinary-upload 
@@ -214,7 +214,7 @@ export default {
     gotLoc(locData) {
       this.stall.lat = locData.lat;
       this.stall.lng = locData.lng;
-      this.stall.w3w = locData.w3w;
+      this.stall.w3w = locData.w3w.words;
       this.locDialog = false;
       this.$store.dispatch("stall", this.stall);
     },
@@ -225,6 +225,7 @@ export default {
       this.$store.dispatch("saveStallHolder").then(() => {
         // if there is no error go to home page
         if (!this.$store.getters.error) {
+          this.$store.dispatch("fetchMyStall");
           this.$router.push("/my-stall");
         }
       });

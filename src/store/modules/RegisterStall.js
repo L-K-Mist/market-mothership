@@ -1,4 +1,4 @@
-import apollo from '@/apollo'
+import apollo from '@/apollo.js'
 import gql from 'graphql-tag'
 
 // TODO NEXT: Fix schema for optional stall fields
@@ -15,9 +15,7 @@ const state = {
     },
     stall: {
         image: null,
-        w3w: {
-            words: null,
-        }
+        w3w: null,
     },
     showSingleStallMap: false,
     currentMarket: null
@@ -177,7 +175,7 @@ const actions = {
                     stall: {
                         lng: stall.lng,
                         lat: stall.lat,
-                        w3w: stall.w3w.words,
+                        w3w: stall.w3w,
                         image: stall.image,
                         name: stall.name,
                         description: stall.description,
@@ -194,7 +192,8 @@ const actions = {
             });
             console.log('TCL: response', response);
             commit('hasStall', true)
-            commit('stall', response.data.createStallHolder)
+            commit('person', response.data.createStallHolder)
+            commit('stallHolder', state.person)
         } catch (err) {
             commit('error', err)
             alert(err)
