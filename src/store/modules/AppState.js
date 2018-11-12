@@ -1,3 +1,6 @@
+import apollo from "@/apollo";
+import gql from "graphql-tag";
+
 const state = {
     hasStall: false,
     activeUser: null
@@ -33,6 +36,26 @@ const actions = {
 
         console.log("​----------------------------------")
 
+    },
+    async fetchMyStall({
+        state
+    }) {
+        const response = await apollo.query({ query: gql`
+            query myStall {
+              myStall {
+                id
+                name
+                description
+                image
+                w3w
+              }
+            }
+          `
+        });
+        console.log("​------------------")
+        console.log("​response", response)
+        console.log("​------------------")
+        
     }
 }
 

@@ -5,13 +5,13 @@
     </h6>
   
     <p class="body-2 my-input">
-      Location Address (by <a :href="data.w3wMapLink" target="blank">what3words</a> ): <span style="color: blue">{{ data.w3w }}</span>
+      Location Address (by <a :href="'http://w3w.co/' + data.w3w" target="blank">what3words</a> ): <span style="color: blue">{{ data.w3w }}</span>
     </p>
   
     <p>Are you a stall-holder with {{ data.name }}? Go on, put yourself on the MAP! </p>
     <v-btn @click="showDialog" block color="accent">Register Your Stall</v-btn>
-    <v-img
-      :src="`https://res.cloudinary.com/dylan-van-den-bosch/image/upload/w_auto,h_400/FoodStall_msltmd.jpg`"
+    <v-img v-if="data.image"
+      :src="data.image"
 
     class="grey lighten-2"
   >

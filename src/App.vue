@@ -65,7 +65,7 @@ export default {
       this.$auth.logout();
     },
     rearrangeMapDataForPrisma() {
-      this.$store.dispatch("fetchMarkets");
+      this.$store.dispatch("fetchMyStall");
     },
     async authorize(){
       if(this.$auth.isAuthenticated()) {
