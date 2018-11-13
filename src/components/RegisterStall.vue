@@ -210,6 +210,7 @@ export default {
       const src = srcForCloudinary(this.cloudinary.name, e);
       console.log("TCL: gotImageSource -> src", src);
       this.stall.image = src;
+      this.$store.dispatch("stall", this.stall);
     },
     gotLoc(locData) {
       this.stall.lat = locData.lat;

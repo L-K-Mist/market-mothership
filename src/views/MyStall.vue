@@ -2,27 +2,37 @@
     <v-container grid-list-xs>
         <v-layout column justify-center>
             <v-card v-if="stallHolder">
-                <v-img :aspect-ratio="16/9" class="stall-image" :src="stallImage">
-                    <v-layout pa-2 column fill-height class="lightbox white--text">
-                    <v-spacer></v-spacer>
-                    <v-flex class="stallHolderPic">
-                        <v-avatar class="elevation-12 border"
-                        size="200px"
-                        color="grey lighten-4"
-                        >
-                            <img v-if="stallHolder.image" :src="stallHolder.image"/>
-                            <v-icon v-else size="150">fa-user</v-icon>
-                        </v-avatar>
-                        <div class="contact-wrapper text-shadow">
-                            <div class="subheading">{{stallHolder.publicName}}</div>
-                            <div class="body-1">{{stallHolder.publicEmail}}</div>
-                            <div v-if="stallHolder.cell" class="body-1">{{stallHolder.cell  }}</div>
-                        </div>
-                    </v-flex>
-                    <v-flex >
-                        <h3 class="stall-name text-shadow">{{stall.name}}</h3>
-                    </v-flex>
-                    </v-layout>
+                <v-img :aspect-ratio="16/9" class="background-image pb-6" src="https://cdn.vuetifyjs.com/images/parallax/material.jpg">
+                    <v-container grid-list-md>
+                      <v-layout pa-2 column fill-height class="lightbox white--text">
+    
+                        <v-flex id="avatar-w-info" class="stallHolderPic">
+                            <v-avatar class="elevation-12 border"
+                            size="20vw"
+                            color="grey lighten-4"
+                            >
+                                <img v-if="stallHolder.image" :src="stallHolder.image"/>
+                                <v-icon v-else size="150">fa-user</v-icon>
+                            </v-avatar>
+                            <div class="contact-wrapper text-shadow">
+                                <div class="subheading">{{stallHolder.publicName}}</div>
+                                <div class="body-1">{{stallHolder.publicEmail}}</div>
+                                <div v-if="stallHolder.cell" class="body-1">{{stallHolder.cell}}</div>
+                            </div>
+                        </v-flex>
+                        <v-flex xs8>
+                          <img class="stall-image" :src="stall.image" alt="image of shop"/>
+                          
+                        </v-flex>
+                        <v-layout row>
+                          <v-flex xs12 >
+                              <h3 class="stall-name text-shadow">{{stall.name}}</h3>
+                          </v-flex>
+                          
+                        </v-layout>
+                      </v-layout>
+                      
+                    </v-container>
                 </v-img>
             </v-card>
             <v-progress-circular v-else color="indigo" indeterminate :size="200" :width="16"></v-progress-circular>      
@@ -57,6 +67,7 @@ export default {
       }
     },
     stallImage() {
+      // if go with both then remove
       if (this.stall.image) {
         return this.stall.image;
       } else if (!this.stall.image) {
@@ -69,14 +80,18 @@ export default {
 <style scoped>
 .stallHolderPic {
   position: absolute;
-  right: 10px;
-  top: 30;
+  right: 1vw;
+  top: 5vw;
+}
+.stall-image {
+  min-width: 50vw;
+  max-width: 80vw;
 }
 .contact-wrapper {
   background-blend-mode: hue;
 }
-.stall-image {
-  filter: grayscale(0.5);
+.background-image {
+  filter: grayscale(0.2);
 }
 .stall-name {
   color: lightgrey;

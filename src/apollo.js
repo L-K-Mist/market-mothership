@@ -64,9 +64,9 @@ var link = errorLink.concat(httpLink); // These are middleware
 link = httpLinkAuth.concat(link);
 
 // Next, we create an Apollo client using the httpLink and httpLinkAuth created above and specify we want an in-memory cache.
-const apolloClient = new ApolloClient({
+const apollo = new ApolloClient({
   link,
   cache: new InMemoryCache()
 });
 
-export default apolloClient;
+export default apollo;

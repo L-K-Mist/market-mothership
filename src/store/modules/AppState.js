@@ -1,4 +1,4 @@
-import apollo from "@/apollo";
+import apollo from "@/apollo.js";
 import gql from "graphql-tag";
 
 
