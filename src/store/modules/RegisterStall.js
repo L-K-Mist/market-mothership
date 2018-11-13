@@ -135,6 +135,7 @@ const actions = {
 
     async saveStallHolder({
         state,
+        dispatch,
         commit
     }) {
         const person = state.person
@@ -158,20 +159,21 @@ const actions = {
          }
          */
         try {
+            dispatch('error', null)
             const response = await apollo.mutate({
                 mutation: gql `
-            mutation createStallHolder(
-                $stall: StallofUserInput!
-                $profile: UserProfileInput!
-            ){
-                createStallHolder(
-                    stall: $stall
-                    profile: $profile
-                ) {
-                    id
-                }
-            }
-        `,
+                    mutation createStallHolder(
+                        $stall: StallofUserInput!
+                        $profile: UserProfileInput!
+                    ){
+                        createStallHolder(
+                            stall: $stall
+                            profile: $profile
+                        ) {
+                            id
+                        }
+                    }
+                `,
                 variables: {
                     stall: {
                         lng: stall.lng,
@@ -196,7 +198,7 @@ const actions = {
             commit('person', response.data.createStallHolder)
             commit('stallHolder', state.person)
         } catch (err) {
-            commit('error', err)
+            dispatch('error', err)
             alert(err)
         }
 

@@ -29,9 +29,7 @@ const mutations = {
     hasStall(state, payload) {
         state.hasStall = payload
     },
-    error(state, payload) {
-        state.error = payload
-    },
+
     stallHolder(state, payload) {
         state.stallHolder = payload
         console.log('TCL: commit -> state.stallHolder', state.stallHolder);
@@ -58,6 +56,7 @@ const actions = {
         state,
         commit
     }) {
+        state.error = null
         try {
             const response = await apollo.query({
                 query: gql `
@@ -79,11 +78,18 @@ const actions = {
             console.log("​------------------")
             commit('stall', response.data.myStall)
 
+            return
+
         } catch (err) {
-            commit('error', err)
+            state.error = err
             alert(err)
         }
 
+    },
+    error({
+        state
+    }, payload) {
+        state.error = payload
     }
 }
 

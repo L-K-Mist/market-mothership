@@ -122,31 +122,17 @@ import srcForCloudinary from "@/helpers/srcForCloudinary.js";
 export default {
   created() {
     this.mainMarket = this.person.market;
-    if (!this.signedIn) {
+
+    if (!localStorage.isLoggedIn) {
       this.stepState = 1;
     } else {
+      this.signedIn = true;
       this.stepState = 2;
     }
-    // if (this.signedIn && this.stepState === 1) {
-    //   this.stepState = 2;
-    // }
-    // else {
-    //   var prismaRegistered = this.$auth.isPrismaConnected;
-    //   console.log("​---------------------------------------------");
-    //   console.log("​mounted -> prismaRegistered", prismaRegistered);
-    //   console.log("​---------------------------------------------");
-
-    //   var user = JSON.stringify(this.$auth.user);
-    //   console.log("TCL: --------------------------");
-    //   console.log("TCL: mounted -> user", user);
-    //   console.log("TCL: --------------------------");
-    //   this.stepState = 2;
-    // }
-
-    // this.$nextTick(() => {});
   },
   data() {
     return {
+      signedIn: false,
       stallImageId: null,
       locDialog: false,
       cloudinary: {
@@ -165,9 +151,7 @@ export default {
         this.$store.dispatch("showRegisterStall", bool);
       }
     },
-    signedIn() {
-      return this.$auth.isAuthenticated();
-    },
+
     stepState: {
       get() {
         return this.$store.getters.stepState;
@@ -224,7 +208,11 @@ export default {
       this.stall.markets[0] = this.mainMarket;
       this.$store.dispatch("stall", this.stall);
       this.$store.dispatch("saveStallHolder").then(() => {
-        // if there is no error go to home page
+        console.log(
+          "​gotStall -> this.$store.getters.error",
+          this.$store.getters.error
+        );
+
         if (!this.$store.getters.error) {
           this.$store.dispatch("fetchMyStall");
           this.$router.push("/my-stall");

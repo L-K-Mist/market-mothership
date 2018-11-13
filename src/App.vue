@@ -36,14 +36,14 @@
       <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
       <v-toolbar-title>The Market-Mother-Ship</v-toolbar-title>
       <v-spacer></v-spacer>
-                            <v-avatar class="avatar elevation-12 "
+                            <v-avatar class="avatar elevation-6 "
                             size="8vw"
                             color="grey lighten-4"
                             >
                                 <img v-if="person.image" :src="person.image"/>
-                                <v-icon v-else size="150">fa-user</v-icon>
+                               
                             </v-avatar>
-      <v-icon  hint="logout" @click="logoff">fa-sign-out</v-icon>
+      <v-icon medium hint="logout" @click="logoff">fa-sign-out</v-icon>
     </v-toolbar>
     <v-content>
       <v-slide-y-transition mode="out-in">
@@ -65,6 +65,7 @@ export default {
     source: String
   },
   data: () => ({
+    isLoggedIn: false,
     drawer: null
   }),
   computed: {
@@ -93,8 +94,8 @@ export default {
 <style scoped>
 .avatar {
   position: absolute;
-  top: 30px;
-  left: 30px;
+  top: 20px;
+  right: 40px;
 }
 </style>
 
