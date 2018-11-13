@@ -35,7 +35,15 @@
     <v-toolbar scroll-off-screen :scroll-threshold="50" color="indigo" dark fixed app>
       <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
       <v-toolbar-title>The Market-Mother-Ship</v-toolbar-title>
-      <v-spacer></v-spacer><v-icon  hint="logout" @click="logoff">fa-sign-out</v-icon>
+      <v-spacer></v-spacer>
+                            <v-avatar class="avatar elevation-12 "
+                            size="8vw"
+                            color="grey lighten-4"
+                            >
+                                <img v-if="person.image" :src="person.image"/>
+                                <v-icon v-else size="150">fa-user</v-icon>
+                            </v-avatar>
+      <v-icon  hint="logout" @click="logoff">fa-sign-out</v-icon>
     </v-toolbar>
     <v-content>
       <v-slide-y-transition mode="out-in">
@@ -53,11 +61,16 @@ export default {
   created() {
     this.authorize();
   },
+  props: {
+    source: String
+  },
   data: () => ({
     drawer: null
   }),
-  props: {
-    source: String
+  computed: {
+    person() {
+      return this.$store.getters.person;
+    }
   },
   methods: {
     logoff() {
@@ -77,3 +90,11 @@ export default {
   }
 };
 </script>
+<style scoped>
+.avatar {
+  position: absolute;
+  top: 30px;
+  left: 30px;
+}
+</style>
+

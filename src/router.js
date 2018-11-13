@@ -44,10 +44,14 @@ const router = new Router({
 
 // very basic "setup" of a global guard
 router.beforeEach((to, from, next) => {
+  const isLoggedIn = router.app.$auth.isAuthenticated()
+  localStorage.isLoggedIn = isLoggedIn
+  console.log("​isLoggedIn", localStorage.isLoggedIn)
+
   if (to.name == 'callback') { // check if "to"-route is "callback" and allow access
     next()
   } else if (to.matched.some(record => record.meta.requiresAuth)) { // if this route requires auth
-    if (router.app.$auth.isAuthenticated()) { // if authenticated allow access
+    if (isLoggedIn) { // if authenticated allow access
       next()
     } else { // trigger auth0 login
       router.app.$auth.login()

@@ -10,6 +10,7 @@ const state = {
         loginDataReceived: false,
         role: "StallHolder",
         firstName: null,
+        image: null,
         lastName: null,
         bio: null
     },
