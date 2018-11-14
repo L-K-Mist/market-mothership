@@ -1,17 +1,28 @@
 <template>
   <v-card v-if="map !== 'undefined'">
+    <br>
       <!-- <v-card-title class="headline font-weight-light" primary-title>
           Mark My Stall
         {{map.zoom}} {{map.center}}
-
       </v-card-title> -->
+      <v-card-actions>
+        <v-spacer></v-spacer>
+        <v-btn
+          color="primary"
+
+          @click="gotStall()"
+        >
+          Yip, that's the spot!
+        </v-btn>
+        <v-spacer></v-spacer>
+      </v-card-actions>
       <v-card-text>
         <div v-if="meMarker">
           {{meMarker.position}}
         </div>
           <l-map id="MeMap" ref="MeMap" style="height: 70vh; max-width: 98vw" :zoom="map.zoom" :options="map.options"
           :center="map.center" :min-zoom="map.minZoom" :max-zoom="map.maxZoom"
-          @locationerror="console.error(error)" 
+          @locationerror="onLocationError" 
           @locationfound="onLocationFound($event)">
           <l-control-scale position="bottomleft" :imperial="false" />
           <l-control-layers :options="{position: map.layersPosition}" />
@@ -35,13 +46,6 @@
       </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn
-          color="primary"
-          flat
-          @click="gotStall()"
-        >
-          Yip, that's the spot!
-        </v-btn>
       </v-card-actions>  
   </v-card>
 </template>
@@ -148,6 +152,7 @@ export default {
         radius
       };
     },
+    onLocationError(e) {},
     openPopup: function(event) {
       this.$nextTick(() => {
         event.target.openPopup();

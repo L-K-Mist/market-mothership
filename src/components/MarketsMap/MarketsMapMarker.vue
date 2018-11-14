@@ -28,7 +28,7 @@ export default {
           // console.log('TCL: -------------------------');
           // console.log('TCL: popupWidth -> xs');
           // console.log('TCL: -------------------------');
-          return 250;
+          return 230;
         case "sm":
           return 400;
         case "md":

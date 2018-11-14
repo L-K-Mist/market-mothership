@@ -33,7 +33,7 @@
           </v-list-tile-content>
         </v-list-tile>
 
-        <v-list-tile @click="testFunc">
+        <v-list-tile @click="testFunc()">
           <v-list-tile-action>
             <v-icon>fa-sign-out</v-icon>
           </v-list-tile-action>
@@ -68,6 +68,40 @@
 </template>
 
 <script>
+function getLocation() {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(showPosition, locationError);
+  } else {
+    console.log("Geo Location not supported by browser");
+  }
+}
+
+function locationError(error) {
+  console.log("​locationError -> error", error);
+
+  // switch (error.code) {
+  //   case error.PERMISSION_DENIED:
+  //     return "User denied the request for Geolocation.";
+  //     break;
+  //   case error.POSITION_UNAVAILABLE:
+  //     return "Location information is unavailable.";
+  //     break;
+  //   case error.TIMEOUT:
+  //     return "The request to get user location timed out.";
+  //     break;
+  //   case error.UNKNOWN_ERROR:
+  //     return "An unknown error occurred.";
+  //     break;
+  // }
+}
+//function that retrieves the position
+function showPosition(position) {
+  var location = {
+    longitude: position.coords.longitude,
+    latitude: position.coords.latitude
+  };
+  console.log(location);
+}
 export default {
   created() {
     this.authorize();
@@ -125,7 +159,11 @@ export default {
       this.$auth.logout();
     },
     testFunc() {
-      this.$store.dispatch("fetchMe");
+      console.log("​testFunc -> testFunc");
+      //function that gets the location and returns it
+
+      //request for location
+      getLocation();
     },
     rearrangeMapDataForPrisma() {
       this.$store.dispatch("fetchMyStall");

@@ -68,7 +68,7 @@
                   <p class="lighten-1">If you allow geolocation, the marker will appear at your current location, feel free to drag it to the right spot.</p>
                   <v-dialog v-if="stepState === 3"
                     v-model="locDialog"
-                    width="500"
+                    width="400"
                   >
                     <v-btn
                       slot="activator"
@@ -119,15 +119,30 @@ import vuetifyCloudinaryUpload from "vuetify-cloudinary-upload";
 import srcForCloudinary from "@/helpers/srcForCloudinary.js";
 
 export default {
-  created() {
+  mounted() {
+    console.log("registerStall form mounted");
     this.mainMarket = this.person.market;
-
-    if (!localStorage.isLoggedIn) {
-      this.stepState = 1;
-    } else {
-      this.signedIn = true;
+    const isLoggedIn = this.$auth.isAuthenticated();
+    console.log("​mounted -> isLoggedIn", isLoggedIn);
+    localStorage.isLoggedIn = isLoggedIn;
+    if (isLoggedIn) {
       this.stepState = 2;
     }
+    console.log("​mounted -> localStorage.isLoggedIn", localStorage.isLoggedIn);
+    this.$nextTick(() => {
+      // next tick make sure we override the store instead of the store overriding these values
+      if (isLoggedIn == false) {
+        console.log(
+          "​mounted -> localStorage.isLoggedIn",
+          localStorage.isLoggedIn
+        );
+        this.stepState = 1;
+        console.log("​mounted -> this.stepState", this.stepState);
+      } else {
+        this.signedIn = true;
+        this.stepState = 2;
+      }
+    });
   },
   data() {
     return {
@@ -177,7 +192,11 @@ export default {
       return marketArray;
     }
   },
-
+  watch: {
+    stepState(newVal) {
+      console.log("​stepState -> newVal", newVal);
+    }
+  },
   //Note the w3w link struct: http://w3w.co/various.deform.restriction
 
   methods: {
