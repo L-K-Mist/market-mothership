@@ -6,7 +6,6 @@
       app
     >
       <v-list dense>
-
         <v-list-tile to="/">
           <v-list-tile-action>
             <v-icon>fa-home</v-icon>
@@ -48,8 +47,8 @@
       <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
       <v-toolbar-title>The Market-Mother-Ship</v-toolbar-title>
       <v-spacer></v-spacer>
-                            <v-avatar @click="gotoMyStall" v-if="isLoggedIn && person.image" class="avatar elevation-6 "
-                            size="8vw"
+                            <v-avatar @click="gotoMyStall" v-if="isLoggedIn && person.image" :style="avatarStyle" class=" elevation-6 "
+                            :size="avatarSize"
                             color="grey lighten-4"
                             >
                                 <img  :src="person.image"/>
@@ -63,7 +62,7 @@
       </v-slide-y-transition>
     </v-content>
     <v-footer color="indigo" app>
-      <span class="white--text">&copy; 2017</span>
+      <span class="white--text">&copy; 2018</span>
     </v-footer>
   </v-app>
 </template>
@@ -77,7 +76,14 @@ export default {
     source: String
   },
   data: () => ({
-    drawer: null
+    drawer: null,
+    avatarStyle: {
+      position: "absolute",
+      top: "40px",
+      right: "40px",
+      cursor: "pointer"
+    },
+    avatarSize: "12vw"
   }),
   computed: {
     isLoggedIn() {
@@ -85,6 +91,30 @@ export default {
     },
     person() {
       return this.$store.getters.person;
+    },
+    breakpoint() {
+      return this.$vuetify.breakpoint.name;
+      //connect and use
+      // switch (this.$vuetify.breakpoint.name) {
+      //   case "xs":
+      //     // console.log('TCL: -------------------------');
+      //     // console.log('TCL: popupWidth -> xs');
+      //     // console.log('TCL: -------------------------');
+      //     return 250;
+      //   case "sm":
+      //     return 400;
+      //   case "md":
+      //     return 400;
+      //   case "lg":
+      //     return 600;
+      //   case "xl":
+      //     return 800;
+      // }
+    }
+  },
+  watch: {
+    breakpoint(newVal) {
+      console.log("​breakpoint -> newVal", newVal);
     }
   },
   methods: {

@@ -115,9 +115,9 @@ let auth = new Vue({
             console.log('TCL: asyncauthorizeUser -> response', response.data.authorize.token);
             localStorage.setItem('prisma_token', response.data.authorize.token)
             this.isPrismaConnected = true
-			console.log("​-----------------------------------------------------")
-			console.log("​authorizeUser -> isPrismaConnected", this.isPrismaConnected)
-			console.log("​-----------------------------------------------------")
+            console.log("​-----------------------------------------------------")
+            console.log("​authorizeUser -> isPrismaConnected", this.isPrismaConnected)
+            console.log("​-----------------------------------------------------")
             return response
         },
 

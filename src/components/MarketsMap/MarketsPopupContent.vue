@@ -8,8 +8,6 @@
       Location Address (by <a :href="'http://w3w.co/' + data.w3w" target="blank">what3words</a> ): <span style="color: blue">{{ data.w3w }}</span>
     </p>
   
-    <p>Are you a stall-holder with {{ data.name }}? Go on, put yourself on the MAP! </p>
-    <v-btn @click="showDialog" block color="accent">Register Your Stall</v-btn>
     <v-img v-if="data.image"
       :src="data.image"
 
@@ -25,6 +23,8 @@
       <v-progress-circular indeterminate color="grey lighten-5"></v-progress-circular>
     </v-layout>
   </v-img>
+    <p>Are you a stall-holder with {{ data.name }}? Go on, put yourself on the MAP! </p>
+    <v-btn @click="showDialog" block color="accent">Register Your Stall</v-btn>
   </div>
 </template>
 

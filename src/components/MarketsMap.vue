@@ -1,10 +1,10 @@
 <template>
   <v-card>
-      <v-card-title class="headline font-weight-light" primary-title>
+      <v-card-title class="headline font-weight-light pt-1" primary-title>
           Flea Markets
       </v-card-title>
-      <v-card-text>
-          <l-map id="map" ref="MarketsMap" style="height: 70vh; max-width: 98vw" :zoom="map.zoom" :options="map.options"
+      <v-card-text class="pt-0">
+          <l-map id="map" ref="MarketsMap" style="height: 85vh; max-width: 98vw" :zoom="map.zoom" :options="map.options"
           :center="map.center" :min-zoom="map.minZoom" :max-zoom="map.maxZoom" >
           <l-control-scale position="bottomleft" :imperial="false" />
           <l-control-layers :options="{position: map.layersPosition}" />
@@ -64,7 +64,7 @@ export default {
     MarketsMapMarker
   },
   mounted() {
-    this.$store.dispatch('fetchMarkets')
+    this.$store.dispatch("fetchMarkets");
 
     this.$nextTick(() => {
       this.mapObject = this.$refs.MarketsMap.mapObject; // work as expected
@@ -98,14 +98,14 @@ export default {
   },
   computed: {
     markets() {
-    var markets = this.$store.getters.markets.map(function(market) {
-      return {
-        ...market,
-        show: true
-      };
-    });
+      var markets = this.$store.getters.markets.map(function(market) {
+        return {
+          ...market,
+          show: true
+        };
+      });
 
-      return markets
+      return markets;
     }
   },
   methods: {

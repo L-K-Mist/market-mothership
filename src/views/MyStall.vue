@@ -101,6 +101,7 @@ export default {
         this.$store.dispatch("stall", val);
       }
     },
+
     stallImage() {
       // if go with both then remove
       if (this.stall.image) {

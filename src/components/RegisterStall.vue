@@ -110,7 +110,6 @@
     </v-layout>
 </template>
 <script>
-// TODO SOON: Show the user his location and w3w address
 // TODO: Think about incorporating whatsapp for Business https://www.whatsapp.com/business/
 // click to chat https://wa.me/<number>
 import StallHolder from "@/components/RegisterStall/StallHolder";
