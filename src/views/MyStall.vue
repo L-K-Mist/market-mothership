@@ -12,7 +12,7 @@
                             color="grey lighten-4"
                             >
                                 <img v-if="stallHolder.image" :src="stallHolder.image"/>
-                                <v-icon v-else size="150">fa-user</v-icon>
+                                <v-icon v-else size="17vw">fa-user</v-icon>
                             </v-avatar>
                             <div class="contact-wrapper text-shadow">
                                 <div class="subheading">{{stallHolder.publicName}}</div>

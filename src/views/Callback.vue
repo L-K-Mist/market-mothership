@@ -13,6 +13,7 @@ export default {
     this.$auth.handleAuthentication().then(data => {
       this.$store.dispatch("personLoginData", data);
       this.$auth.authorizeUser();
+      // localStorage.isLoggedIn = true;
       this.$router.push({ name: "home" });
       // this.$router.go(-2);
     });

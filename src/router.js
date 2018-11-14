@@ -55,6 +55,7 @@ router.beforeEach((to, from, next) => {
       router.app.$auth.authorizeUser()
       next()
     } else { // trigger auth0 login
+      console.log("router is requiring login")
       router.app.$auth.login()
     }
   } else {

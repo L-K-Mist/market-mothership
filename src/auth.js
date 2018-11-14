@@ -99,6 +99,7 @@ let auth = new Vue({
                 localStorage.removeItem('expires_at')
                 localStorage.removeItem('user')
                 localStorage.removeItem('prisma_token')
+                localStorage.setItem('isLoggedIn', false)
                 // webAuth.authorize()
             })
         },
@@ -134,6 +135,8 @@ let auth = new Vue({
                         this.accessToken = authResult.accessToken
                         this.token = authResult.idToken
                         this.user = authResult.idTokenPayload
+                        localStorage.setItem('isLoggedIn', true)
+
                         resolve({
                             accessToken: this.accessToken,
                             token: this.accessToken,
