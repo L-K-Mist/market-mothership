@@ -52,6 +52,7 @@ router.beforeEach((to, from, next) => {
     next()
   } else if (to.matched.some(record => record.meta.requiresAuth)) { // if this route requires auth
     if (isLoggedIn) { // if authenticated allow access
+      router.app.$auth.authorizeUser()
       next()
     } else { // trigger auth0 login
       router.app.$auth.login()

@@ -1,10 +1,10 @@
 <template>
     <v-container grid-list-xs>
         <v-layout column justify-center>
-            <v-card v-if="stallHolder">
+            <v-card>
                 <v-img :aspect-ratio="16/9" class="background-image pb-6" src="https://cdn.vuetifyjs.com/images/parallax/material.jpg">
                     <v-container grid-list-md>
-                      <v-layout pa-2 column fill-height class="lightbox white--text">
+                      <v-layout  v-if="stallHolder" pa-2 column fill-height class="lightbox white--text">
     
                         <v-flex id="avatar-w-info" class="stallHolderPic">
                             <v-avatar class="elevation-12 border"
@@ -31,11 +31,44 @@
                           
                         </v-layout>
                       </v-layout>
-                      
+                      <v-progress-circular v-else color="indigo" indeterminate :size="200" :width="16"></v-progress-circular>
                     </v-container>
                 </v-img>
             </v-card>
-            <v-progress-circular v-else color="indigo" indeterminate :size="200" :width="16"></v-progress-circular>      
+            <v-card class="mt-2">
+              <v-card-text>
+                <v-layout row wrap>
+                  <v-flex xs12 md6 v-if="stallHolder">
+                    <strong>About me: </strong> {{stallHolder.bio}}
+                    
+                  </v-flex>
+                  <v-flex xs12 md6 v-if="stall.description">
+                    <strong>My shop: </strong> {{stall.description}}
+
+                  </v-flex>                  
+                </v-layout>
+              </v-card-text>
+            </v-card>   
+            <v-card class="mt-2">
+              <v-card-title primary-title>
+                My Products
+              </v-card-title>
+              <v-card-text>
+                  <v-flex xs12>
+                    <p>
+                    Yip Walter, this is where the shop's items will be displayed. 
+                    If you've gotten this far, then that means we've got at least two dummy-shops to play with from the shopper's perspective.
+                    My next action steps will be to make this page editable by the stall-owner, and the add products feature for the dude.
+                    </p>
+
+                    <p>
+                      I hope that just seeing this online will get the creative juices flowing for our next conversation.
+                    </p>
+
+                  </v-flex>                  
+
+              </v-card-text>
+            </v-card>    
         </v-layout>
     </v-container>
 </template>
@@ -43,8 +76,10 @@
 // TODO NEXT: solve the stallImage issue
 export default {
   created() {},
-  mounted() {
+  async mounted() {
     this.$store.dispatch("fetchMyStall");
+    this.stallHolder = await this.$store.dispatch("fetchMe");
+    // console.log("​mounted -> me", me);
   },
   data() {
     return {};

@@ -13,8 +13,8 @@ export default {
     this.$auth.handleAuthentication().then(data => {
       this.$store.dispatch("personLoginData", data);
       this.$auth.authorizeUser();
-      // this.$router.push({ name: "home" });
-      this.$router.go(-2);
+      this.$router.push({ name: "home" });
+      // this.$router.go(-2);
     });
   }
 };

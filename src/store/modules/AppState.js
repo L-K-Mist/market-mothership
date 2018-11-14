@@ -37,6 +37,12 @@ const mutations = {
 }
 
 const actions = {
+    stallHolder({
+        state,
+        commit
+    }, payload) {
+        commit('stallHolder', payload)
+    },
     activeUser({
         state
     }, payload) {
@@ -79,6 +85,41 @@ const actions = {
             commit('stall', response.data.myStall)
 
             return
+
+        } catch (err) {
+            state.error = err
+            alert(err)
+        }
+
+    },
+    async fetchMe({
+        state,
+        commit
+    }) {
+        state.error = null
+        try {
+            const response = await apollo.query({
+                query: gql `
+                {
+                    me {
+                        id
+                        name
+                        cell
+                        role
+                        image
+                        publicEmail
+                        publicName
+                        bio
+                    }
+                }
+              `
+            });
+            console.log("​------------------")
+            console.log("​response stallholder", response.data.me)
+            console.log("​------------------")
+            commit('stallHolder', response.data.me)
+
+            return response.data.me
 
         } catch (err) {
             state.error = err

@@ -6,15 +6,8 @@
       app
     >
       <v-list dense>
-                <v-list-tile to="my-stall">
-          <v-list-tile-action>
-            <v-icon>fa-home</v-icon>
-          </v-list-tile-action>
-          <v-list-tile-content>
-            <v-list-tile-title>Sort Maps</v-list-tile-title>
-          </v-list-tile-content>
-        </v-list-tile>
-        <v-list-tile>
+
+        <v-list-tile to="/">
           <v-list-tile-action>
             <v-icon>fa-home</v-icon>
           </v-list-tile-action>
@@ -22,6 +15,16 @@
             <v-list-tile-title>Home</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
+
+        <v-list-tile to="my-stall">
+          <v-list-tile-action>
+            <v-icon>fa-shopping-basket</v-icon>
+          </v-list-tile-action>
+          <v-list-tile-content>
+            <v-list-tile-title>My Shop</v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
+
         <v-list-tile @click="logoff">
           <v-list-tile-action>
             <v-icon>fa-sign-out</v-icon>
@@ -30,17 +33,26 @@
             <v-list-tile-title>Log Off</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
+
+        <v-list-tile @click="testFunc">
+          <v-list-tile-action>
+            <v-icon>fa-sign-out</v-icon>
+          </v-list-tile-action>
+          <v-list-tile-content>
+            <v-list-tile-title>Dylan's Function Testing Button</v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
       </v-list>
     </v-navigation-drawer>
     <v-toolbar scroll-off-screen :scroll-threshold="50" color="indigo" dark fixed app>
       <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
       <v-toolbar-title>The Market-Mother-Ship</v-toolbar-title>
       <v-spacer></v-spacer>
-                            <v-avatar class="avatar elevation-6 "
+                            <v-avatar @click="gotoMyStall" v-if="isLoggedIn && person.image" class="avatar elevation-6 "
                             size="8vw"
                             color="grey lighten-4"
                             >
-                                <img v-if="person.image" :src="person.image"/>
+                                <img  :src="person.image"/>
                                
                             </v-avatar>
       <v-icon medium hint="logout" @click="logoff">fa-sign-out</v-icon>
@@ -65,17 +77,25 @@ export default {
     source: String
   },
   data: () => ({
-    isLoggedIn: false,
     drawer: null
   }),
   computed: {
+    isLoggedIn() {
+      return localStorage.isLoggedIn;
+    },
     person() {
       return this.$store.getters.person;
     }
   },
   methods: {
+    gotoMyStall() {
+      this.$router.push("/my-stall");
+    },
     logoff() {
       this.$auth.logout();
+    },
+    testFunc() {
+      this.$store.dispatch("fetchMe");
     },
     rearrangeMapDataForPrisma() {
       this.$store.dispatch("fetchMyStall");
@@ -96,6 +116,7 @@ export default {
   position: absolute;
   top: 20px;
   right: 40px;
+  cursor: pointer;
 }
 </style>
 
