@@ -14,7 +14,7 @@ import {
   InMemoryCache
 } from "apollo-cache-inmemory";
 
-import store from '@/store'
+import store from '@/store/index.js'
 
 const httpLink = new HttpLink({
   // Here, we create a new instance of httpLink with the URL ( http://localhost:4000/) of our GraphQL server.
@@ -51,8 +51,8 @@ const httpLinkAuth = setContext(
     }
   ) => {
     // get the authentication token from localstorage if it exists
-    const token = localStorage.getItem("prisma_token");
-
+    // const token = localStorage.getItem("prisma_token");
+    const token = store.getters.prismaToken
     // return the headers to the context so httpLink can read them
     return {
       headers: {

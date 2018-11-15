@@ -1,4 +1,4 @@
-import store from './store'
+import store from '@/store/index.js'
 import router from './router'
 import isAfter from "date-fns/is_after";
 import subtractMinutes from "date-fns/sub_minutes";
@@ -43,12 +43,15 @@ export default {
 };
 
 function logout() {
+    console.log("​logout inside session triggered -> logout")
+    store.commit("update_auth_tokens", {}); //clear our tokens
+
+    store.commit("isLoggedIn", false)
+    clearTimeout(refreshTimeout);
+    refreshTimeout = null;
     auth0.logout({
         returnTo: "https://market-mothership.firebaseapp.com" || "http://localhost:8080"
     });
-    store.commit("update_auth_tokens", {}); //clear our tokens
-    clearTimeout(refreshTimeout);
-    refreshTimeout = null;
 }
 
 
@@ -72,6 +75,7 @@ function initSession() {
 
         console.log("Token Ok. Expiring at " + tokenExpiryDate);
         refreshTimeout = setTimeout(refreshTokens, differenceInMilliSeconds(tenMinutesBeforeExpiry, now));
+        return store.commit("isLoggedIn", true) // TODO make sure this belongs here
     });
 }
 

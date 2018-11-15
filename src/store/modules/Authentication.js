@@ -46,18 +46,32 @@ const getters = {
 const mutations = {
     update_auth_tokens(state, tokenData) {
         console.log("​update_auth_tokens -> tokenData", tokenData)
-        state.accessToken = tokenData.accessToken
-        state.idToken = tokenData.idToken
-        const tokensExpiry = addSeconds(new Date(), tokenData.expiresIn);
+        state.accessToken = tokenData.accessToken || tokenData.access_token
+        console.log("​update_auth_tokens -> state.accessToken", state.accessToken)
+
+        state.idToken = tokenData.idToken || tokenData.id_token
+        console.log("​update_auth_tokens -> state.idToken ", state.idToken)
+        const tokensExpiry = addSeconds(new Date(), tokenData.expiresIn || tokenData.expires_in);
         state.tokensExpiry = tokensExpiry;
-        if (state.accessToken && state.idToken) {
+        if (state.accessToken) {
             state.isLoggedIn = true
+            // return true // TODO: Play with this; might be unessecary
         } else {
             state.isLoggedIn = false
+            // return false
         }
+
+
+    },
+    update_auth_user(state, tokenData) {
+        console.log("​update_auth_user -> tokenData", tokenData)
+
+
     },
     isLoggedIn(state, bool) {
         state.isLoggedIn = bool
+        console.log("​isLoggedIn -> state.isLoggedIn", state.isLoggedIn)
+
     }
 }
 
@@ -80,7 +94,7 @@ const actions = {
                 }
             })
             console.log('TCL: asyncauthorizeUser -> response', response.data.authorize.token);
-            localStorage.setItem('prisma_token', response.data.authorize.token)
+            this.prismaToken = response.data.authorize.token
             this.isPrismaConnected = true
             console.log("​-----------------------------------------------------")
             console.log("​authorizeUser -> isPrismaConnected", this.isPrismaConnected)

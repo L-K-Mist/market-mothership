@@ -15,14 +15,14 @@
           </v-toolbar>
           
             <v-stepper v-model="stepState" vertical>
-                <v-stepper-step :complete="signedIn" step="1">
+                <v-stepper-step :complete="isLoggedIn" step="1">
                 Login
                 <small>Login with Google or Manually (Google method means less typing for you.)</small>
                 </v-stepper-step>
                     <v-stepper-content step="1">
 
                         <v-card class="mb-5"></v-card>
-                        <v-btn v-if="!signedIn" @click="signup()"  color="primary">Log In</v-btn>
+                        <v-btn v-if="!isLoggedIn" to="login"  color="primary">Log In</v-btn>
                         <!-- <v-btn color="accent" @click="stepState = 2">Continue</v-btn>
                         <v-btn flat>Cancel</v-btn> -->
 
@@ -122,31 +122,34 @@ export default {
   mounted() {
     console.log("registerStall form mounted");
     this.mainMarket = this.person.market;
-    const isLoggedIn = this.$auth.isAuthenticated();
-    console.log("​mounted -> isLoggedIn", isLoggedIn);
-    localStorage.isLoggedIn = isLoggedIn;
-    if (isLoggedIn) {
-      this.stepState = 2;
-    }
-    console.log("​mounted -> localStorage.isLoggedIn", localStorage.isLoggedIn);
+    // const isLoggedIn = this.$auth.isAuthenticated();
+    // console.log("​mounted -> isLoggedIn", isLoggedIn);
+    // localStorage.isLoggedIn = isLoggedIn;
     this.$nextTick(() => {
-      // next tick make sure we override the store instead of the store overriding these values
-      if (isLoggedIn == false) {
-        console.log(
-          "​mounted -> localStorage.isLoggedIn",
-          localStorage.isLoggedIn
-        );
-        this.stepState = 1;
-        console.log("​mounted -> this.stepState", this.stepState);
-      } else {
-        this.signedIn = true;
+      if (this.isLoggedIn) {
         this.stepState = 2;
+      } else {
+        this.stepState = 1;
       }
     });
+    // console.log("​mounted -> localStorage.isLoggedIn", localStorage.isLoggedIn);
+    // this.$nextTick(() => {
+    //   // next tick make sure we override the store instead of the store overriding these values
+    //   if (isLoggedIn == false) {
+    //     console.log(
+    //       "​mounted -> localStorage.isLoggedIn",
+    //       localStorage.isLoggedIn
+    //     );
+    //     this.stepState = 1;
+    //     console.log("​mounted -> this.stepState", this.stepState);
+    //   } else {
+    //     this.signedIn = true;
+    //     this.stepState = 2;
+    //   }
+    // });
   },
   data() {
     return {
-      signedIn: false,
       stallImageId: null,
       locDialog: false,
       cloudinary: {
@@ -157,6 +160,9 @@ export default {
     };
   },
   computed: {
+    isLoggedIn() {
+      return this.$store.getters.isLoggedIn;
+    },
     dialog: {
       get() {
         return this.$store.getters.showRegisterStall;
@@ -200,9 +206,9 @@ export default {
   //Note the w3w link struct: http://w3w.co/various.deform.restriction
 
   methods: {
-    signup() {
-      this.$auth.login();
-    },
+    // signup() {
+    //   this.$auth.login();
+    // },
     gotBio(person) {
       this.stepState = 3;
       // this.$store.dispatch("personFormData", person);

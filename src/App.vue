@@ -68,6 +68,8 @@
 </template>
 
 <script>
+import { logout, initSession } from "@/session";
+
 function getLocation() {
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(showPosition, locationError);
@@ -106,6 +108,9 @@ export default {
   created() {
     // this.authorize();
   },
+  mounted() {
+    initSession(); //Initialize our session
+  },
   props: {
     source: String
   },
@@ -120,9 +125,6 @@ export default {
     avatarSize: "12vw"
   }),
   computed: {
-    isLoggedIn() {
-      return localStorage.isLoggedIn;
-    },
     person() {
       return this.$store.getters.person;
     },
@@ -156,7 +158,7 @@ export default {
       this.$router.push("/my-stall");
     },
     logoff() {
-      this.$auth.logout();
+      logout();
     },
     testFunc() {
       console.log("​testFunc -> testFunc");
@@ -167,15 +169,15 @@ export default {
     },
     rearrangeMapDataForPrisma() {
       this.$store.dispatch("fetchMyStall");
-    },
-    async authorize() {
-      if (this.$auth.isAuthenticated()) {
-        const status = await this.$auth.authorizeUser();
-        this.$store.dispatch("activeUser", status.data.authorize);
-      } else {
-        console.log("user not logged in");
-      }
     }
+    // async authorize() {
+    //   if (this.$auth.isAuthenticated()) {
+    //     const status = await this.$auth.authorizeUser();
+    //     this.$store.dispatch("activeUser", status.data.authorize);
+    //   } else {
+    //     console.log("user not logged in");
+    //   }
+    // }
   }
 };
 </script>

@@ -7,6 +7,7 @@
 </template>
 
 <script>
+import querystring from "querystring";
 export default {
   name: "callback",
   computed: {
@@ -22,12 +23,16 @@ export default {
       try {
         let tokensString = hashValue.substring(1, hashValue.length); //remove the # in the string
         let parsedTokens = querystring.parse(tokensString);
+        console.log("​mounted -> parsedTokens", parsedTokens);
+        this.$store.commit("isLoggedIn", true);
+        // alert("got to connect and parsed tokens");
         this.$store.commit("update_auth_tokens", parsedTokens);
-        this.$router.push("/");
+        this.$store.commit("update_auth_user", tokenData);
+        this.$router.push({ name: "home" });
       } catch (e) {
         console.log("​}catch -> e", e);
-
-        this.$router.push("/login");
+        this.$store.commit("isLoggedIn", false);
+        // this.$router.push("/login");
       }
     }
 

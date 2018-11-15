@@ -5,9 +5,7 @@ import Home from './views/Home.vue'
 import Callback from "@/views/Callback.vue"
 import MyStall from "@/views/MyStall.vue"
 import Login from "@/views/Login.vue"
-import {
-  initSession
-} from "./session.js";
+
 
 
 
@@ -35,6 +33,9 @@ const router = new Router({
       path: '/my-stall',
       name: 'my-stall',
       component: MyStall,
+      meta: {
+        requiresAuth: true
+      }
     }
   ]
 });
@@ -52,18 +53,22 @@ const router = new Router({
 // very basic "setup" of a global guard
 router.beforeEach((to, from, next) => {
 
-  const isLoggedIn = store.getters.isLoggedIn
+  var isLoggedIn = store.getters.isLoggedIn
   console.log("​isLoggedIn top of router beforeEach", isLoggedIn)
   const routerToName = to.name
   if (routerToName !== 'callback' && routerToName !== 'login') {
     store.commit('newRoute', routerToName)
   }
-
-  if (to.name == 'callback') { // check if "to"-route is "callback" and allow access
+  // alert('about to enter router if statements')
+  if (to.name == 'callback' || to.name == 'login') { // check if "to"-route is "callback" and allow access
+    console.log("Router went straight to next")
+    // alert('next?')
     next()
   } else if (to.matched.some(record => record.meta.requiresAuth)) { // if this route requires auth
     if (isLoggedIn) { // if authenticated allow access
       // router.app.$auth.authorizeUser()
+      console.log('routerTriggered as if logged in')
+      // alert('next?')
       next()
     } else { // trigger auth0 login
       console.log("router is requiring login")
