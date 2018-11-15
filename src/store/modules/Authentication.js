@@ -33,14 +33,18 @@ const state = {
     accessToken: null,
     tokensExpiry: null,
     prismaToken: null,
-    isLoggedIn: false
+    isPrismaAuth: null,
+    isLoggedIn: false,
+    authUser: null,
 }
 
 const getters = {
     tokensExpiry: state => state.tokensExpiry,
     accessToken: state => state.accessToken,
     idToken: state => state.idToken,
-    isLoggedIn: state => state.isLoggedIn
+    isLoggedIn: state => state.isLoggedIn,
+    isPrismaAuth: state => state.isPrismaAuth,
+    prismaToken: state => state.prismaToken
 }
 
 const mutations = {
@@ -53,6 +57,7 @@ const mutations = {
         console.log("​update_auth_tokens -> state.idToken ", state.idToken)
         const tokensExpiry = addSeconds(new Date(), tokenData.expiresIn || tokenData.expires_in);
         state.tokensExpiry = tokensExpiry;
+        state.authUser = tokenData.idTokenPayload
         if (state.accessToken) {
             state.isLoggedIn = true
             // return true // TODO: Play with this; might be unessecary
@@ -60,14 +65,13 @@ const mutations = {
             state.isLoggedIn = false
             // return false
         }
-
-
     },
-    update_auth_user(state, tokenData) {
-        console.log("​update_auth_user -> tokenData", tokenData)
-
-
+    prismaToken(state, token) {
+        state.isPrismaAuth = token ? true : false
+        console.log("​prismaToken ->  state.isPrismaAuth", state.isPrismaAuth)
+        state.prismaToken = token
     },
+
     isLoggedIn(state, bool) {
         state.isLoggedIn = bool
         console.log("​isLoggedIn -> state.isLoggedIn", state.isLoggedIn)
@@ -78,34 +82,51 @@ const mutations = {
 const actions = {
 
     async prismaAuth({
-        state
+        state,
+        commit
     }) {
         if (!state.isLoggedIn) {
             console.error("Dee, you can't authorise prisma if user is not logged in")
-            return false
+            return
         }
         try {
             const response = await apollo.mutate({
                 mutation: AUTHORIZE,
                 variables: {
-                    email: this.user.email,
-                    name: this.user.name,
-                    authId: parseToken(this.token)
+                    email: state.authUser.email,
+                    name: state.authUser.name,
+                    authId: state.accessToken.split('.')[2]
                 }
             })
             console.log('TCL: asyncauthorizeUser -> response', response.data.authorize.token);
-            this.prismaToken = response.data.authorize.token
-            this.isPrismaConnected = true
-            console.log("​-----------------------------------------------------")
-            console.log("​authorizeUser -> isPrismaConnected", this.isPrismaConnected)
-            console.log("​-----------------------------------------------------")
+            commit('prismaToken', response.data.authorize.token)
             return response
         } catch (err) {
             console.error(err)
-            return false
+            return response
         }
-    }
+    },
+    async parseTokens({
+        dispatch,
+        commit,
+        hashValue
+    }) {
+        console.log("​update_auth_user -> hashValue", hashValue)
+        await auth0.parseHash((err, authResult) => {
+            console.log("​update_auth_user -> authResult", authResult)
+            if (authResult.accessToken && authResult.idToken) {
 
+                commit('update_auth_tokens', authResult)
+                return authResult
+
+            } else if (err) {
+                // this.logout()
+                reject(err)
+            }
+        })
+        // await dispatch('prismaAuth')
+        return
+    },
 }
 
 export default {

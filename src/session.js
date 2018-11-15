@@ -50,7 +50,7 @@ function logout() {
     clearTimeout(refreshTimeout);
     refreshTimeout = null;
     auth0.logout({
-        returnTo: "https://market-mothership.firebaseapp.com" || "http://localhost:8080"
+        returnTo: "http://localhost:8080" || "https://market-mothership.firebaseapp.com"
     });
 }
 
@@ -75,6 +75,7 @@ function initSession() {
 
         console.log("Token Ok. Expiring at " + tokenExpiryDate);
         refreshTimeout = setTimeout(refreshTokens, differenceInMilliSeconds(tenMinutesBeforeExpiry, now));
+        store.dispatch("prismaAuth")
         return store.commit("isLoggedIn", true) // TODO make sure this belongs here
     });
 }

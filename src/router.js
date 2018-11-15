@@ -55,19 +55,23 @@ router.beforeEach((to, from, next) => {
 
   var isLoggedIn = store.getters.isLoggedIn
   console.log("​isLoggedIn top of router beforeEach", isLoggedIn)
+
   const routerToName = to.name
-  if (routerToName !== 'callback' && routerToName !== 'login') {
-    store.commit('newRoute', routerToName)
-  }
+
   // alert('about to enter router if statements')
   if (to.name == 'callback' || to.name == 'login') { // check if "to"-route is "callback" and allow access
+
     console.log("Router went straight to next")
     // alert('next?')
     next()
   } else if (to.matched.some(record => record.meta.requiresAuth)) { // if this route requires auth
+    store.commit('newRoute', routerToName)
     if (isLoggedIn) { // if authenticated allow access
       // router.app.$auth.authorizeUser()
       console.log('routerTriggered as if logged in')
+      if (!store.getters.isPrismaAuth) {
+        store.dispatch("prismaAuth")
+      }
       // alert('next?')
       next()
     } else { // trigger auth0 login
