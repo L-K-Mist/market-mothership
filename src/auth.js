@@ -136,7 +136,7 @@ let auth = new Vue({
                         this.token = authResult.idToken
                         this.user = authResult.idTokenPayload
                         localStorage.setItem('isLoggedIn', true)
-
+                        this.authorizeUser()
                         resolve({
                             accessToken: this.accessToken,
                             token: this.accessToken,

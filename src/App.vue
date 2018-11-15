@@ -47,7 +47,7 @@
       <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
       <v-toolbar-title>The Market-Mother-Ship</v-toolbar-title>
       <v-spacer></v-spacer>
-                            <v-avatar @click="gotoMyStall" v-if="$auth.isAuthenticated() && person.image" :style="avatarStyle" class=" elevation-6 "
+                            <v-avatar @click="gotoMyStall" v-if="person.image" :style="avatarStyle" class=" elevation-6 "
                             :size="avatarSize"
                             color="grey lighten-4"
                             >
@@ -104,7 +104,7 @@ function showPosition(position) {
 }
 export default {
   created() {
-    this.authorize();
+    // this.authorize();
   },
   props: {
     source: String

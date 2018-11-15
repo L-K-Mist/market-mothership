@@ -9,14 +9,38 @@
 <script>
 export default {
   name: "callback",
+  computed: {
+    enRoute() {
+      return this.$store.getters.newRoute;
+    }
+  },
   mounted() {
-    this.$auth.handleAuthentication().then(data => {
-      this.$store.dispatch("personLoginData", data);
-      this.$auth.authorizeUser();
-      // localStorage.isLoggedIn = true;
-      this.$router.push({ name: "home" });
-      // this.$router.go(-2);
-    });
+    let hashValue = this.$route.hash;
+    if (!hashValue) {
+      this.$router.push("/login"); //after valid login the #token comes back as a hash value no token means user didnt just login
+    } else {
+      try {
+        let tokensString = hashValue.substring(1, hashValue.length); //remove the # in the string
+        let parsedTokens = querystring.parse(tokensString);
+        this.$store.commit("update_auth_tokens", parsedTokens);
+        this.$router.push("/");
+      } catch (e) {
+        console.log("​}catch -> e", e);
+
+        this.$router.push("/login");
+      }
+    }
+
+    // this.$auth.handleAuthentication().then(data => {
+    //   this.$store.dispatch("personLoginData", data);
+    //   if (localStorage.isLoggedIn) {
+    //     this.$router.push({ name: this.enRoute });
+    //   } else {
+    //     console.log("something went wrong in callback");
+    //   }
+    //   // localStorage.isLoggedIn = true;
+    //   // this.$router.go(-2);
+    // });
   }
 };
 </script>

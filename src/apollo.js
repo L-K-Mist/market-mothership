@@ -14,6 +14,8 @@ import {
   InMemoryCache
 } from "apollo-cache-inmemory";
 
+import store from '@/store'
+
 const httpLink = new HttpLink({
   // Here, we create a new instance of httpLink with the URL ( http://localhost:4000/) of our GraphQL server.
   // uri: 'https://mirage-advanced-frdudlwdkj.now.sh/'

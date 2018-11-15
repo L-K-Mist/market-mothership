@@ -4,6 +4,7 @@ import gql from "graphql-tag";
 
 // TODO: Gotta still improve general log-in functionality.
 const state = {
+    newRoute: null,
     hasStall: false,
     activeUser: null,
     error: null,
@@ -22,6 +23,9 @@ const getters = {
     },
     stallHolder(state) {
         return state.stallHolder
+    },
+    newRoute(state) {
+        return state.newRoute
     }
 }
 
@@ -33,6 +37,11 @@ const mutations = {
     stallHolder(state, payload) {
         state.stallHolder = payload
         console.log('TCL: commit -> state.stallHolder', state.stallHolder);
+    },
+    newRoute(state, payload) {
+        state.newRoute = payload
+        console.log("​newRoute -> payload", payload)
+
     }
 }
 
