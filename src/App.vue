@@ -1,6 +1,7 @@
 <template>
   <v-app id="inspire">
     <v-navigation-drawer
+    style="z-index: 7"
       v-model="drawer"
       fixed
       app
