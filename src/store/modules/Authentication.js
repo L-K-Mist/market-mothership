@@ -58,6 +58,7 @@ const mutations = {
         const tokensExpiry = addSeconds(new Date(), tokenData.expiresIn || tokenData.expires_in);
         state.tokensExpiry = tokensExpiry;
         state.authUser = tokenData.idTokenPayload
+        console.log("​update_auth_tokens -> state.authUser", state.authUser)
         if (state.accessToken) {
             state.isLoggedIn = true
             // return true // TODO: Play with this; might be unessecary
@@ -103,7 +104,7 @@ const actions = {
             return response
         } catch (err) {
             console.error(err)
-            return response
+
         }
     },
     async parseTokens({

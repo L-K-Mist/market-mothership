@@ -128,6 +128,9 @@ export default {
     person() {
       return this.$store.getters.person;
     },
+    isLoggedIn() {
+      return this.$store.getters.isLoggedIn;
+    },
     breakpoint() {
       return this.$vuetify.breakpoint.name;
       //connect and use
@@ -149,6 +152,13 @@ export default {
     }
   },
   watch: {
+    isLoggedIn(newVal) {
+      if (newVal) {
+        this.$nextTick(() => {
+          this.$store.dispatch("prismaAuth");
+        });
+      }
+    },
     breakpoint(newVal) {
       console.log("​breakpoint -> newVal", newVal);
     }

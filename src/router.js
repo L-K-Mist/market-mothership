@@ -69,9 +69,9 @@ router.beforeEach((to, from, next) => {
     if (isLoggedIn) { // if authenticated allow access
       // router.app.$auth.authorizeUser()
       console.log('routerTriggered as if logged in')
-      if (!store.getters.isPrismaAuth) {
-        store.dispatch("prismaAuth")
-      }
+      // if (!store.getters.isPrismaAuth) {
+      //   store.dispatch("prismaAuth")
+      // }
       // alert('next?')
       next()
     } else { // trigger auth0 login
