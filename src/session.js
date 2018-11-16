@@ -50,7 +50,7 @@ function logout() {
     clearTimeout(refreshTimeout);
     refreshTimeout = null;
     auth0.logout({
-        returnTo: "http://localhost:8080" || "https://market-mothership.firebaseapp.com"
+        returnTo: process.env.VUE_APP_HOMELINK
     });
 }
 

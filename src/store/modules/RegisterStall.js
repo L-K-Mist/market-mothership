@@ -198,8 +198,10 @@ const actions = {
             commit('person', response.data.createStallHolder)
             commit('stallHolder', state.person)
         } catch (err) {
+            console.log("​}catch -> err", err)
             dispatch('error', err)
-            alert(err)
+
+            // alert(err)
         }
 
     }

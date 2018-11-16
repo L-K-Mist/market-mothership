@@ -22,7 +22,7 @@
                     <v-stepper-content step="1">
 
                         <v-card class="mb-5"></v-card>
-                        <v-btn v-if="!isLoggedIn" to="login"  color="primary">Log In</v-btn>
+                        <v-btn v-if="!isLoggedIn" @click="$store.commit('newRoute', 'home')" to="login"  color="primary">Log In</v-btn>
                         <!-- <v-btn color="accent" @click="stepState = 2">Continue</v-btn>
                         <v-btn flat>Cancel</v-btn> -->
 

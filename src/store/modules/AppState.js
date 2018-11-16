@@ -97,7 +97,9 @@ const actions = {
 
         } catch (err) {
             state.error = err
-            alert(err)
+            console.log("​}catch -> state.error", state.error)
+
+            // alert(err)
         }
 
     },
@@ -132,7 +134,9 @@ const actions = {
 
         } catch (err) {
             state.error = err
-            alert(err)
+            console.log("​}catch -> state.error", state.error)
+
+            // alert(err)
         }
 
     },
