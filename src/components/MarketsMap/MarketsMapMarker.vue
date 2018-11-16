@@ -9,6 +9,14 @@
 <script>
 import { LMarker, LPopup } from "vue2-leaflet";
 import MarketsPopupContent from "@/components/MarketsMap/MarketsPopupContent";
+import Glyph from "leaflet.icon.glyph";
+import "leaflet/dist/leaflet.css";
+import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.webpack.css";
+import "leaflet-defaulticon-compatibility";
+var customIcon = L.icon({
+  iconUrl: "images/layers.png",
+  shadowUrl: ""
+});
 
 export default {
   name: "MarkerPopup",
