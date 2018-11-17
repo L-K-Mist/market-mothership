@@ -89,8 +89,13 @@
               <v-card-text>
                 <v-layout row wrap>
                   <v-flex xs12 md6 v-if="stallHolder">
-                    <strong>About me: </strong> {{stallHolder.bio}}
-                    
+                    <strong @click="aboutMeInput = !aboutMeInput">About me: </strong> {{stallHolder.bio}}
+                    <v-text-field  @keyup.enter="aboutMeInput = false" v-if="aboutMeInput"
+                      v-model="stallHolder.bio"
+                      name="about-me"
+                      label="label"
+                      id="id"
+                    ></v-text-field>
                   </v-flex>
                   <v-flex xs12 md6 v-if="stall.description">
                     <strong>My shop: </strong> {{stall.description}}
@@ -144,7 +149,8 @@ export default {
         preset: "gi9lyrb6"
       },
       avatarImageId: null,
-      stallImageId: null
+      stallImageId: null,
+      aboutMeInput: false
     };
   },
   computed: {
