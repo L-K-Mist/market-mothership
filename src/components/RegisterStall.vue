@@ -238,6 +238,7 @@ export default {
         );
 
         if (!this.$store.getters.error) {
+          this.$store.dispatch("fetchMe");
           this.$store.dispatch("fetchMyStall");
           this.$router.push("/my-stall");
         }

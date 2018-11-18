@@ -67,66 +67,11 @@
                         </v-layout>
                       </v-layout>
                       <v-progress-circular v-else color="indigo" indeterminate :size="200" :width="16"></v-progress-circular>
-                    <v-layout row justify-center>
 <!-- CHANGE AVATAR DIALOG -->
-                      <!-- <v-dialog v-if="changeAvatar" v-model="dialog" persistent max-width="290">
-
-                        <v-card>
-                          <v-card-title class="headline">headline</v-card-title>
-                          <v-card-text>text</v-card-text>
-                          <v-card-actions>
-                            <v-spacer></v-spacer>
-                            <v-btn color="primary" flat @click.native="dialog = false">Disagree</v-btn>
-                            <v-btn color="primary" flat @click.native="dialog = false">Agree</v-btn>
-                          </v-card-actions>
-                        </v-card>
-                      </v-dialog> -->
-                    </v-layout>
                     </v-container>
                 </v-img>
             </v-card>
-            <v-card class="mt-2">
-              <v-card-text>
-                <v-layout row wrap>
-                  <v-flex @click="aboutMeInput = !aboutMeInput" xs12 md6 v-if="stallHolder">
-                    <strong>About me: </strong> {{stallHolder.bio}}
-                  </v-flex>
-                    <v-textarea   v-if="aboutMeInput" @keyup.enter="aboutMeInput = false"
-                      auto-grow
-                      
-                      v-model="stallHolder.bio"
-                      name="about-me"
-                      label="label"
-                      id="id"
-                    ></v-textarea>
-                  <v-flex xs12 md6 v-if="stall.description">
-                    <strong>My shop: </strong> {{stall.description}}
-
-                  </v-flex>                  
-                </v-layout>
-              </v-card-text>
-            </v-card>   
-            <v-card class="mt-2">
-              <v-card-title primary-title>
-                My Products
-              </v-card-title>
-              <v-card-text>
-                  <v-flex xs12>
-                    <p>
-                    Yip Walter, this is where the shop's items will be displayed. 
-                    If you've gotten this far, then that means we've got at least two dummy-shops to play with from the shopper's perspective.
-                    My next action steps will be to make this page editable by the stall-owner, and the add products feature for the dude.
-                    </p>
-
-                    <p>
-                      I hope that just seeing this online will get the creative juices flowing for our next conversation.
-                    </p>
-
-                  </v-flex>   
-
-
-              </v-card-text>
-            </v-card>    
+            <my-stall-profile :stallHolder="stallHolder" :stall="stall"></my-stall-profile>
         </v-layout>
     </v-container>
 </template>
@@ -134,12 +79,13 @@
 // TODO: Persist the updated image ie.
 import vuetifyCloudinaryUpload from "vuetify-cloudinary-upload";
 import srcForCloudinary from "@/helpers/srcForCloudinary.js";
+import MyStallProfile from "@/components/MyStall/MyStallProfile"
 
 export default {
   created() {},
   async mounted() {
-    this.$store.dispatch("fetchMyStall");
-    this.stallHolder = await this.$store.dispatch("fetchMe");
+
+
     // console.log("​mounted -> me", me);
   },
   data() {
@@ -152,7 +98,7 @@ export default {
       },
       avatarImageId: null,
       stallImageId: null,
-      aboutMeInput: false
+
     };
   },
   computed: {
@@ -204,7 +150,8 @@ export default {
   },
   components: {
     "v-cloudinary-user": vuetifyCloudinaryUpload,
-    "v-cloudinary-stall": vuetifyCloudinaryUpload
+    "v-cloudinary-stall": vuetifyCloudinaryUpload,
+    MyStallProfile
   }
 };
 </script>
