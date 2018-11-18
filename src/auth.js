@@ -99,6 +99,7 @@ let auth = new Vue({
                 localStorage.removeItem('expires_at')
                 localStorage.removeItem('user')
                 localStorage.removeItem('prisma_token')
+                localStorage.setItem('isLoggedIn', false)
                 // webAuth.authorize()
             })
         },
@@ -115,9 +116,9 @@ let auth = new Vue({
             console.log('TCL: asyncauthorizeUser -> response', response.data.authorize.token);
             localStorage.setItem('prisma_token', response.data.authorize.token)
             this.isPrismaConnected = true
-			console.log("​-----------------------------------------------------")
-			console.log("​authorizeUser -> isPrismaConnected", this.isPrismaConnected)
-			console.log("​-----------------------------------------------------")
+            console.log("​-----------------------------------------------------")
+            console.log("​authorizeUser -> isPrismaConnected", this.isPrismaConnected)
+            console.log("​-----------------------------------------------------")
             return response
         },
 
@@ -134,6 +135,8 @@ let auth = new Vue({
                         this.accessToken = authResult.accessToken
                         this.token = authResult.idToken
                         this.user = authResult.idTokenPayload
+                        localStorage.setItem('isLoggedIn', true)
+                        this.authorizeUser()
                         resolve({
                             accessToken: this.accessToken,
                             token: this.accessToken,

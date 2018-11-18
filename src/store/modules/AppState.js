@@ -4,6 +4,7 @@ import gql from "graphql-tag";
 
 // TODO: Gotta still improve general log-in functionality.
 const state = {
+    newRoute: null,
     hasStall: false,
     activeUser: null,
     error: null,
@@ -22,6 +23,9 @@ const getters = {
     },
     stallHolder(state) {
         return state.stallHolder
+    },
+    newRoute(state) {
+        return state.newRoute
     }
 }
 
@@ -29,16 +33,25 @@ const mutations = {
     hasStall(state, payload) {
         state.hasStall = payload
     },
-    error(state, payload) {
-        state.error = payload
-    },
+
     stallHolder(state, payload) {
         state.stallHolder = payload
         console.log('TCL: commit -> state.stallHolder', state.stallHolder);
+    },
+    newRoute(state, payload) {
+        state.newRoute = payload
+        console.log("​newRoute -> payload", payload)
+
     }
 }
 
 const actions = {
+    stallHolder({
+        state,
+        commit
+    }, payload) {
+        commit('stallHolder', payload)
+    },
     activeUser({
         state
     }, payload) {
@@ -58,6 +71,7 @@ const actions = {
         state,
         commit
     }) {
+        state.error = null
         try {
             const response = await apollo.query({
                 query: gql `
@@ -79,11 +93,57 @@ const actions = {
             console.log("​------------------")
             commit('stall', response.data.myStall)
 
+            return
+
         } catch (err) {
-            commit('error', err)
-            alert(err)
+            state.error = err
+            console.log("​}catch -> state.error", state.error)
+
+            // alert(err)
         }
 
+    },
+    async fetchMe({
+        state,
+        commit
+    }) {
+        state.error = null
+        try {
+            const response = await apollo.query({
+                query: gql `
+                {
+                    me {
+                        id
+                        name
+                        cell
+                        role
+                        image
+                        publicEmail
+                        publicName
+                        bio
+                    }
+                }
+              `
+            });
+            console.log("​------------------")
+            console.log("​response stallholder", response.data.me)
+            console.log("​------------------")
+            commit('stallHolder', response.data.me)
+
+            return response.data.me
+
+        } catch (err) {
+            state.error = err
+            console.log("​}catch -> state.error", state.error)
+
+            // alert(err)
+        }
+
+    },
+    error({
+        state
+    }, payload) {
+        state.error = payload
     }
 }
 

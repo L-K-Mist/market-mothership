@@ -9,12 +9,38 @@
 <script>
 export default {
   name: "callback",
-  mounted() {
-    this.$auth.handleAuthentication().then(data => {
-      this.$store.dispatch("personLoginData", data);
-      this.$auth.authorizeUser();
-      this.$router.push({ name: "home" });
-    });
+  computed: {
+    enRoute() {
+      return this.$store.getters.newRoute;
+    }
+  },
+  async mounted() {
+    let hashValue = this.$route.hash;
+    if (!hashValue) {
+      this.$router.push("/login"); //after valid login the #token comes back as a hash value no token means user didnt just login
+    } else {
+      try {
+        await this.$store.dispatch("parseTokens", hashValue);
+        this.$store.commit("isLoggedIn", true);
+        // await this.$store.dispatch("prismaAuth");
+        this.$router.push({ name: this.enRoute });
+      } catch (e) {
+        console.log("​}catch -> e", e);
+        this.$store.commit("isLoggedIn", false);
+        // this.$router.push("/login");
+      }
+    }
+
+    // this.$auth.handleAuthentication().then(data => {
+    //   this.$store.dispatch("personLoginData", data);
+    //   if (localStorage.isLoggedIn) {
+    //     this.$router.push({ name: this.enRoute });
+    //   } else {
+    //     console.log("something went wrong in callback");
+    //   }
+    //   // localStorage.isLoggedIn = true;
+    //   // this.$router.go(-2);
+    // });
   }
 };
 </script>

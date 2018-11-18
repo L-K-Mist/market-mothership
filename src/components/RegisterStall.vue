@@ -15,14 +15,14 @@
           </v-toolbar>
           
             <v-stepper v-model="stepState" vertical>
-                <v-stepper-step :complete="signedIn" step="1">
+                <v-stepper-step :complete="isLoggedIn" step="1">
                 Login
                 <small>Login with Google or Manually (Google method means less typing for you.)</small>
                 </v-stepper-step>
                     <v-stepper-content step="1">
 
                         <v-card class="mb-5"></v-card>
-                        <v-btn v-if="!signedIn" @click="signup()"  color="primary">Log In</v-btn>
+                        <v-btn v-if="!isLoggedIn" @click="$store.commit('newRoute', 'home')" to="login"  color="primary">Log In</v-btn>
                         <!-- <v-btn color="accent" @click="stepState = 2">Continue</v-btn>
                         <v-btn flat>Cancel</v-btn> -->
 
@@ -68,7 +68,7 @@
                   <p class="lighten-1">If you allow geolocation, the marker will appear at your current location, feel free to drag it to the right spot.</p>
                   <v-dialog v-if="stepState === 3"
                     v-model="locDialog"
-                    width="500"
+                    width="400"
                   >
                     <v-btn
                       slot="activator"
@@ -110,7 +110,6 @@
     </v-layout>
 </template>
 <script>
-// TODO SOON: Show the user his location and w3w address
 // TODO: Think about incorporating whatsapp for Business https://www.whatsapp.com/business/
 // click to chat https://wa.me/<number>
 import StallHolder from "@/components/RegisterStall/StallHolder";
@@ -120,30 +119,34 @@ import vuetifyCloudinaryUpload from "vuetify-cloudinary-upload";
 import srcForCloudinary from "@/helpers/srcForCloudinary.js";
 
 export default {
-  created() {
+  mounted() {
+    console.log("registerStall form mounted");
     this.mainMarket = this.person.market;
-    if (!this.signedIn) {
-      this.stepState = 1;
-    } else {
-      this.stepState = 2;
-    }
-    // if (this.signedIn && this.stepState === 1) {
-    //   this.stepState = 2;
-    // }
-    // else {
-    //   var prismaRegistered = this.$auth.isPrismaConnected;
-    //   console.log("​---------------------------------------------");
-    //   console.log("​mounted -> prismaRegistered", prismaRegistered);
-    //   console.log("​---------------------------------------------");
-
-    //   var user = JSON.stringify(this.$auth.user);
-    //   console.log("TCL: --------------------------");
-    //   console.log("TCL: mounted -> user", user);
-    //   console.log("TCL: --------------------------");
-    //   this.stepState = 2;
-    // }
-
-    // this.$nextTick(() => {});
+    // const isLoggedIn = this.$auth.isAuthenticated();
+    // console.log("​mounted -> isLoggedIn", isLoggedIn);
+    // localStorage.isLoggedIn = isLoggedIn;
+    this.$nextTick(() => {
+      if (this.isLoggedIn) {
+        this.stepState = 2;
+      } else {
+        this.stepState = 1;
+      }
+    });
+    // console.log("​mounted -> localStorage.isLoggedIn", localStorage.isLoggedIn);
+    // this.$nextTick(() => {
+    //   // next tick make sure we override the store instead of the store overriding these values
+    //   if (isLoggedIn == false) {
+    //     console.log(
+    //       "​mounted -> localStorage.isLoggedIn",
+    //       localStorage.isLoggedIn
+    //     );
+    //     this.stepState = 1;
+    //     console.log("​mounted -> this.stepState", this.stepState);
+    //   } else {
+    //     this.signedIn = true;
+    //     this.stepState = 2;
+    //   }
+    // });
   },
   data() {
     return {
@@ -157,6 +160,9 @@ export default {
     };
   },
   computed: {
+    isLoggedIn() {
+      return this.$store.getters.isLoggedIn;
+    },
     dialog: {
       get() {
         return this.$store.getters.showRegisterStall;
@@ -165,9 +171,7 @@ export default {
         this.$store.dispatch("showRegisterStall", bool);
       }
     },
-    signedIn() {
-      return this.$auth.isAuthenticated();
-    },
+
     stepState: {
       get() {
         return this.$store.getters.stepState;
@@ -194,13 +198,17 @@ export default {
       return marketArray;
     }
   },
-
+  watch: {
+    stepState(newVal) {
+      console.log("​stepState -> newVal", newVal);
+    }
+  },
   //Note the w3w link struct: http://w3w.co/various.deform.restriction
 
   methods: {
-    signup() {
-      this.$auth.login();
-    },
+    // signup() {
+    //   this.$auth.login();
+    // },
     gotBio(person) {
       this.stepState = 3;
       // this.$store.dispatch("personFormData", person);
@@ -224,8 +232,13 @@ export default {
       this.stall.markets[0] = this.mainMarket;
       this.$store.dispatch("stall", this.stall);
       this.$store.dispatch("saveStallHolder").then(() => {
-        // if there is no error go to home page
+        console.log(
+          "​gotStall -> this.$store.getters.error",
+          this.$store.getters.error
+        );
+
         if (!this.$store.getters.error) {
+          this.$store.dispatch("fetchMe");
           this.$store.dispatch("fetchMyStall");
           this.$router.push("/my-stall");
         }
