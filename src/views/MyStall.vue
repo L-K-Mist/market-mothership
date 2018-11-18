@@ -3,7 +3,7 @@
                             <transition 
                             class="elevation-24"
                               enter-active-class="animated bounceInRight"
-                              leave-active-class="animated zoomOutRight fast"
+                              leave-active-class="animated hinge fast"
                              >
                               <v-cloudinary-user
                                 v-if="changeAvatar" 
@@ -21,7 +21,7 @@
                             <transition 
                             class="elevation-24"
                               enter-active-class="animated bounceInLeft"
-                              leave-active-class="animated zoomOutLeft fast"
+                              leave-active-class="animated hinge fast"
                              >
                               <v-cloudinary-stall
                                 v-if="changeStallImage" 
@@ -88,15 +88,17 @@
             <v-card class="mt-2">
               <v-card-text>
                 <v-layout row wrap>
-                  <v-flex xs12 md6 v-if="stallHolder">
-                    <strong @click="aboutMeInput = !aboutMeInput">About me: </strong> {{stallHolder.bio}}
-                    <v-text-field  @keyup.enter="aboutMeInput = false" v-if="aboutMeInput"
+                  <v-flex @click="aboutMeInput = !aboutMeInput" xs12 md6 v-if="stallHolder">
+                    <strong>About me: </strong> {{stallHolder.bio}}
+                  </v-flex>
+                    <v-textarea   v-if="aboutMeInput" @keyup.enter="aboutMeInput = false"
+                      auto-grow
+                      
                       v-model="stallHolder.bio"
                       name="about-me"
                       label="label"
                       id="id"
-                    ></v-text-field>
-                  </v-flex>
+                    ></v-textarea>
                   <v-flex xs12 md6 v-if="stall.description">
                     <strong>My shop: </strong> {{stall.description}}
 
