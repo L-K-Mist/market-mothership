@@ -5,6 +5,7 @@ import Home from './views/Home.vue'
 import Callback from "@/views/Callback.vue"
 import MyStall from "@/views/MyStall.vue"
 import Login from "@/views/Login.vue"
+import MyStallProfile from "@/components/MyStall/MyStallProfile"
 
 
 
@@ -33,6 +34,18 @@ const router = new Router({
       path: '/my-stall',
       name: 'my-stall',
       component: MyStall,
+      children: [
+        {
+          path: '',
+          name: 'profile',
+          component: MyStallProfile
+        },
+        // {
+        //   path: 'edit',
+        //   name: 'Edit',
+        //   component: Edit
+        // }
+      ],
       meta: {
         requiresAuth: true
       }

@@ -5,6 +5,13 @@
             <v-flex @click="aboutMeInput = !aboutMeInput" xs12 md6 v-if="stallHolder">
             <strong>About me: </strong> {{stallHolder.bio}}
             </v-flex>
+            <v-textarea   v-if="aboutMeInput" @keyup.enter="aboutMeInput = false"
+                auto-grow
+                v-model="stallHolder.bio"
+                name="about-me"
+                label="label"
+                id="id"
+            ></v-textarea>
             <v-flex xs12 md6 v-if="stall.description">
             <strong>My shop: </strong> {{stall.description}}
             </v-flex>                  
@@ -25,26 +32,14 @@ export default {
     console.log("​mounted -> stall", stall)
     console.log("​-----------------------")
     },
-    computed: {
+    props: {
         stallHolder: {
-          get() {
-            return this.$store.getters.stallHolder;
-          },
-          set(val) {
-            this.$store.dispatch("stallHolder", val);
-          }
+            type: Object
         },
         stall: {
-          get() {
-            return this.$store.getters.stall;
-          },
-          set(val) {
-            this.$store.dispatch("stall", val);
-          }
-        },
-
-        
-        } ,   
+            type: Object
+        }
+    },
     data(){
         return {
             aboutMeInput: false

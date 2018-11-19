@@ -71,7 +71,8 @@
                     </v-container>
                 </v-img>
             </v-card>
-            <my-stall-profile :stallHolder="stallHolder" :stall="stall"></my-stall-profile>
+            <router-view></router-view>
+            <!-- <my-stall-profile :stallHolder="stallHolder" :stall="stall"></my-stall-profile> -->
         </v-layout>
     </v-container>
 </template>
