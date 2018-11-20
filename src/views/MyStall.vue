@@ -80,13 +80,11 @@
 // TODO: Persist the updated image ie.
 import vuetifyCloudinaryUpload from "vuetify-cloudinary-upload";
 import srcForCloudinary from "@/helpers/srcForCloudinary.js";
-import MyStallProfile from "@/components/MyStall/MyStallProfile"
+import MyStallProfile from "@/components/MyStall/MyStallProfile";
 
 export default {
   created() {},
   async mounted() {
-
-
     // console.log("​mounted -> me", me);
   },
   data() {
@@ -98,8 +96,7 @@ export default {
         preset: "gi9lyrb6"
       },
       avatarImageId: null,
-      stallImageId: null,
-
+      stallImageId: null
     };
   },
   computed: {
@@ -192,7 +189,8 @@ export default {
 .stall-name {
   color: lightgrey;
   font-size: 6vw;
-  mix-blend-mode: darken;
+  /* background-blend-mode: screen; */
+  mix-blend-mode: luminosity;
   position: absolute;
   bottom: 0.2vw;
   /* top: -5vw; */

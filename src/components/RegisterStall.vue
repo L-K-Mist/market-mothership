@@ -95,12 +95,12 @@
                   <!-- <img
                     v-if="stall.image"
                     :src="stall.image" />   -->
-                  <v-text-field
+                  <v-textarea
                       multi-line
                       label="Description"
-                      hint="Your shop in general terms (indivdual product descriptions come later)"
+                      hint="Your shop in general terms. Use lots of keywords, as this is what we scan in customer search queries."
                       v-model="stall.description"
-                  ></v-text-field>               
+                  ></v-textarea>               
                   <v-btn color="accent" @click="gotStall">Continue</v-btn>
                 </v-stepper-content>
             </v-stepper>            

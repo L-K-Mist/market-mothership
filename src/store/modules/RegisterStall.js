@@ -1,6 +1,8 @@
 import apollo from '@/apollo.js'
 import gql from 'graphql-tag'
 
+
+
 // TODO NEXT: Fix schema for optional stall fields
 
 const state = {

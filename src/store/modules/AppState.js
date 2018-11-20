@@ -140,6 +140,11 @@ const actions = {
         }
 
     },
+    async fetchStalls({
+        commit
+    }, payload) {
+
+    },
     error({
         state
     }, payload) {
