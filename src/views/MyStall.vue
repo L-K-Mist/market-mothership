@@ -81,6 +81,7 @@
 import vuetifyCloudinaryUpload from "vuetify-cloudinary-upload";
 import srcForCloudinary from "@/helpers/srcForCloudinary.js";
 import MyStallProfile from "@/components/MyStall/MyStallProfile";
+import MyProducts from "@/components/MyStall/MyProducts";
 
 export default {
   created() {},
@@ -149,7 +150,8 @@ export default {
   components: {
     "v-cloudinary-user": vuetifyCloudinaryUpload,
     "v-cloudinary-stall": vuetifyCloudinaryUpload,
-    MyStallProfile
+    MyStallProfile,
+    MyProducts
   }
 };
 </script>

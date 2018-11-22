@@ -5,10 +5,11 @@ import AppState from './modules/AppState'
 import MarketsMap from './modules/MarketsMap'
 import RegisterStall from './modules/RegisterStall'
 import Authentication from './modules/Authentication'
+import ModifyState from './modules/ModifyState'
 
 const vuexLocal = new VuexPersistence({
   storage: window.localStorage,
-  modules: ["MarketsMap", 'RegisterStall', 'AppState', 'Authentication']
+  modules: ["MarketsMap", 'RegisterStall', 'AppState', 'Authentication', 'ModifyState']
 });
 
 Vue.use(Vuex)
@@ -18,7 +19,8 @@ const store = new Vuex.Store({
     AppState,
     MarketsMap,
     RegisterStall,
-    Authentication
+    Authentication,
+    ModifyState
   },
   plugins: [vuexLocal.plugin]
 })
