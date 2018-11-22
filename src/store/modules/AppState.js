@@ -8,7 +8,8 @@ const state = {
     hasStall: false,
     activeUser: null,
     error: null,
-    stallHolder: null
+    stallHolder: null,
+    stalls: null
 }
 
 const getters = {
@@ -26,6 +27,9 @@ const getters = {
     },
     newRoute(state) {
         return state.newRoute
+    },
+    stalls(state) {
+        return state.stalls
     }
 }
 
@@ -42,9 +46,13 @@ const mutations = {
         state.newRoute = payload
         console.log("​newRoute -> payload", payload)
 
-    }
-}
+    },
+    stalls(state, payload) {
+        state.stalls = payload
+        console.log("​newRoute -> payload", stalls)
+    },
 
+}
 const actions = {
     stallHolder({
         state,
@@ -141,9 +149,50 @@ const actions = {
 
     },
     async fetchStalls({
+        state,
         commit
     }, payload) {
-
+        state.error = null
+        try {
+            const response = await apollo.query({
+                query: gql `
+                query {
+                    stalls {
+                        id
+                        image
+                        w3w
+                        lng
+                        lat
+                        name
+                        description
+                        owner {
+                            name
+                            id
+                            bio
+                            image
+                            cell
+                            publicEmail
+                            publicName
+                        }
+                        markets {
+                            name
+                            province {
+                                name
+                            }
+                            id
+                        }
+                    }
+                }
+                `
+            })
+            const stalls = response.data.stalls
+            console.log("​stalls", stalls)
+            commit('stalls', response.data.stalls)
+            return stalls //might be unessecary
+        } catch (err) {
+            console.log("​}catch -> state.error", state.error)
+            // alert(err)
+        }
     },
     error({
         state

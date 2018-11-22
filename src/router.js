@@ -6,6 +6,7 @@ import Callback from "@/views/Callback.vue"
 import MyStall from "@/views/MyStall.vue"
 import Login from "@/views/Login.vue"
 import MyStallProfile from "@/components/MyStall/MyStallProfile"
+import StallDetails from "@/components/Stalls/StallDetails"
 
 
 
@@ -18,7 +19,12 @@ const router = new Router({
   routes: [{
       path: "/",
       name: "home",
-      component: Home
+      component: Home,
+      // children: [{
+      //   path: '/stall-details/:Sid',
+      //   name: 'stall-details',
+      //   component: StallDetails
+      // }]
     },
     {
       path: "/callback",
@@ -34,21 +40,19 @@ const router = new Router({
       path: '/my-stall',
       name: 'my-stall',
       component: MyStall,
-      children: [
-        {
-          path: '',
-          name: 'profile',
-          component: MyStallProfile
-        },
-        // {
-        //   path: 'edit',
-        //   name: 'Edit',
-        //   component: Edit
-        // }
-      ],
+      children: [{
+        path: '',
+        name: 'profile',
+        component: MyStallProfile
+      }, ],
       meta: {
         requiresAuth: true
       }
+    },
+    {
+      path: '/stall-details/:Sid',
+      name: 'stall-details',
+      component: StallDetails
     }
   ]
 });
