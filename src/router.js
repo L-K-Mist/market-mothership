@@ -43,7 +43,10 @@ const router = new Router({
       children: [{
         path: '',
         name: 'profile',
-        component: MyStallProfile
+        component: MyStallProfile,
+        meta: {
+          requiresAuth: true
+        }
       }, ],
       meta: {
         requiresAuth: true

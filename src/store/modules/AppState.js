@@ -181,6 +181,15 @@ const actions = {
                             }
                             id
                         }
+                        products {
+                            id
+                            name
+                            image
+                            description
+                            measurementUnit
+                            unitsPerItem
+                            pricePerItem
+                        }
                     }
                 }
                 `
