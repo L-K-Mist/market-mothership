@@ -73,11 +73,13 @@
             </v-card>
             <!-- <router-view></router-view> -->
             <my-stall-profile :stallHolder="stallHolder" :stall="stall"></my-stall-profile>
+            <my-products></my-products>
         </v-layout>
     </v-container>
 </template>
 <script>
 // TODO: Persist the updated image ie.
+// TODO: Bonus: Do label AND hint all over the place on forms
 import vuetifyCloudinaryUpload from "vuetify-cloudinary-upload";
 import srcForCloudinary from "@/helpers/srcForCloudinary.js";
 import MyStallProfile from "@/components/MyStall/MyStallProfile";
