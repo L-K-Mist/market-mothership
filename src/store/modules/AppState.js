@@ -2,14 +2,14 @@ import apollo from "@/apollo.js";
 import gql from "graphql-tag";
 
 
-// TODO: Gotta still improve general log-in functionality.
 const state = {
     newRoute: null,
     hasStall: false,
     activeUser: null,
     error: null,
     stallHolder: null,
-    stalls: null
+    stalls: null,
+    stallProducts: null,
 }
 
 const getters = {
@@ -30,6 +30,9 @@ const getters = {
     },
     stalls(state) {
         return state.stalls
+    },
+    stallProducts(state) {
+        return state.stallProducts
     }
 }
 
@@ -202,6 +205,43 @@ const actions = {
             console.log("​}catch -> state.error", state.error)
             // alert(err)
         }
+    },
+
+
+
+    async fetchProducts({
+        state
+    }, payload) {
+        state.error = null
+        try {
+            const response = await apollo.query({
+                query: gql `
+                query stallProducts($stallId: String!) {
+                    stallProducts(stallId: $stallId) {
+                        id
+                        name
+                        image
+                        description
+                        measurementUnit
+                        unitsPerItem
+                        pricePerItem
+                    }
+                }
+                `,
+                variables: {
+                    stallId: payload
+                }
+            })
+            state.stallProducts = response.data.stallProducts
+            console.log("​state.stallProducts", state.stallProducts)
+
+            return state.stallProducts
+
+        } catch (error) {
+            console.log("​}catch -> error", error)
+
+        }
+
     },
     error({
         state

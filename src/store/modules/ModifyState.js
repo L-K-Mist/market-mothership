@@ -1,3 +1,6 @@
+import apollo from "@/apollo.js";
+import gql from "graphql-tag";
+
 const state = {
 
 }
@@ -9,7 +12,8 @@ const mutations = {
 }
 const actions = {
     async createProduct({
-        commit
+        commit,
+        dispatch
     }, payload) {
         try {
             dispatch('error', null)
@@ -23,12 +27,14 @@ const actions = {
             `,
                 variables: {
                     input: {
-
+                        ...payload
                     }
                 }
 
             })
-        } catch (error) {
+            console.log("​response", response)
+
+        } catch (err) {
             console.log("​}catch -> err", err)
             dispatch('error', err)
         }

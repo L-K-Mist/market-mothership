@@ -34,7 +34,6 @@
 </template>
 
 <script>
-// TODO: Add the markets from laptop to db
 import MarketsMap from "../components/MarketsMap";
 import RegisterStall from "@/components/RegisterStall";
 // import MyStall from '@/components/MyStall'

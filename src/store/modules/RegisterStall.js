@@ -3,7 +3,6 @@ import gql from 'graphql-tag'
 
 
 
-// TODO NEXT: Fix schema for optional stall fields
 
 const state = {
     showRegisterStall: false,
@@ -113,7 +112,7 @@ const actions = {
         }
         commit('person', tempPerson)
     },
-    // TODO: see what happens when user doesn't choose google login
+
     personLoginData({
         state,
         commit

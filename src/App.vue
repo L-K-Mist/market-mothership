@@ -110,7 +110,11 @@ export default {
     // this.authorize();
   },
   mounted() {
-    initSession(); //Initialize our session
+    initSession().then(() => {
+      if (this.isLoggedIn) {
+        this.$store.dispatch("prismaAuth");
+      }
+    }); //Initialize our session
   },
   props: {
     source: String
@@ -155,8 +159,8 @@ export default {
   watch: {
     isLoggedIn(newVal) {
       if (newVal) {
-        this.$nextTick(() => {
-          this.$store.dispatch("prismaAuth");
+        this.$nextTick(async () => {
+          await this.$store.dispatch("prismaAuth");
         });
       }
     },
@@ -179,6 +183,7 @@ export default {
       getLocation();
     },
     rearrangeMapDataForPrisma() {
+      // this function is not used. TODO remove
       this.$store.dispatch("fetchMyStall");
     }
     // async authorize() {

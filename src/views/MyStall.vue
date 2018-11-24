@@ -36,49 +36,48 @@
                                   @input="gotNewStallImage"
                                 />               
                             </transition>        
-        <v-layout column justify-center>
-            <v-card>
-                <v-img :aspect-ratio="16/9" class="background-image pb-6" src="https://cdn.vuetifyjs.com/images/parallax/material.jpg">
-                    <v-container grid-list-md>
-                      <v-layout  v-if="stallHolder" pa-2 column fill-height class="lightbox white--text">
-<!-- Useravatar -->
-                        <v-flex id="avatar-w-info" class="stallHolderPic">
-                            <v-avatar @click="toggle('changeAvatar')" class="avatar-only elevation-12"
-                            size="20vw"
-                            color="grey lighten-4"
-                            >
-                                <img v-if="stallHolder.image" :src="stallHolder.image"/>
-                                <v-icon v-else size="17vw">fa-user</v-icon>
-                            </v-avatar>
-                            <div class="contact-wrapper text-shadow">
-                                <div class="subheading">{{stallHolder.publicName}}</div>
-                                <div class="body-1">{{stallHolder.publicEmail}}</div>
-                                <div v-if="stallHolder.cell" class="body-1">{{stallHolder.cell}}</div>
-                            </div>
-                        </v-flex>
-                        <v-flex xs8>
-                          <img  @click="toggle('changeStallImage')" class="stall-image" :src="stall.image" alt="image of shop"/>
-                        </v-flex>
-                        <v-layout row>
-                          <v-flex xs12 >
-                              <h3 class="stall-name text-shadow">{{stall.name}}</h3>
-                          </v-flex>
-                          
-                        </v-layout>
-                      </v-layout>
-                      <v-progress-circular v-else color="indigo" indeterminate :size="200" :width="16"></v-progress-circular>
-<!-- CHANGE AVATAR DIALOG -->
-                    </v-container>
-                </v-img>
-            </v-card>
-            <!-- <router-view></router-view> -->
-            <my-stall-profile :stallHolder="stallHolder" :stall="stall"></my-stall-profile>
-            <my-products></my-products>
-        </v-layout>
+                            <v-layout column justify-center>
+                                <v-card>
+                                    <v-img :aspect-ratio="16/9" class="background-image pb-6" src="https://cdn.vuetifyjs.com/images/parallax/material.jpg">
+                                        <v-container grid-list-md>
+                                          <v-layout  v-if="stallHolder" pa-2 column fill-height class="lightbox white--text">
+                    <!-- Useravatar -->
+                                            <v-flex id="avatar-w-info" class="stallHolderPic">
+                                                <v-avatar @click="toggle('changeAvatar')" class="avatar-only elevation-12"
+                                                size="20vw"
+                                                color="grey lighten-4"
+                                                >
+                                                    <img v-if="stallHolder.image" :src="stallHolder.image"/>
+                                                    <v-icon v-else size="17vw">fa-user</v-icon>
+                                                </v-avatar>
+                                                <div class="contact-wrapper text-shadow">
+                                                    <div class="subheading">{{stallHolder.publicName}}</div>
+                                                    <div class="body-1">{{stallHolder.publicEmail}}</div>
+                                                    <div v-if="stallHolder.cell" class="body-1">{{stallHolder.cell}}</div>
+                                                </div>
+                                            </v-flex>
+                                            <v-flex xs8>
+                                              <img  @click="toggle('changeStallImage')" class="stall-image" :src="stall.image" alt="image of shop"/>
+                                            </v-flex>
+                                            <v-layout row>
+                                              <v-flex xs12 >
+                                                  <h3 class="stall-name text-shadow">{{stall.name}}</h3>
+                                              </v-flex>
+                                              
+                                            </v-layout>
+                                          </v-layout>
+                                          <v-progress-circular v-else color="indigo" indeterminate :size="200" :width="16"></v-progress-circular>
+                    <!-- CHANGE AVATAR DIALOG -->
+                                        </v-container>
+                                    </v-img>
+                                </v-card>
+                                <!-- <router-view></router-view> -->
+                                <my-stall-profile :stallHolder="stallHolder" :stall="stall"></my-stall-profile>
+                                <my-products v-if="stall.id" :stallId="stall.id"></my-products>
+                            </v-layout>
     </v-container>
 </template>
 <script>
-// TODO: Persist the updated image ie.
 // TODO: Bonus: Do label AND hint all over the place on forms
 import vuetifyCloudinaryUpload from "vuetify-cloudinary-upload";
 import srcForCloudinary from "@/helpers/srcForCloudinary.js";
@@ -88,6 +87,26 @@ import MyProducts from "@/components/MyStall/MyProducts";
 export default {
   created() {},
   async mounted() {
+    if (this.$store.getters.isPrismaAuth) {
+      console.log(
+        "MyStall knows prisma auth is: (true)",
+        this.$store.getters.isPrismaAuth
+      );
+      this.$store.dispatch("fetchMe");
+      this.$store.dispatch("fetchMyStall");
+    } else {
+      console.log(
+        "MyStall knows prisma auth is: (false)",
+        this.$store.getters.isPrismaAuth
+      );
+
+      await this.$store.dispatch("prismaAuth");
+      console.log(
+        "it has waited for prismaAuth to return and now dispatching fetchMe and fetchMyStall"
+      );
+      this.$store.dispatch("fetchMe");
+      this.$store.dispatch("fetchMyStall");
+    }
     // console.log("​mounted -> me", me);
   },
   data() {

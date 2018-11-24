@@ -75,13 +75,15 @@ function initSession() {
 
         console.log("Token Ok. Expiring at " + tokenExpiryDate);
         refreshTimeout = setTimeout(refreshTokens, differenceInMilliSeconds(tenMinutesBeforeExpiry, now));
-        store.dispatch("prismaAuth")
+
+        // store.dispatch("prismaAuth")
         return store.commit("isLoggedIn", true) // TODO make sure this belongs here
     });
 }
 
 function refreshTokens() {
     return new Promise((resolve) => {
+        console.log('Session is refreshing tokens')
         auth0.checkSession({}, function (err, authResult) {
             if (err) {
                 store.commit("isLoggedIn", false)

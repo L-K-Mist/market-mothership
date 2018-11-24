@@ -9,7 +9,9 @@ import ModifyState from './modules/ModifyState'
 
 const vuexLocal = new VuexPersistence({
   storage: window.localStorage,
-  modules: ["MarketsMap", 'RegisterStall', 'AppState', 'Authentication', 'ModifyState']
+  modules: ["MarketsMap", 'RegisterStall', 'AppState', 'Authentication', 'ModifyState'],
+  // modules: ["MarketsMap", 'RegisterStall', 'Authentication', 'ModifyState']
+
 });
 
 Vue.use(Vuex)
