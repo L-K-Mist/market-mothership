@@ -1,6 +1,6 @@
 <template>
-    <div v-if="stalls !== null" >
-        <div v-for="(stall, index) in stalls" :key="index"> 
+    <div>
+        <div v-if="stalls !== null" v-for="(stall, index) in stalls" :key="index"> 
             <div v-if="sid == stall.id">
                 <v-layout column justify-center>
                     <v-card>
@@ -54,12 +54,18 @@
                 </v-layout>
             </div>  
         </div>
+        <div v-if="products">
+            <products-list :products="products"></products-list>
+        </div>
     </div>
 </template>
 <script>
+import ProductsList from "@/components/Stalls/ProductsList";
+
 export default {
   // my id is cjocd1r6071r60911vsip1fx3
-  mounted() {
+  created() {
+    this.$store.dispatch("fetchProducts", this.sid);
     // const stallHolder = this.stallHolder;
     // console.log("​-----------------------------------");
     // console.log("​mounted -> stallHolder", stallHolder);
@@ -85,6 +91,11 @@ export default {
       //   set(val) {
       //     this.$store.dispatch("stall", val);
       //   }
+    },
+    products: {
+      get() {
+        return this.$store.getters.stallProducts;
+      }
     }
   },
   data() {
@@ -92,6 +103,9 @@ export default {
       aboutMeInput: false,
       sid: this.$route.params.Sid
     };
+  },
+  components: {
+    ProductsList
   }
 };
 </script>

@@ -9,7 +9,6 @@
 
             </v-flex>
           </v-layout>  
-
             <v-layout row>
               <v-container align-baseline grid-list-md>
                 <v-list three-line>
@@ -26,7 +25,6 @@
                       </v-list-tile-content>
                     </v-list-tile>
                 </v-list>
-                
               </v-container>
             </v-layout>
     </v-container>
