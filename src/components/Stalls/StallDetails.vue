@@ -6,7 +6,7 @@
                     <v-card>
                         <v-img :aspect-ratio="16/9" class="background-image pb-6" src="https://cdn.vuetifyjs.com/images/parallax/material.jpg">
                             <v-container grid-list-md>
-                                <v-layout  v-if="stall.owner" pa-2 column fill-height class="lightbox white--text">
+                                <v-layout  v-if="stall.owner" pa-2 column fluid class="lightbox white--text">
                             <!-- Useravatar -->
                                     <v-flex id="avatar-w-info" class="stallHolderPic">
                                         <v-avatar class="avatar-only elevation-12"
@@ -22,9 +22,15 @@
                                             <div v-if="stall.owner.cell" class="body-1">{{stall.owner.cell}}</div>
                                         </div>
                                     </v-flex>
-                                    <v-flex xs8>
-                                    <img class="stall-image" :src="stall.image" alt="image of shop"/>
-                                    </v-flex>
+                                        <v-img :src="stall.image" alt="image of shop" height="50%">
+
+                                        </v-img>
+                                    <!-- <v-flex xs8>
+                                        <v-layout fill-height row justify-end>
+                                            <img class="stall-image" :src="stall.image" alt="image of shop"/>
+                                            
+                                        </v-layout>
+                                    </v-flex> -->
                                     <v-layout row>
                                         <v-flex xs12 >
                                             <h3 class="stall-name text-shadow">{{stall.name}}</h3>
@@ -113,8 +119,10 @@ export default {
 <style scoped>
 .stallHolderPic {
   position: absolute;
-  right: 1vw;
+  left: 1vw;
   top: 5vw;
+  z-index: 2;
+  height: 60%;
   /* cursor: pointer; */
 }
 .avatar-only {
@@ -135,6 +143,11 @@ export default {
 .stall-image {
   min-width: 50vw;
   max-width: 80vw;
+  justify-content: unset;
+
+  /* position: relative;
+  left: 8vw;
+  z-index: 1; */
 }
 .contact-wrapper {
   background-blend-mode: hue;
@@ -152,6 +165,7 @@ export default {
   bottom: 0.2vw;
   /* top: -5vw; */
   left: 1vw;
+  z-index: 2;
 }
 .text-shadow {
   text-shadow: 0px 4px 3px rgba(0, 0, 0, 0.4), 0px 8px 13px rgba(0, 0, 0, 0.1),

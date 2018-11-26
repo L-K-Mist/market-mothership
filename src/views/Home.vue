@@ -4,7 +4,13 @@
           <v-layout row >
             <v-flex xs12>
               <!-- <my-stall  v-if="hasStall"></my-stall> -->
+              <v-expansion-panel popout>
+                <v-expansion-panel-content>
+                  <div slot="header">Map Of Markets</div>
+
               <MarketsMap />
+                </v-expansion-panel-content>
+              </v-expansion-panel>
               <RegisterStall/>
 
             </v-flex>

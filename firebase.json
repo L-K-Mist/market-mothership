@@ -9,6 +9,13 @@
     "rewrites": [{
       "source": "!{/js,/css}/**",
       "destination": "/index.html"
+    }],
+    "headers": [{
+      "source": "/service-worker.js",
+      "headers": [{
+        "key": "Cache-Control",
+        "value": "no-cache"
+      }]
     }]
   }
 }

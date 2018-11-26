@@ -46,7 +46,7 @@
     </v-navigation-drawer>
     <v-toolbar scroll-off-screen :scroll-threshold="50" color="indigo" dark fixed app>
       <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
-      <v-toolbar-title class="ml-1">The Market-Mother-Ship <img class="ufo ml-2" src="/img/icons/ufo.svg"/> </v-toolbar-title>
+      <v-toolbar-title class="ml-1">Market-Mother-Ship <img class="ufo ml-2" src="/img/icons/ufo.svg"/> </v-toolbar-title>
       <v-spacer></v-spacer>
                             <v-avatar @click="gotoMyStall" v-if="person.image" :style="avatarStyle" class=" elevation-6 "
                             :size="avatarSize"

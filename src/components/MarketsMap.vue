@@ -1,10 +1,7 @@
 <template>
   <v-card>
-      <v-card-title class="headline font-weight-light pt-1" primary-title>
-          Flea Markets
-      </v-card-title>
       <v-card-text class="pt-0">
-          <l-map id="map" ref="MarketsMap" style="height: 85vh; max-width: 98vw" :zoom="map.zoom" :options="map.options"
+          <l-map id="map" ref="MarketsMap" style="height: 75vh; max-width: 95vw" :zoom="map.zoom" :options="map.options"
           :center="map.center" :min-zoom="map.minZoom" :max-zoom="map.maxZoom" >
           <l-control-scale position="bottomleft" :imperial="false" />
           <l-control-layers :options="{position: map.layersPosition}" />
