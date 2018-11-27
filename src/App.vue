@@ -76,6 +76,8 @@
 // Improve the way measurement units display eg if kilograms is 1 then it should show 1 kilogram <-- gonna be a fun exercise.
 // Hmmm... something like if units per item is 1 then splice the S of the measurements.
 
+// Change pointer on Stall Image in MyStall
+
 import { logout, initSession } from "@/session";
 
 function getLocation() {

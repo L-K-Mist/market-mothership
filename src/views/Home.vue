@@ -11,8 +11,8 @@
               <MarketsMap />
                 <!-- </v-expansion-panel-content>
               </v-expansion-panel>
-              <RegisterStall/> -->
-
+               -->
+          <RegisterStall/>
             </v-flex>
           </v-layout>  
             <v-layout row>

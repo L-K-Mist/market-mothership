@@ -113,7 +113,7 @@ const actions = {
         commit('person', tempPerson)
     },
 
-    personLoginData({
+    personLoginData({ // maybe get rid of this
         state,
         commit
     }, payload) {
@@ -121,12 +121,12 @@ const actions = {
         var person = {}
         // person.accessToken = payload.accessToken
         // person.token = payload.token
-        person.image = payload.user.picture
-        person.email = payload.user.email
-        if (payload.user.family_name !== 'undefined') {
-            person.firstName = payload.user.given_name
-            person.lastName = payload.user.family_name
-            person.name = payload.user.name
+        person.image = payload.picture
+        person.email = payload.email
+        if (payload.family_name !== 'undefined') {
+            person.firstName = payload.given_name
+            person.lastName = payload.family_name
+            person.name = payload.name
         } else {
             person.name = null
         }

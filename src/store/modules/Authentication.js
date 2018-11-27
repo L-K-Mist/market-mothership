@@ -121,6 +121,7 @@ const actions = {
             if (authResult.accessToken && authResult.idToken) {
 
                 commit('update_auth_tokens', authResult)
+                dispatch('personLoginData', authResult.idTokenPayload)
                 return authResult
 
             } else if (err) {
