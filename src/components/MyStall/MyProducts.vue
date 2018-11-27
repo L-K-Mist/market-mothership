@@ -3,7 +3,9 @@
       <v-btn color="primary" @click="dialog = true" dark>Add a Product</v-btn>
         <product-form  :show="dialog" @showForm="showForm" @productData="saveProduct"></product-form>
         <!-- Product Display -->
-        <products-list :products="products"></products-list>
+        <products-list :editMode="true" :products="products">
+          <p slot="cloudinary-edit-instruction">If you want to keep your existing picture don't click "Product Image"</p>
+        </products-list>
           
     </div>
 </template>

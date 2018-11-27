@@ -45,6 +45,15 @@ const actions = {
         dispatch
     }, payload) {
         console.log("​payload", payload)
+        var input = {
+            productId: payload.productId,
+            name: payload.name,
+            image: payload.image,
+            description: payload.description,
+            measurementUnit: payload.measurementUnit,
+            unitsPerItem: payload.unitsPerItem,
+            pricePerItem: payload.pricePerItem,
+        }
         try {
             dispatch('error', null)
             const response = await apollo.mutate({
@@ -56,9 +65,8 @@ const actions = {
                 }
             `,
                 variables: {
-                    input: {
-                        ...payload
-                    }
+                    input
+
                 }
             })
             console.log("​response", response)

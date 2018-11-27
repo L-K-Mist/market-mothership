@@ -2,12 +2,19 @@
     <v-container grid-list-md fluid>
         <v-layout row wrap>
             <v-flex xs12 sm6 lg4 v-if="products" v-for="product in products" :key="product.name" >
+                <product-form :product="product" :show="dialog" @showForm="showForm" 
+                @productData="updateProduct">
+                    <slot name="cloudinary-edit-instruction" slot="edit-instruction">
+                    </slot>          
+                </product-form>
                 <v-card class="pb-2" hover  height="100%" style="max-height: 70vh; cursor: default"
                 >
                 <v-img    
                 height="70%"      
                     :src="product.image"
                 >
+                <v-icon v-if="editMode" @click="activeProduct = product.id; dialog = true" large dark 
+                style="position: absolute; bottom: 1%; right: 1%">fa-edit</v-icon>
                         <v-flex xs12>
                         <strong class="display-1 font-weight-black product-name text-shadow">{{ product.name }}</strong>
                         </v-flex>
@@ -52,8 +59,39 @@
 </template>
 
 <script>
+import ProductForm from "@/components/MultiPurpose/ProductForm";
+
 export default {
-  props: ["products"]
+  props: {
+    products: {
+      default() {
+        return {};
+      }
+    },
+    editMode: {
+      default: false
+    }
+  },
+  data() {
+    return {
+      activeProduct: null,
+      dialog: false
+    };
+  },
+  methods: {
+    updateProduct(product) {
+      this.$store.dispatch("updateProduct", {
+        productId: this.activeProduct,
+        ...product
+      });
+    },
+    showForm(bool) {
+      this.dialog = bool;
+    }
+  },
+  components: {
+    ProductForm
+  }
 };
 </script>
 

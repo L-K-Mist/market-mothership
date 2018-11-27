@@ -73,6 +73,8 @@
 //Find out what's going on with sending measurement units to DB
 // Stalls on front-page needs a heading
 // In MyStall adding a product should optimistically push the product to products
+// Improve the way measurement units display eg if kilograms is 1 then it should show 1 kilogram <-- gonna be a fun exercise.
+// Hmmm... something like if units per item is 1 then splice the S of the measurements.
 
 import { logout, initSession } from "@/session";
 

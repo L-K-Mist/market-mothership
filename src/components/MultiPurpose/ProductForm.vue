@@ -1,6 +1,5 @@
 <template>
-          <v-dialog v-model="dialog" max-width="600px">
-
+        <v-dialog v-model="dialog" max-width="600px">
           <v-card v-if="product">
             <v-card-title>
               <span class="headline">Add a Product</span>
@@ -29,6 +28,7 @@
                     <v-text-field prefix="R" v-model="newData.pricePerItem" label="Price per Item" ></v-text-field>
                   </v-flex>                
                       <v-flex xs12>
+                        <slot name="edit-instruction"></slot>
                         <v-cloudinary-product
                             class="cloudinary-product"
                             :showImage="true"
@@ -50,7 +50,7 @@
             <v-card-actions>
               <v-spacer></v-spacer>
               <!-- <v-btn color="blue darken-1" flat @click="dialog = false">Close</v-btn> -->
-              <v-btn color="blue darken-1" flat @click="$emit('productData', newData)">Save</v-btn>
+              <v-btn color="blue darken-1" flat @click="sendNewData">Save</v-btn>
             </v-card-actions>
           </v-card>
         </v-dialog>
@@ -120,6 +120,10 @@ export default {
     },
     deleteImage() {
       this.productImageId = null;
+    },
+    sendNewData() {
+      this.$emit("productData", this.newData);
+      this.dialog = false;
     }
   },
   components: {
