@@ -1,7 +1,7 @@
 <template>
     <v-container grid-list-md fluid>
         <v-layout row wrap>
-            <v-flex xs12 sm6 xl4 v-if="products" v-for="product in products" :key="product.name" >
+            <v-flex xs12 sm6 lg4 v-if="products" v-for="product in products" :key="product.name" >
                 <v-card class="pb-2" hover  height="100%" style="max-height: 70vh; cursor: default"
                 >
                 <v-img    

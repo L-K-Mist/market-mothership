@@ -1,7 +1,10 @@
 <template>
   <v-card>
-      <v-card-text class="pt-0">
-          <l-map id="map" ref="MarketsMap" style="height: 75vh; max-width: 95vw" :zoom="map.zoom" :options="map.options"
+      <v-card-title class="title" primary-title>
+        Find A Market
+      </v-card-title>
+      <v-card-text>
+          <l-map id="map" ref="MarketsMap" :style="mapStyle" :zoom="map.zoom" :options="map.options"
           :center="map.center" :min-zoom="map.minZoom" :max-zoom="map.maxZoom" >
           <l-control-scale position="bottomleft" :imperial="false" />
           <l-control-layers :options="{position: map.layersPosition}" />
@@ -88,6 +91,7 @@ export default {
         layersPosition: "bottomleft",
         attributionPrefix: "Vue2Leaflet and What3Words... you ROCK!!!"
       },
+      mapStyle: "height: 50vh; max-width: 100%",
       opacity: 0.6,
       tileProviders: tileProviders,
       stuff: [{ id: "s1", visible: true, markersVisible: true }]
@@ -103,6 +107,9 @@ export default {
       });
 
       return markets;
+    },
+    screenSize() {
+      return this.$store.getters.screenSize;
     }
   },
   methods: {
@@ -121,6 +128,13 @@ export default {
   watch: {
     mapData(newVal) {
       console.log("TCL: mapData -> newVal", newVal);
+    },
+    screenSize(newVal) {
+      if (newVal == "xs") {
+        this.mapStyle = "height: 80vh; max-width: 90%";
+      } else {
+        this.mapStyle = "height: 50vh; max-width: 100%";
+      }
     }
   }
 };

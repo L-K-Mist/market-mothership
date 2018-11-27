@@ -15,6 +15,8 @@ const actions = {
         commit,
         dispatch
     }, payload) {
+        console.log("​payload", payload)
+
         try {
             dispatch('error', null)
             const response = await apollo.mutate({
@@ -30,7 +32,34 @@ const actions = {
                         ...payload
                     }
                 }
+            })
+            console.log("​response", response)
 
+        } catch (err) {
+            console.log("​}catch -> err", err)
+            dispatch('error', err)
+        }
+    },
+    async updateProduct({
+        commit,
+        dispatch
+    }, payload) {
+        console.log("​payload", payload)
+        try {
+            dispatch('error', null)
+            const response = await apollo.mutate({
+                mutation: gql `
+                mutation updateProduct($input: UpdateProductInput!){
+                    updateProduct(input: $input){
+                       id 
+                    }
+                }
+            `,
+                variables: {
+                    input: {
+                        ...payload
+                    }
+                }
             })
             console.log("​response", response)
 

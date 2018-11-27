@@ -66,7 +66,7 @@
     </div>
 </template>
 <script>
-import ProductsList from "@/components/Stalls/ProductsList";
+import ProductsList from "@/components/MultiPurpose/ProductsList";
 
 export default {
   // my id is cjocd1r6071r60911vsip1fx3

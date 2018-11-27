@@ -1,7 +1,7 @@
 <template>
   <v-app id="inspire">
     <v-navigation-drawer
-    style="z-index: 7"
+    style="z-index: 15"
       v-model="drawer"
       fixed
       app
@@ -44,7 +44,7 @@
         </v-list-tile>
       </v-list>
     </v-navigation-drawer>
-    <v-toolbar scroll-off-screen :scroll-threshold="50" color="indigo" dark fixed app>
+    <v-toolbar scroll-off-screen :scroll-threshold="50" color="indigo" dark fixed app style="z-index: 14">
       <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
       <v-toolbar-title class="ml-1">Market-Mother-Ship <img class="ufo ml-2" src="/img/icons/ufo.svg"/> </v-toolbar-title>
       <v-spacer></v-spacer>
@@ -69,6 +69,11 @@
 </template>
 
 <script>
+//TODO: Allow user to edit already created products
+//Find out what's going on with sending measurement units to DB
+// Stalls on front-page needs a heading
+// In MyStall adding a product should optimistically push the product to products
+
 import { logout, initSession } from "@/session";
 
 function getLocation() {
@@ -165,7 +170,8 @@ export default {
       }
     },
     breakpoint(newVal) {
-      console.log("​breakpoint -> newVal", newVal);
+      this.$store.dispatch("viewPort", newVal);
+      // console.log("​breakpoint -> newVal", newVal);
     }
   },
   methods: {

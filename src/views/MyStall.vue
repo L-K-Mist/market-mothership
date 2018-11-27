@@ -78,7 +78,8 @@
     </v-container>
 </template>
 <script>
-// TODO: Bonus: Do label AND hint all over the place on forms
+// TODO: make my products editable
+// Reuse the create product form <-- therefore
 import vuetifyCloudinaryUpload from "vuetify-cloudinary-upload";
 import srcForCloudinary from "@/helpers/srcForCloudinary.js";
 import MyStallProfile from "@/components/MyStall/MyStallProfile";
