@@ -122,6 +122,7 @@ const actions = {
 
                 commit('update_auth_tokens', authResult)
                 dispatch('personLoginData', authResult.idTokenPayload)
+                dispatch('prismaAuth')
                 return authResult
 
             } else if (err) {
@@ -130,7 +131,6 @@ const actions = {
             }
         })
         // await dispatch('prismaAuth')
-        return
     },
 }
 

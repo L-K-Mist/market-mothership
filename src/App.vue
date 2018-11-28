@@ -69,6 +69,7 @@
 </template>
 
 <script>
+// TODO NEXT total revamp of login and prisma auth   to fix registration.   Maybe move update_auth_tokens to an action so that it can logically trigger prismaAuth
 //TODO: Allow user to edit already created products
 //Find out what's going on with sending measurement units to DB
 // Stalls on front-page needs a heading
