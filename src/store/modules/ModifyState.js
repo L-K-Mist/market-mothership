@@ -75,6 +75,34 @@ const actions = {
             console.log("​}catch -> err", err)
             dispatch('error', err)
         }
+    },
+    async updateStallHolder({
+        commit,
+        dispatch
+    }, payload) {
+        console.log("​payload", payload)
+
+        try {
+            dispatch('error', null)
+            const response = await apollo.mutate({
+                mutation: gql `
+                mutation updateStallHolder($input: UserProfileInput!) {
+                    updateStallHolder(input: $input) {
+                       id 
+                    }
+                }
+            `,
+                variables: {
+                    input: payload
+
+                }
+            })
+            console.log("​response", response)
+
+        } catch (err) {
+            console.log("​}catch -> err", err)
+            dispatch('error', err)
+        }
     }
 }
 

@@ -122,9 +122,10 @@ export default {
   mounted() {
     initSession().then(() => {
       if (this.isLoggedIn) {
-        this.$store.dispatch("prismaAuth");
+        console.log("I was called in app.vue after initSession resolved");
       }
     }); //Initialize our session
+    this.$store.dispatch("prismaAuth");
   },
   props: {
     source: String

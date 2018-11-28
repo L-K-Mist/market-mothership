@@ -137,6 +137,8 @@ export default {
       },
       set(val) {
         this.$store.dispatch("stall", val);
+
+        // this.$store.dispatch("fetchMyStall");
       }
     },
 
@@ -156,6 +158,10 @@ export default {
       console.log("TCL: gotImageSource -> src", src);
       this.stallHolder.image = src;
       this.$store.dispatch("stallHolder", this.stallHolder);
+      this.$store.dispatch("updateStallHolder", {
+        id: this.stallHolder.id,
+        image: this.stallHolder.image
+      });
     },
     gotNewStallImage(e) {
       console.log("TCL: gotImageSource -> e", e);
