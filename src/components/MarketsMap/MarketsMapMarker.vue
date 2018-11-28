@@ -1,7 +1,7 @@
 <template>
   <l-marker :ref="'marker' + text.name" :lat-lng="position" :title="title" :draggable="false">
-    <l-popup  :ref="'popup' + text.name" :options="{maxWidth: popupWidth, closeButton: true}">
-      <markets-popup-content :data="text"/>
+    <l-popup  :ref="'popup' + text.name" :options="{maxWidth: popupWidth, closeButton: true}" style="z-index: 24">
+      <markets-popup-content :data="text" />
     </l-popup>
   </l-marker>
 </template>
@@ -36,7 +36,7 @@ export default {
           // console.log('TCL: -------------------------');
           // console.log('TCL: popupWidth -> xs');
           // console.log('TCL: -------------------------');
-          return 230;
+          return 250;
         case "sm":
           return 400;
         case "md":

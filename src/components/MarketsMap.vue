@@ -4,7 +4,7 @@
         Find A Market
       </v-card-title>
       <v-card-text>
-          <l-map id="map" ref="MarketsMap" :style="mapStyle" :zoom="map.zoom" :options="map.options"
+          <l-map id="map"  ref="MarketsMap" :style="mapStyle" :zoom="zoom" :options="map.options"
           :center="map.center" :min-zoom="map.minZoom" :max-zoom="map.maxZoom" >
           <l-control-scale position="bottomleft" :imperial="false" />
           <l-control-layers :options="{position: map.layersPosition}" />
@@ -85,13 +85,13 @@ export default {
           { lat: 48.850224803672056, lng: 4.603271484375001 }
         ),
         options: { zoomControl: false, attributionControl: false },
-        zoom: 10,
+
         minZoom: 1,
         maxZoom: 19,
         layersPosition: "bottomleft",
         attributionPrefix: "Vue2Leaflet and What3Words... you ROCK!!!"
       },
-      mapStyle: "height: 50vh; max-width: 100%",
+
       opacity: 0.6,
       tileProviders: tileProviders,
       stuff: [{ id: "s1", visible: true, markersVisible: true }]
@@ -109,7 +109,39 @@ export default {
       return markets;
     },
     screenSize() {
+      // later get rid of this from store
       return this.$store.getters.screenSize;
+    },
+    breakpoint() {
+      return this.$vuetify.breakpoint.name;
+    },
+    mapStyle() {
+      switch (this.$vuetify.breakpoint.name) {
+        case "xs":
+          return "height: 500px; max-width: 100%";
+        case "sm":
+          return "height: 70vh; max-width: 100%";
+        case "md":
+          return "height: 65vh; max-width: 100%";
+        case "lg":
+          return "height: 60vh; max-width: 100%";
+        case "xl":
+          return "height: 65vh; max-width: 100%";
+      }
+    },
+    zoom() {
+      switch (this.$vuetify.breakpoint.name) {
+        case "xs":
+          return 9;
+        case "sm":
+          return 9;
+        case "md":
+          return 10;
+        case "lg":
+          return 10;
+        case "xl":
+          return 11;
+      }
     }
   },
   methods: {
@@ -128,13 +160,6 @@ export default {
   watch: {
     mapData(newVal) {
       console.log("TCL: mapData -> newVal", newVal);
-    },
-    screenSize(newVal) {
-      if (newVal == "xs") {
-        this.mapStyle = "height: 80vh; max-width: 90%";
-      } else {
-        this.mapStyle = "height: 50vh; max-width: 100%";
-      }
     }
   }
 };

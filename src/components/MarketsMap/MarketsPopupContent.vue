@@ -1,18 +1,18 @@
 <template>
   <div>
-    <h6 class="subheading">
+    <!-- <h6 class="subheading">
         {{ data.name }} 
-    </h6>
+    </h6> -->
   
-    <p class="body-2 my-input">
-      Location Address (by <a :href="'http://w3w.co/' + data.w3w" target="blank">what3words</a> ): <span style="color: blue">{{ data.w3w }}</span>
-    </p>
   
     <v-img v-if="data.image"
       :src="data.image"
 
     class="grey lighten-2"
   >
+    <v-flex class="ml-2" xs12>
+      <strong class="display-1 font-weight-black product-name text-shadow">{{ data.name }}</strong>
+    </v-flex>
     <v-layout
       slot="placeholder"
       fill-height
@@ -23,8 +23,20 @@
       <v-progress-circular indeterminate color="grey lighten-5"></v-progress-circular>
     </v-layout>
   </v-img>
-    <p>Are you a stall-holder with {{ data.name }}? Go on, put yourself on the MAP! </p>
-    <v-btn @click="showDialog" block color="accent">Register Your Stall</v-btn>
+    <p class="body-2 my-input">
+      Location Address (by <a :href="'http://w3w.co/' + data.w3w" target="blank">what3words</a> ): <span style="color: blue">{{ data.w3w }}</span>
+    </p>
+    <v-layout row>
+      <v-flex xs7>
+        <p>Are you a stall-holder with {{ data.name }}? Go on, put yourself on the MAP!</p>
+        
+      </v-flex>
+      <v-flex xs5 style="position: relative; top: 20px">
+        <v-btn @click="showDialog" small color="accent">Register</v-btn>
+      </v-flex>      
+    </v-layout>
+  
+    
   </div>
 </template>
 
@@ -65,5 +77,14 @@ export default {
 <style>
 .my-input {
   text-transform: thin;
+}
+.product-name {
+  color: white;
+  text-transform: capitalize;
+  font-variant: small-caps;
+}
+.text-shadow {
+  text-shadow: 0px 4px 3px rgba(0, 0, 0, 0.4), 0px 8px 13px rgba(0, 0, 0, 0.1),
+    0px 18px 23px rgba(0, 0, 0, 0.1);
 }
 </style>

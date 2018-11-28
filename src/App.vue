@@ -16,7 +16,7 @@
           </v-list-tile-content>
         </v-list-tile>
 
-        <v-list-tile to="my-stall">
+        <v-list-tile to="/my-stall">
           <v-list-tile-action>
             <v-icon>fa-shopping-basket</v-icon>
           </v-list-tile-action>
@@ -176,8 +176,8 @@ export default {
       }
     },
     breakpoint(newVal) {
-      this.$store.dispatch("viewPort", newVal);
-      // console.log("​breakpoint -> newVal", newVal);
+      // this.$store.dispatch("viewPort", newVal);
+      console.log("​breakpoint -> newVal", newVal);
     }
   },
   methods: {

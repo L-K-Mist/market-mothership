@@ -169,6 +169,10 @@ export default {
       console.log("TCL: gotImageSource -> src", src);
       this.stall.image = src;
       this.$store.dispatch("stall", this.stall);
+      this.$store.dispatch("updateStall", {
+        stallId: this.stall.id,
+        image: this.stall.image
+      });
     },
     toggle: function(boolItemAsString) {
       console.log("​created -> boolItemAsString", boolItemAsString);

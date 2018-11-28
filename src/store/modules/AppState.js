@@ -10,7 +10,7 @@ const state = {
     stallHolder: null,
     stalls: null,
     stallProducts: null,
-    screenSize: 'xs'
+    // screenSize: 'xs'
 }
 
 const getters = {
@@ -35,9 +35,9 @@ const getters = {
     stallProducts(state) {
         return state.stallProducts
     },
-    screenSize(state) {
-        return state.screenSize
-    },
+    // screenSize(state) {
+    //     return state.screenSize
+    // },
 }
 
 const mutations = {
@@ -247,12 +247,12 @@ const actions = {
         }
 
     },
-    viewPort({
-        state
-    }, payload) {
-        state.screenSize = payload
-        console.log("​state.screenSize", state.screenSize)
-    },
+    // viewPort({
+    //     state
+    // }, payload) {
+    //     state.screenSize = payload
+    //     console.log("​state.screenSize", state.screenSize)
+    // },
     error({
         state
     }, payload) {
