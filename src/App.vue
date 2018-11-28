@@ -69,15 +69,15 @@
 </template>
 
 <script>
-// TODO NEXT total revamp of login and prisma auth   to fix registration.   Maybe move update_auth_tokens to an action so that it can logically trigger prismaAuth
-//TODO: Allow user to edit already created products
-//Find out what's going on with sending measurement units to DB
+// Enable editing of StallHolder and Stall data (not just images)
 // Stalls on front-page needs a heading
 // In MyStall adding a product should optimistically push the product to products
 // Improve the way measurement units display eg if kilograms is 1 then it should show 1 kilogram <-- gonna be a fun exercise.
 // Hmmm... something like if units per item is 1 then splice the S of the measurements.
 
 // Change pointer on Stall Image in MyStall
+
+// Improve the guidance to StallHolder when moving through the app. eg: suggested image aspect ratio's
 
 import { logout, initSession } from "@/session";
 

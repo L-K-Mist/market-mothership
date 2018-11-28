@@ -3,48 +3,51 @@
         <div v-if="stalls !== null" v-for="(stall, index) in stalls" :key="index"> 
             <div v-if="sid == stall.id">
                 <v-layout column justify-center>
-                    <v-card>
-                        <v-img :aspect-ratio="16/9" class="background-image pb-6" src="https://cdn.vuetifyjs.com/images/parallax/material.jpg">
-                            <v-container grid-list-md>
-                                <v-layout  v-if="stall.owner" pa-2 column fluid class="lightbox white--text">
-                            <!-- Useravatar -->
-                                    <v-flex id="avatar-w-info" class="stallHolderPic">
-                                        <v-avatar class="avatar-only elevation-12"
-                                        size="20vw"
-                                        color="grey lighten-4"
-                                        >
-                                            <img v-if="stall.owner.image" :src="stall.owner.image"/>
-                                            <v-icon v-else size="17vw">fa-user</v-icon>
-                                        </v-avatar>
-                                        <div class="contact-wrapper text-shadow">
-                                            <div class="subheading">{{stall.owner.publicName}}</div>
-                                            <div class="body-1">{{stall.owner.publicEmail}}</div>
-                                            <div v-if="stall.owner.cell" class="body-1">{{stall.owner.cell}}</div>
-                                        </div>
-                                    </v-flex>
-                                        <v-img :src="stall.image" alt="image of shop" height="50%">
+                    <v-container grid-list-xs>
+                        <v-card>
+                            <v-img :aspect-ratio="16/9" class="background-image pb-6" src="https://cdn.vuetifyjs.com/images/parallax/material.jpg">
+                                <v-container grid-list-md>
+                                    <v-layout  v-if="stall.owner" pa-2 column fluid class="lightbox white--text">
+                                <!-- Useravatar -->
+                                        <v-flex id="avatar-w-info" class="stallHolderPic">
+                                            <v-avatar class="avatar-only elevation-12"
+                                            size="20vw"
+                                            color="grey lighten-4"
+                                            >
+                                                <img v-if="stall.owner.image" :src="stall.owner.image"/>
+                                                <v-icon v-else size="17vw">fa-user</v-icon>
+                                            </v-avatar>
+                                            <div class="contact-wrapper text-shadow">
+                                                <div class="subheading">{{stall.owner.publicName}}</div>
+                                                <div class="body-1">{{stall.owner.publicEmail}}</div>
+                                                <div v-if="stall.owner.cell" class="body-1">{{stall.owner.cell}}</div>
+                                            </div>
+                                        </v-flex>
+                                            <v-img :src="stall.image" alt="image of shop" height="50%">
 
-                                        </v-img>
-                                    <!-- <v-flex xs8>
-                                        <v-layout fill-height row justify-end>
-                                            <img class="stall-image" :src="stall.image" alt="image of shop"/>
+                                            </v-img>
+                                        <!-- <v-flex xs8>
+                                            <v-layout fill-height row justify-end>
+                                                <img class="stall-image" :src="stall.image" alt="image of shop"/>
+                                                
+                                            </v-layout>
+                                        </v-flex> -->
+                                        <v-layout row>
+                                            <v-flex xs12 >
+                                                <h3 class="stall-name text-shadow">{{stall.name}}</h3>
+                                            </v-flex>
                                             
                                         </v-layout>
-                                    </v-flex> -->
-                                    <v-layout row>
-                                        <v-flex xs12 >
-                                            <h3 class="stall-name text-shadow">{{stall.name}}</h3>
-                                        </v-flex>
-                                        
                                     </v-layout>
-                                </v-layout>
-                                <v-progress-circular v-else color="indigo" indeterminate :size="200" :width="16"></v-progress-circular>
-                            <!-- CHANGE AVATAR DIALOG -->
-                            </v-container>
-                        </v-img>
-                    </v-card>
-
+                                    <v-progress-circular v-else color="indigo" indeterminate :size="200" :width="16"></v-progress-circular>
+                                <!-- CHANGE AVATAR DIALOG -->
+                                </v-container>
+                            </v-img>
+                        </v-card>
+                    </v-container>
                 <!-- text details -->
+                <v-container grid-list-xs>
+                    <stall-basic-profile :stall="stall"></stall-basic-profile>
                     <v-card class="mt-2" >
                         <v-card-text>
                         <v-layout row wrap>
@@ -57,16 +60,21 @@
                         </v-layout>
                         </v-card-text>
                     </v-card>     
+                </v-container>
                 </v-layout>
             </div>  
         </div>
-        <div v-if="products">
-            <products-list :products="products"></products-list>
-        </div>
+        <v-container grid-list-xs>
+            <div v-if="products">
+                <products-list :products="products"></products-list>
+            </div>
+            
+        </v-container>
     </div>
 </template>
 <script>
 import ProductsList from "@/components/MultiPurpose/ProductsList";
+import StallBasicProfile from "@/components/MultiPurpose/StallBasicProfile";
 
 export default {
   // my id is cjocd1r6071r60911vsip1fx3
@@ -106,12 +114,12 @@ export default {
   },
   data() {
     return {
-      aboutMeInput: false,
       sid: this.$route.params.Sid
     };
   },
   components: {
-    ProductsList
+    ProductsList,
+    StallBasicProfile
   }
 };
 </script>

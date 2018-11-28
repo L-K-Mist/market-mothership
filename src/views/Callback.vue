@@ -45,7 +45,7 @@ export default {
 };
 </script>
 
-TODO Validate the Claims using Token audience and issuer
+ Validate the Claims using Token audience and issuer
 Once the application verifies the token's signature, the next step is to validate the standard claims of the token's payload. The following validations need to be made:
 
 Token expiration: The current date/time must be before the expiration date/time listed in the exp claim (which is a Unix timestamp).

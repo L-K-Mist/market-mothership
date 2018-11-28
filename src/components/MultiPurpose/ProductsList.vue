@@ -1,5 +1,5 @@
 <template>
-    <v-container grid-list-md fluid>
+
         <v-layout row wrap>
             <v-flex xs12 sm6 lg4 v-if="products" v-for="product in products" :key="product.name" >
                 <product-form :product="product" :show="dialog" @showForm="showForm" 
@@ -55,7 +55,7 @@
                 </v-card>
             </v-flex>
         </v-layout>
-    </v-container>
+
 </template>
 
 <script>

@@ -1,88 +1,87 @@
 <template>
     <v-container grid-list-xs>
-                            <transition 
-                            class="elevation-24"
-                              enter-active-class="animated bounceInRight"
-                              leave-active-class="animated hinge fast"
-                             >
-                              <v-cloudinary-user
-                                v-if="changeAvatar" 
-                                  class="cloudinary-user"
-                                  :showImage="false"
-                                  buttonColor="primary"
-                                  button-icon="fa-camera"
-                                  buttonText="change image"
-                                  v-model="avatarImageId"
-                                  :upload-preset="cloudinary.preset"
-                                  :cloud-name="cloudinary.name"
-                                  @input="gotNewAvatar"
-                                />               
-                            </transition>
-                            <transition 
-                            class="elevation-24"
-                              enter-active-class="animated bounceInLeft"
-                              leave-active-class="animated hinge fast"
-                             >
-                              <v-cloudinary-stall
-                                v-if="changeStallImage" 
-                                  class="cloudinary-stall"
-                                  :showImage="false"
-                                  buttonColor="primary"
-                                  button-icon="fa-camera"
-                                  buttonText="change image"
-                                  v-model="stallImageId"
-                                  :upload-preset="cloudinary.preset"
-                                  :cloud-name="cloudinary.name"
-                                  @input="gotNewStallImage"
-                                />               
-                            </transition>        
-                            <v-layout column justify-center>
-                                <v-card>
-                                    <v-img :aspect-ratio="16/9" class="background-image pb-6" src="https://cdn.vuetifyjs.com/images/parallax/material.jpg">
-                                        <v-container grid-list-md>
-                                          <v-layout  v-if="stallHolder" pa-2 column fill-height class="lightbox white--text">
-                    <!-- Useravatar -->
-                                            <v-flex id="avatar-w-info" class="stallHolderPic">
-                                                <v-avatar @click="toggle('changeAvatar')" class="avatar-only elevation-12"
-                                                size="20vw"
-                                                color="grey lighten-4"
-                                                >
-                                                    <img v-if="stallHolder.image" :src="stallHolder.image"/>
-                                                    <v-icon v-else size="17vw">fa-user</v-icon>
-                                                </v-avatar>
-                                                <div class="contact-wrapper text-shadow">
-                                                    <div class="subheading">{{stallHolder.publicName}}</div>
-                                                    <div class="body-1">{{stallHolder.publicEmail}}</div>
-                                                    <div v-if="stallHolder.cell" class="body-1">{{stallHolder.cell}}</div>
-                                                </div>
-                                            </v-flex>
-                                            <v-flex xs8>
-                                              <img  @click="toggle('changeStallImage')" class="stall-image" :src="stall.image" alt="image of shop"/>
-                                            </v-flex>
-                                            <v-layout row>
-                                              <v-flex xs12 >
-                                                  <h3 class="stall-name text-shadow">{{stall.name}}</h3>
-                                              </v-flex>
-                                              
-                                            </v-layout>
-                                          </v-layout>
-                                          <v-progress-circular v-else color="indigo" indeterminate :size="200" :width="16"></v-progress-circular>
-                    <!-- CHANGE AVATAR DIALOG -->
-                                        </v-container>
-                                    </v-img>
-                                </v-card>
-                                <!-- <router-view></router-view> -->
-                                <my-stall-profile :stallHolder="stallHolder" :stall="stall"></my-stall-profile>
-                                <my-products v-if="stall.id" :stallId="stall.id"></my-products>
-                            </v-layout>
+        <transition 
+        class="elevation-24"
+          enter-active-class="animated bounceInRight"
+          leave-active-class="animated hinge fast"
+          >
+          <v-cloudinary-user
+            v-if="changeAvatar" 
+              class="cloudinary-user"
+              :showImage="false"
+              buttonColor="primary"
+              button-icon="fa-camera"
+              buttonText="change image"
+              v-model="avatarImageId"
+              :upload-preset="cloudinary.preset"
+              :cloud-name="cloudinary.name"
+              @input="gotNewAvatar"
+            />               
+        </transition>
+        <transition 
+        class="elevation-24"
+          enter-active-class="animated bounceInLeft"
+          leave-active-class="animated hinge fast"
+          >
+          <v-cloudinary-stall
+            v-if="changeStallImage" 
+              class="cloudinary-stall"
+              :showImage="false"
+              buttonColor="primary"
+              button-icon="fa-camera"
+              buttonText="change image"
+              v-model="stallImageId"
+              :upload-preset="cloudinary.preset"
+              :cloud-name="cloudinary.name"
+              @input="gotNewStallImage"
+            />               
+        </transition>        
+        <v-layout column justify-center>
+            <v-card>
+                <v-img :aspect-ratio="16/9" class="background-image pb-6" src="https://cdn.vuetifyjs.com/images/parallax/material.jpg">
+                    <v-container grid-list-md>
+                      <v-layout  v-if="stallHolder" pa-2 column fill-height class="lightbox white--text">
+<!-- Useravatar -->
+                        <v-flex id="avatar-w-info" class="stallHolderPic">
+                            <v-avatar @click="toggle('changeAvatar')" class="avatar-only elevation-12"
+                            size="20vw"
+                            color="grey lighten-4"
+                            >
+                                <img v-if="stallHolder.image" :src="stallHolder.image"/>
+                                <v-icon v-else size="17vw">fa-user</v-icon>
+                            </v-avatar>
+                            <div class="contact-wrapper text-shadow">
+                                <div class="subheading">{{stallHolder.publicName}}</div>
+                                <div class="body-1">{{stallHolder.publicEmail}}</div>
+                                <div v-if="stallHolder.cell" class="body-1">{{stallHolder.cell}}</div>
+                            </div>
+                        </v-flex>
+                        <v-flex xs8>
+                          <img  @click="toggle('changeStallImage')" class="stall-image" :src="stall.image" alt="image of shop"/>
+                        </v-flex>
+                        <v-layout row>
+                          <v-flex xs12 >
+                              <h3 class="stall-name text-shadow">{{stall.name}}</h3>
+                          </v-flex>
+                          
+                        </v-layout>
+                      </v-layout>
+                      <v-progress-circular v-else color="indigo" indeterminate :size="200" :width="16"></v-progress-circular>
+<!-- CHANGE AVATAR DIALOG -->
+                    </v-container>
+                </v-img>
+            </v-card>
+            <!-- <router-view></router-view> -->
+            <stall-basic-profile :stall="stall"></stall-basic-profile>
+            <!-- <my-stall-profile :stallHolder="stallHolder" :stall="stall"></my-stall-profile> -->
+            <my-products v-if="stall.id" :stallId="stall.id"></my-products>
+        </v-layout>
     </v-container>
 </template>
 <script>
-// TODO: make my products editable
-// Reuse the create product form <-- therefore
 import vuetifyCloudinaryUpload from "vuetify-cloudinary-upload";
 import srcForCloudinary from "@/helpers/srcForCloudinary.js";
-import MyStallProfile from "@/components/MyStall/MyStallProfile";
+import StallBasicProfile from "@/components/MultiPurpose/StallBasicProfile";
 import MyProducts from "@/components/MyStall/MyProducts";
 
 export default {
@@ -182,7 +181,7 @@ export default {
   components: {
     "v-cloudinary-user": vuetifyCloudinaryUpload,
     "v-cloudinary-stall": vuetifyCloudinaryUpload,
-    MyStallProfile,
+    StallBasicProfile,
     MyProducts
   }
 };

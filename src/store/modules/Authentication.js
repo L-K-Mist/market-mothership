@@ -62,10 +62,8 @@ const mutations = {
         console.log("​update_auth_tokens -> state.authUser", state.authUser)
         if (state.accessToken) {
             state.isLoggedIn = true
-            // return true // TODO: Play with this; might be unessecary
         } else {
             state.isLoggedIn = false
-            // return false
         }
     },
     prismaToken(state, token) {
