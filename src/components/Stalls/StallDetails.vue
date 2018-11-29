@@ -80,7 +80,7 @@ export default {
   // my id is cjocd1r6071r60911vsip1fx3
   created() {
     this.$store.dispatch("fetchProducts", this.sid);
-    this.$store.dispatch("fetchStall", this.sid);
+    // this.$store.dispatch("fetchStall", this.sid);
     // const stallHolder = this.stallHolder;
     // console.log("​-----------------------------------");
     // console.log("​mounted -> stallHolder", stallHolder);

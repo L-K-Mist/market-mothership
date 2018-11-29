@@ -188,15 +188,6 @@ const actions = {
                             }
                             id
                         }
-                        products {
-                            id
-                            name
-                            image
-                            description
-                            measurementUnit
-                            unitsPerItem
-                            pricePerItem
-                        }
                     }
                 }
                 `
@@ -248,14 +239,15 @@ const actions = {
 
     },
     async fetchStall({
-        payload
-    }) {
+        state
+    }, payload) {
         state.error = null
         try {
             const response = await apollo.query({
                 query: gql `
-                query stall($stallId: String!){
+                query stall($stallId: ID!){
                     stall(stallId: $stallId){
+                        id
                         image
                         w3w
                         id
@@ -300,8 +292,8 @@ const actions = {
                     stallId: payload
                 }
             })
-            console.log("​response", response)
-            return response
+            console.log("​response", response.data.stall)
+            return response.data.stall
 
         } catch (error) {
             console.log("​}catch -> error", error)

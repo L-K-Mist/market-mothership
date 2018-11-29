@@ -8,6 +8,7 @@ import differenceInMilliSeconds from "date-fns/difference_in_milliseconds";
 import {
     WebAuth
 } from "auth0-js";
+import apollo from '@/apollo'
 
 // Get the route that user was on when login kicked in and save that to this state
 // Then when the login is done have Callback.vue push to where the user was headed.
@@ -45,8 +46,8 @@ export default {
 function logout() {
     console.log("​logout inside session triggered -> logout")
     store.commit("update_auth_tokens", {}); //clear our tokens
-
     store.commit("isLoggedIn", false)
+    apollo.resetStore() // empty the apollo cache to eliminate conflicts
     clearTimeout(refreshTimeout);
     refreshTimeout = null;
     auth0.logout({
