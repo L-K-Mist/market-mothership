@@ -247,6 +247,67 @@ const actions = {
         }
 
     },
+    async fetchStall({
+        payload
+    }) {
+        state.error = null
+        try {
+            const response = await apollo.query({
+                query: gql `
+                query stall($stallId: String!){
+                    stall(stallId: $stallId){
+                        image
+                        w3w
+                        id
+                        lng
+                        lat
+                        name
+                        description
+                        owner {
+                            publicEmail
+                            publicName
+                            cell
+                            image
+                            bio
+
+
+                        }
+                        markets {
+                            id
+                            name
+                            lat
+                            lng
+                            w3w
+                            image
+                            province {
+                                name
+                            }
+                        }
+                        products {
+                            id
+                            name
+                            image
+                            description
+                            measurementUnit
+                            unitsPerItem
+                            pricePerItem
+
+                        }
+                    }
+                }
+                `,
+                variables: {
+                    stallId: payload
+                }
+            })
+            console.log("​response", response)
+            return response
+
+        } catch (error) {
+            console.log("​}catch -> error", error)
+
+        }
+    },
     // viewPort({
     //     state
     // }, payload) {
