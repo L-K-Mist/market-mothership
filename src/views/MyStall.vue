@@ -72,7 +72,21 @@
                 </v-img>
             </v-card>
             <!-- <router-view></router-view> -->
-            <stall-basic-profile :stall="stall"></stall-basic-profile>
+            <stall-basic-profile :stall="stallWithOwner">
+              <v-dialog v-model="dialog" max-width="500px">
+                  <v-btn 
+                    style="position: absolute; top: 5px; right: 5px"
+                    color="primary" 
+                    icon flat dark 
+                    slot="activator"
+                    >
+                      <v-icon medium>fa-edit</v-icon>
+                  </v-btn>
+                  Hello world
+              </v-dialog>
+            </stall-basic-profile>
+          <v-layout row justify-center>
+        </v-layout> 
             <!-- <my-stall-profile :stallHolder="stallHolder" :stall="stall"></my-stall-profile> -->
             <my-products v-if="stall.id" :stallId="stall.id"></my-products>
         </v-layout>
@@ -118,7 +132,8 @@ export default {
         preset: "gi9lyrb6"
       },
       avatarImageId: null,
-      stallImageId: null
+      stallImageId: null,
+      dialog: false
     };
   },
   computed: {
@@ -139,6 +154,11 @@ export default {
 
         // this.$store.dispatch("fetchMyStall");
       }
+    },
+    stallWithOwner() {
+      var stall = this.stall;
+      stall.owner = this.stallHolder;
+      return stall;
     },
 
     stallImage() {
