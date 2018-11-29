@@ -82,7 +82,7 @@
                     >
                       <v-icon medium>fa-edit</v-icon>
                   </v-btn>
-                  Hello world
+                  <my-stall-edit :stall="stallWithOwner"></my-stall-edit>
               </v-dialog>
             </stall-basic-profile>
           <v-layout row justify-center>
@@ -97,6 +97,7 @@ import vuetifyCloudinaryUpload from "vuetify-cloudinary-upload";
 import srcForCloudinary from "@/helpers/srcForCloudinary.js";
 import StallBasicProfile from "@/components/MultiPurpose/StallBasicProfile";
 import MyProducts from "@/components/MyStall/MyProducts";
+import MyStallEdit from "@/components/MyStall/MyStallEdit";
 
 export default {
   created() {},
@@ -202,7 +203,8 @@ export default {
     "v-cloudinary-user": vuetifyCloudinaryUpload,
     "v-cloudinary-stall": vuetifyCloudinaryUpload,
     StallBasicProfile,
-    MyProducts
+    MyProducts,
+    MyStallEdit
   }
 };
 </script>

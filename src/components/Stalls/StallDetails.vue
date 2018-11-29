@@ -48,7 +48,7 @@
                 <!-- text details -->
                 <v-container grid-list-xs>
                     <stall-basic-profile :stall="stall"></stall-basic-profile>
-                    <v-card class="mt-2" >
+                    <!-- <v-card class="mt-2" >
                         <v-card-text>
                         <v-layout row wrap>
                             <v-flex class="pa-2" @click="aboutMeInput = !aboutMeInput" xs12 md6 v-if="stall.owner">
@@ -59,7 +59,7 @@
                             </v-flex>                  
                         </v-layout>
                         </v-card-text>
-                    </v-card>     
+                    </v-card>      -->
                 </v-container>
                 </v-layout>
             </div>  

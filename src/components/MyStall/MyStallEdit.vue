@@ -1,54 +1,59 @@
 <template>
     <v-card>
         <v-card-title>
-            <span class="headline">User Profile</span>
+            <span class="headline">In a Nutshell</span>
         </v-card-title>
         <v-card-text>
-            <v-container grid-list-md>
+            <v-container grid-list-lg>
                 <v-layout wrap>
-        <v-text-field
-            label="Shop Name"
-            hint="The name your shop is known as"
-            v-model="stall.name"
-        ></v-text-field>
-        <p>
-            We know you might be active at more than one flea market, but for now, we are only allowing one shop per person.
-        </p>
-        <p>
-            Therefore, if {{$store.getters.currentMarket}} is not your "home base" flea market, please choose from below.
-            If none of your markets are represented, please contact us!
-        </p> 
-        <v-select
-            :items="markets"
-            label="Select your main market"
-            persistent-hint
-            hint="You'll be able to add more markets later."
-            v-model="mainMarket"
-            @input="person.market = mainMarket"
-        ></v-select>
-
-        <v-textarea
-            multi-line
-            label="Description"
-            hint="Your shop in general terms. Use lots of keywords, as this is what we scan in customer search queries."
-            v-model="stall.description"
-        ></v-textarea>               
-        <v-btn color="accent" @click="gotStall">Continue</v-btn>
+                    <v-flex @click="myStall.owner.bio = ''" xs12 md6>
+                        <v-textarea
+                            multi-line
+                            label="About Me"
+                            hint="Your shop in general terms. Use lots of keywords, as this is what we scan in customer search queries."
+                            v-model="myStall.owner.bio"
+                        ></v-textarea>
+                        
+                    </v-flex>
+                    <v-flex @click="myStall.name = ''" xs12 md6>
+                        <v-text-field
+                            label="Shop Name"
+                            hint="The name your shop is known as"
+                            v-model="myStall.name"
+                        ></v-text-field> 
+                        
+                    </v-flex> 
+                    <v-flex @click="myStall.description = ''" xs12 md6>
+                        <v-textarea
+                            multi-line
+                            label="My Shop"
+                            hint="Your shop in general terms. Use lots of keywords, as this is what we scan during customer search queries."
+                            v-model="myStall.description"
+                        ></v-textarea>
+                    </v-flex>
+                    <v-flex xs12 md6>
+                    </v-flex>               
+                    <v-btn color="accent">Save Changes</v-btn>
                 </v-layout>
             </v-container>
-            <small>*indicates required field</small>
         </v-card-text>
         <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn color="blue darken-1" flat @click.native="dialog = false">Close</v-btn>
-            <v-btn color="blue darken-1" flat @click.native="dialog = false">Save</v-btn>
+
         </v-card-actions>
     </v-card>  
 </template>
 <script>
 export default {
+  props: ["stall"],
   data() {
-    return {};
+    return {
+      myStall: this.stall
+    };
+  },
+  computed: {
+    // markets() {
+    //   return this.$store.getters.markets;
+    // }
   }
 };
 </script>
