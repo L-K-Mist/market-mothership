@@ -75,7 +75,8 @@ const actions = {
 
                 }
             })
-            console.log("​response", response)
+            console.log("​response", response.data.updateProduct)
+            return response.data.updateProduct
 
         } catch (err) {
             console.log("​}catch -> err", err)

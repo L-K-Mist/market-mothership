@@ -122,6 +122,7 @@ export default {
       this.productImageId = null;
     },
     sendNewData() {
+      this.$parent.product = Object.assign(this.$parent.product, this.newData);
       this.$emit("productData", this.newData);
       this.dialog = false;
     }

@@ -80,10 +80,12 @@ export default {
   },
   methods: {
     updateProduct(product) {
-      this.$store.dispatch("updateProduct", {
-        productId: this.activeProduct,
-        ...product
-      });
+      console.log("​updateProduct -> product", product);
+
+      // this.$store.dispatch("updateProduct", {
+      //   productId: this.activeProduct,
+      //   ...product
+      // });
     },
     showForm(bool) {
       this.dialog = bool;

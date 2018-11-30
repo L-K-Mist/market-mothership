@@ -99,6 +99,9 @@ const actions = {
                     w3w
                     lat
                     lng
+                    markets {
+                        name
+                    }
                   }
                 }
               `
