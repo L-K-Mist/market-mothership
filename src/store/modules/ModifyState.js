@@ -60,7 +60,13 @@ const actions = {
                 mutation: gql `
                 mutation updateProduct($input: UpdateProductInput!){
                     updateProduct(input: $input){
-                       id 
+                                              id
+                                              name
+                                              image
+                                              description
+                                              measurementUnit
+                                              unitsPerItem
+                                              pricePerItem
                     }
                 }
             `,
