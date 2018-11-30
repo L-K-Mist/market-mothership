@@ -48,13 +48,21 @@
       <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
       <v-toolbar-title class="ml-1">Market-Mother-Ship <img class="ufo ml-2" src="/img/icons/ufo.svg"/> </v-toolbar-title>
       <v-spacer></v-spacer>
-                            <v-avatar @click="gotoMyStall" v-if="person.image" :style="avatarStyle" class=" elevation-6 "
+
+              <transition 
+        class="elevation-24"
+          enter-active-class="delay animated rollIn"
+          leave-active-class="animated hinge slow"
+          >
+                            <v-avatar @click="gotoMyStall" v-if="person.image && isLoggedIn" :style="avatarStyle" class=" elevation-6 "
                             :size="avatarSize"
                             color="grey lighten-4"
                             >
                                 <img  :src="person.image"/>
                                
                             </v-avatar>
+
+              </transition>
       <v-icon medium hint="logout" @click="logoff">fa-sign-out</v-icon>
     </v-toolbar>
     <v-content>
@@ -71,6 +79,9 @@
 <script>
 // Enable editing of StallHolder and Stall data (not just images)
 // Stalls on front-page needs a heading
+
+// Add more to stall details eg w3w and maplink
+
 // In MyStall adding a product should optimistically push the product to products
 // Improve the way measurement units display eg if kilograms is 1 then it should show 1 kilogram <-- gonna be a fun exercise.
 // Hmmm... something like if units per item is 1 then splice the S of the measurements.
@@ -78,6 +89,8 @@
 // Change pointer on Stall Image in MyStall
 
 // Improve the guidance to StallHolder when moving through the app. eg: suggested image aspect ratio's
+
+// play with setting the aspect ratio of product images to ensure price is revealed.
 
 import { logout, initSession } from "@/session";
 
@@ -224,6 +237,9 @@ export default {
 .text-shadow {
   text-shadow: 0px 4px 3px rgba(0, 0, 0, 0.4), 0px 8px 13px rgba(0, 0, 0, 0.1),
     0px 18px 23px rgba(0, 0, 0, 0.1);
+}
+.delay {
+  animation-delay: 3s;
 }
 </style>
 
