@@ -80,6 +80,16 @@ const mutations = {
 }
 
 const actions = {
+    isLoggedIn({
+        commit
+    }, payload) {
+        commit("isLoggedIn", payload)
+    },
+    update_auth_tokens({
+        commit
+    }, payload) {
+        store.commit("update_auth_tokens", payload)
+    },
 
     async prismaAuth({
         state,
@@ -104,7 +114,7 @@ const actions = {
                 commit('prismaToken', response.data.authorize.token)
                 return response
             } catch (err) {
-                console.error(err)
+                console.log(err)
             }
         }
     },

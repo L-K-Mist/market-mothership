@@ -45,8 +45,8 @@ export default {
 
 function logout() {
     console.log("​logout inside session triggered -> logout")
-    store.commit("update_auth_tokens", {}); //clear our tokens
-    store.commit("isLoggedIn", false)
+    store.dispatch("update_auth_tokens", {}); //clear our tokens
+    store.dispatch("isLoggedIn", false)
     apollo.resetStore() // empty the apollo cache to eliminate conflicts
     clearTimeout(refreshTimeout);
     refreshTimeout = null;
@@ -71,14 +71,16 @@ function initSession() {
         if (isAfter(now, tenMinutesBeforeExpiry)) { //If the token has expired or will expire in the next 10 minutes
             console.log("Token expired/will expire in the next 1 minutes");
             // return router.push("/login");
-            return store.commit("isLoggedIn", false)
+            store.dispatch("isLoggedIn", false)
+            return false
         }
 
         console.log("Token Ok. Expiring at " + tokenExpiryDate);
         refreshTimeout = setTimeout(refreshTokens, differenceInMilliSeconds(tenMinutesBeforeExpiry, now));
 
         // store.dispatch("prismaAuth")
-        return store.commit("isLoggedIn", true) // TODO make sure this belongs here
+        store.dispatch("isLoggedIn", true) // direct commit here was causing circular reference errors
+        return true
     });
 }
 

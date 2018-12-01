@@ -139,6 +139,23 @@ const actions = {
                         publicEmail
                         publicName
                         bio
+                        stall{
+                            id
+                            image
+                            w3w
+                            lng
+                            lat
+                            name
+                            description
+
+                            markets {
+                                name
+                                province {
+                                    name
+                                }
+                                id
+                            }
+                        }
                     }
                 }
               `

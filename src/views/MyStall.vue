@@ -57,13 +57,12 @@
                             </div>
                         </v-flex>
                         <v-flex xs8>
-                          <img  @click="toggle('changeStallImage')" class="stall-image" :src="stall.image" alt="image of shop"/>
+                          <img  @click="toggle('changeStallImage')" class="stall-image" :src="stallHolder.stall.image" alt="image of shop"/>
                         </v-flex>
                         <v-layout row>
                           <v-flex xs12 >
-                              <h3 class="stall-name text-shadow">{{stall.name}}</h3>
-                          </v-flex>
-                          
+                              <h3 class="stall-name text-shadow">{{stallHolder.stall.name}}</h3>
+                          </v-flex>                          
                         </v-layout>
                       </v-layout>
                       <v-progress-circular v-else color="indigo" indeterminate :size="200" :width="16"></v-progress-circular>
@@ -88,7 +87,7 @@
           <v-layout row justify-center>
         </v-layout> 
             <!-- <my-stall-profile :stallHolder="stallHolder" :stall="stall"></my-stall-profile> -->
-            <my-products v-if="stall.id" :stallId="stall.id"></my-products>
+            <my-products v-if="stallHolder.stall.id" :stallId="stallHolder.stall.id"></my-products>
         </v-layout>
     </v-container>
 </template>
@@ -146,27 +145,28 @@ export default {
         this.$store.dispatch("stallHolder", val);
       }
     },
-    stall: {
-      get() {
-        return this.$store.getters.stall;
-      },
-      set(val) {
-        this.$store.dispatch("stall", val);
+    // stall: {
+    //   get() {
+    //     return this.$store.getters.stall;
+    //   },
+    //   set(val) {
+    //     this.$store.dispatch("stall", val);
 
-        // this.$store.dispatch("fetchMyStall");
-      }
-    },
+    //     // this.$store.dispatch("fetchMyStall");
+    //   }
+    // },
     stallWithOwner() {
-      var stall = this.stall;
+      // TODO get rid of this KISS
+      var stall = this.stallHolder.stall;
       stall.owner = this.stallHolder;
       return stall;
     },
 
     stallImage() {
       // if go with both then remove
-      if (this.stall.image) {
-        return this.stall.image;
-      } else if (!this.stall.image) {
+      if (this.stallHolder.stall.image) {
+        return this.stallHolder.stall.image;
+      } else if (!this.stallHolder.stall.image) {
         return "https://cdn.vuetifyjs.com/images/parallax/material.jpg";
       }
     }
@@ -188,7 +188,7 @@ export default {
       const src = srcForCloudinary(this.cloudinary.name, e);
       console.log("TCL: gotImageSource -> src", src);
       this.stall.image = src;
-      this.$store.dispatch("stall", this.stall);
+      this.$store.dispatch("stallHolder", this.stallHolder);
       this.$store.dispatch("updateStall", {
         stallId: this.stall.id,
         image: this.stall.image
